@@ -4,7 +4,7 @@ Silahkan upload tugas yang sudah diberikan beserta source code nya di folder mas
 
 ## Task
 
-- Buat laporan dalam format Markdown file dengan penamaan README.md
+- Buat laporan dalam format Markdown file dengan penamaan README.md (Source Code, SS, Penjelasan)
 - Upload Source Code dengan format yang sudah ditentukan sebelum nya (tugas-1, tugas-2, etc)
 - Tambahkan watermark pada source code dan juga laporan (harus mengandung nim dan nama)
 
