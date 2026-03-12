@@ -1,0 +1,566 @@
+<!--
+  NIM  : 2311102167
+  Nama : Andika Neviantoro
+-->
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SportZone — Product Manager</title>
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet"/>
+
+  <style>
+    :root {
+      --primary:    #E8FF00;
+      --dark:       #0A0A0A;
+      --surface:    #111111;
+      --card:       #181818;
+      --border:     #2A2A2A;
+      --muted:      #555;
+      --text:       #F0F0F0;
+      --accent:     #FF4D00;
+      --success:    #00E676;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--dark);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ───── HEADER ───── */
+    header {
+      background: linear-gradient(135deg, #0d0d0d 0%, #161616 50%, #0d0d0d 100%);
+      border-bottom: 1px solid rgba(232,255,0,0.15);
+      padding: 0 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.6);
+    }
+
+    /* ───── LOGO SVG ───── */
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      text-decoration: none;
+      cursor: pointer;
+      transition: filter .25s, transform .2s;
+      filter: drop-shadow(0 0 14px rgba(232,255,0,0.2));
+    }
+    .logo-wrap:hover {
+      filter: drop-shadow(0 0 22px rgba(232,255,0,0.45));
+      transform: translateY(-1px);
+    }
+
+    /* ───── NAV RIGHT ───── */
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .nav-pill {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      background: rgba(232,255,0,0.06);
+      border: 1px solid rgba(232,255,0,0.18);
+      border-radius: 20px;
+      padding: .38rem 1rem;
+    }
+    .nav-pill i { color: var(--primary); font-size: .76rem; }
+    .nav-pill span {
+      color: var(--primary);
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+    }
+    .live-dot {
+      width: 9px; height: 9px;
+      background: var(--success);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--success);
+      animation: pulse-dot 1.8s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: .55; transform: scale(.85); }
+    }
+    @keyframes pulse-badge {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .5; }
+    }
+
+    /* ───── HERO STRIP ───── */
+    .hero-strip {
+      background: var(--primary);
+      padding: 1.4rem 2rem 1.2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-strip::before {
+      content: 'SPORTZONE';
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 6rem;
+      color: rgba(0,0,0,.06);
+      white-space: nowrap;
+      pointer-events: none;
+      line-height: 1;
+    }
+    .hero-strip h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.5rem, 3.2vw, 2.2rem);
+      color: var(--dark);
+      letter-spacing: 4px;
+      line-height: 1;
+    }
+    .hero-strip p {
+      color: #333;
+      font-size: .9rem;
+      margin-top: .4rem;
+      font-weight: 500;
+    }
+
+    /* ───── LAYOUT ───── */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 2rem;
+      padding: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    @media (max-width: 900px) { .main-grid { grid-template-columns: 1fr; } }
+
+    /* ───── CARD ───── */
+    .sz-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+    .sz-card-header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 1rem 1.5rem; display: flex; align-items: center; gap: .75rem; }
+    .sz-card-header .icon { width: 36px; height: 36px; background: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--dark); font-size: .9rem; }
+    .sz-card-header h2 { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 2px; color: var(--text); }
+    .sz-card-body { padding: 1.5rem; }
+
+    /* ───── FORM ───── */
+    .form-label { color: #999; font-size: .78rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: .4rem; }
+    .form-control, .form-select { background: var(--surface) !important; border: 1px solid var(--border) !important; color: var(--text) !important; border-radius: 10px !important; padding: .65rem 1rem !important; font-family: 'DM Sans', sans-serif !important; font-size: .92rem !important; transition: border-color .2s, box-shadow .2s; }
+    .form-control:focus, .form-select:focus { border-color: var(--primary) !important; box-shadow: 0 0 0 3px rgba(232,255,0,.12) !important; outline: none !important; }
+    .form-control::placeholder { color: var(--muted) !important; }
+    .form-select option { background: var(--surface); }
+    .input-group-text { background: var(--border) !important; border: 1px solid var(--border) !important; color: #888 !important; border-radius: 10px 0 0 10px !important; }
+    .input-group .form-control { border-radius: 0 10px 10px 0 !important; }
+
+    /* ───── BUTTONS ───── */
+    .btn-sportzone { background: var(--primary); color: var(--dark); border: none; border-radius: 10px; font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 2px; padding: .7rem 1.5rem; cursor: pointer; transition: transform .15s, box-shadow .15s; display: inline-flex; align-items: center; gap: .5rem; }
+    .btn-sportzone:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(232,255,0,.3); }
+    .btn-sportzone-secondary { background: transparent; color: var(--text); border: 1px solid var(--border); border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: .85rem; font-weight: 500; padding: .65rem 1.2rem; cursor: pointer; transition: border-color .2s, color .2s; display: inline-flex; align-items: center; gap: .5rem; }
+    .btn-sportzone-secondary:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* ───── EDIT MODE ───── */
+    .edit-mode-indicator { display: none; background: rgba(255,77,0,.12); border: 1px solid rgba(255,77,0,.3); border-radius: 8px; padding: .6rem 1rem; font-size: .82rem; color: var(--accent); margin-bottom: 1rem; align-items: center; gap: .5rem; }
+    .edit-mode-indicator.active { display: flex; }
+
+    /* ───── STATS ───── */
+    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+    .stat-box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; text-align: center; }
+    .stat-box .val { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--primary); line-height: 1; }
+    .stat-box .lbl { font-size: .72rem; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-top: .25rem; }
+
+    /* ───── TABLE ───── */
+    .table-wrapper { overflow-x: auto; }
+    #productTable_wrapper .dataTables_filter input { background: var(--surface) !important; border: 1px solid var(--border) !important; color: var(--text) !important; border-radius: 8px !important; padding: .4rem .8rem !important; font-family: 'DM Sans', sans-serif !important; }
+    #productTable_wrapper .dataTables_filter input:focus { border-color: var(--primary) !important; outline: none !important; box-shadow: 0 0 0 3px rgba(232,255,0,.1) !important; }
+    #productTable_wrapper .dataTables_length select { background: var(--surface) !important; border: 1px solid var(--border) !important; color: var(--text) !important; border-radius: 8px !important; padding: .35rem .6rem !important; }
+    #productTable_wrapper .dataTables_info, #productTable_wrapper .dataTables_length label { color: var(--muted) !important; font-size: .8rem !important; }
+    #productTable_wrapper .dataTables_filter label { color: var(--muted) !important; font-size: .8rem !important; }
+    table.dataTable thead th { background: var(--surface) !important; color: #999 !important; font-size: .72rem !important; font-weight: 600 !important; letter-spacing: 1.5px !important; text-transform: uppercase !important; border-bottom: 1px solid var(--border) !important; border-top: none !important; padding: .9rem 1rem !important; }
+    table.dataTable thead th.sorting::after, table.dataTable thead th.sorting_asc::after, table.dataTable thead th.sorting_desc::after { color: var(--primary) !important; }
+    table.dataTable tbody tr { background: #ffffff !important; border-bottom: 1px solid var(--border) !important; transition: background .15s; }
+    table.dataTable tbody tr:hover { background: #f5f5f5 !important; }
+    table.dataTable tbody td { color: #111111 !important; font-size: .88rem !important; padding: .85rem 1rem !important; border-top: none !important; }
+    #productTable_wrapper .paginate_button { background: var(--surface) !important; border: 1px solid var(--border) !important; color: var(--text) !important; border-radius: 8px !important; margin: 0 2px !important; font-size: .82rem !important; transition: all .15s !important; }
+    #productTable_wrapper .paginate_button:hover:not(.disabled) { background: var(--primary) !important; border-color: var(--primary) !important; color: var(--dark) !important; }
+    #productTable_wrapper .paginate_button.current { background: var(--primary) !important; border-color: var(--primary) !important; color: var(--dark) !important; font-weight: 700 !important; }
+    #productTable_wrapper .paginate_button.disabled { opacity: .3 !important; }
+
+    /* ───── BADGES ───── */
+    .cat-badge { font-size: .7rem; font-weight: 600; letter-spacing: .5px; padding: .25rem .65rem; border-radius: 20px; display: inline-block; }
+    .cat-sepatu    { background: rgba(232,255,0,.12); color: var(--primary); border: 1px solid rgba(232,255,0,.3); }
+    .cat-pakaian   { background: rgba(0,230,118,.1);  color: var(--success);  border: 1px solid rgba(0,230,118,.3); }
+    .cat-perlengkapan { background: rgba(255,77,0,.1); color: var(--accent); border: 1px solid rgba(255,77,0,.3); }
+    .cat-aksesoris { background: rgba(100,180,255,.1); color: #64B5F6; border: 1px solid rgba(100,180,255,.3); }
+    .cat-lainnya   { background: rgba(180,180,180,.1); color: #aaa; border: 1px solid rgba(180,180,180,.3); }
+
+    /* ───── ACTION BTNS ───── */
+    .action-btns { display: flex; gap: .4rem; }
+    .btn-edit-row { background: rgba(232,255,0,.1); border: 1px solid rgba(232,255,0,.25); color: var(--primary); border-radius: 7px; padding: .3rem .6rem; font-size: .78rem; cursor: pointer; transition: all .15s; }
+    .btn-edit-row:hover { background: var(--primary); color: var(--dark); }
+    .btn-del-row { background: rgba(255,77,0,.1); border: 1px solid rgba(255,77,0,.25); color: var(--accent); border-radius: 7px; padding: .3rem .6rem; font-size: .78rem; cursor: pointer; transition: all .15s; }
+    .btn-del-row:hover { background: var(--accent); color: #fff; }
+
+    /* ───── TOAST ───── */
+    .toast-zone { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; display: flex; flex-direction: column; gap: .5rem; }
+    .sz-toast { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: .8rem 1.2rem; font-size: .85rem; color: var(--text); display: flex; align-items: center; gap: .6rem; box-shadow: 0 8px 30px rgba(0,0,0,.5); animation: slide-in .3s ease; min-width: 240px; }
+    .sz-toast.success { border-left: 3px solid var(--success); }
+    .sz-toast.error   { border-left: 3px solid var(--accent); }
+    .sz-toast.info    { border-left: 3px solid var(--primary); }
+    @keyframes slide-in { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+    .name-cell  { color: #111111 !important; font-weight: 600; }
+    .date-cell  { color: #111111 !important; }
+    .price-cell { font-weight: 600; color: var(--success); }
+    .id-cell    { font-family: monospace; font-size: .75rem; color: #555; }
+  </style>
+</head>
+<body>
+
+<!-- ══════ HEADER ══════ -->
+<header>
+
+  <!-- ★ LOGO SVG ★ -->
+  <a class="logo-wrap" href="#">
+    <svg width="290" height="52" viewBox="0 0 290 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Icon: lightning bolt dalam hexagon -->
+      <g>
+        <!-- Hexagon background -->
+        <polygon points="26,2 48,14 48,38 26,50 4,38 4,14"
+                 fill="#E8FF00" />
+        <!-- Inner hexagon stroke -->
+        <polygon points="26,7 43,17 43,35 26,45 9,35 9,17"
+                 fill="none" stroke="#0A0A0A" stroke-width="1.2" opacity="0.2"/>
+        <!-- Lightning bolt -->
+        <path d="M30 8 L18 27 L25 27 L22 44 L34 25 L27 25 Z"
+              fill="#0A0A0A"/>
+      </g>
+
+      <!-- SPORT text -->
+      <text x="60" y="31"
+            font-family="'Bebas Neue', sans-serif"
+            font-size="32"
+            font-weight="400"
+            letter-spacing="3"
+            fill="#E8FF00">SPORT</text>
+
+      <!-- ZONE text with accent underline -->
+      <text x="136" y="31"
+            font-family="'Bebas Neue', sans-serif"
+            font-size="32"
+            font-weight="400"
+            letter-spacing="3"
+            fill="#FF4D00">ZONE</text>
+
+      <!-- Accent underline under ZONE -->
+      <rect x="136" y="35" width="72" height="3" rx="1.5" fill="#FF4D00" opacity="0.7"/>
+
+      <!-- Tagline -->
+      <text x="61" y="46"
+            font-family="'DM Sans', sans-serif"
+            font-size="8.5"
+            font-weight="600"
+            letter-spacing="1.8"
+            fill="#666">SPORT EQUIPMENT STORE</text>
+    </svg>
+  </a>
+
+  <!-- Nav right -->
+  <div class="nav-right">
+    <div class="nav-pill">
+      <i class="fa fa-boxes-stacked"></i>
+      <span>Product Manager</span>
+    </div>
+    <div class="live-dot"></div>
+  </div>
+
+</header>
+
+<!-- ══════ HERO ══════ -->
+<div class="hero-strip">
+  <h1>Manajemen<br>Produk</h1>
+  <p><i class="fa fa-bolt me-1"></i> Kelola seluruh inventaris produk olahraga kamu di SportZone dengan mudah.</p>
+</div>
+
+<!-- ══════ MAIN ══════ -->
+<div class="main-grid">
+
+  <!-- ── FORM PANEL ── -->
+  <div>
+    <div class="sz-card">
+      <div class="sz-card-header">
+        <div class="icon"><i class="fa fa-plus"></i></div>
+        <h2 id="formTitle">Tambah Produk</h2>
+      </div>
+      <div class="sz-card-body">
+        <div class="edit-mode-indicator" id="editIndicator">
+          <i class="fa fa-pen"></i>
+          Mode Edit Aktif &mdash; <span id="editIdLabel"></span>
+        </div>
+        <input type="hidden" id="editId"/>
+        <div class="mb-3">
+          <label class="form-label">Nama Produk</label>
+          <input type="text" id="inputNama" class="form-control" placeholder="cth. Nike Air Zoom Pegasus"/>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Kategori</label>
+          <select id="inputKategori" class="form-select">
+            <option value="">— Pilih Kategori —</option>
+            <option value="Sepatu">Sepatu</option>
+            <option value="Pakaian">Pakaian</option>
+            <option value="Perlengkapan">Perlengkapan</option>
+            <option value="Aksesoris">Aksesoris</option>
+            <option value="Lainnya">Lainnya</option>
+          </select>
+        </div>
+        <div class="mb-4">
+          <label class="form-label">Harga (Rp)</label>
+          <div class="input-group">
+            <span class="input-group-text">Rp</span>
+            <input type="number" id="inputHarga" class="form-control" placeholder="0" min="0"/>
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <button class="btn-sportzone flex-grow-1" onclick="submitForm()">
+            <i class="fa fa-floppy-disk"></i>
+            <span id="btnLabel">Simpan Produk</span>
+          </button>
+          <button class="btn-sportzone-secondary" id="btnCancel" onclick="cancelEdit()" style="display:none;">
+            <i class="fa fa-xmark"></i> Batal
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-row mt-3">
+      <div class="stat-box">
+        <div class="val" id="statTotal">0</div>
+        <div class="lbl">Total</div>
+      </div>
+      <div class="stat-box">
+        <div class="val" id="statKategori">0</div>
+        <div class="lbl">Kategori</div>
+      </div>
+      <div class="stat-box">
+        <div class="val" id="statNilai">0</div>
+        <div class="lbl">Nilai (jt)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TABLE PANEL ── -->
+  <div>
+    <div class="sz-card">
+      <div class="sz-card-header" style="justify-content: space-between;">
+        <div style="display:flex;align-items:center;gap:.75rem;">
+          <div class="icon" style="background:var(--accent);color:#fff;"><i class="fa fa-table-list"></i></div>
+          <h2>Daftar Produk</h2>
+        </div>
+        <button class="btn-sportzone-secondary" onclick="clearAll()" style="font-size:.78rem;">
+          <i class="fa fa-trash-can"></i> Hapus Semua
+        </button>
+      </div>
+      <div class="sz-card-body">
+        <div class="table-wrapper">
+          <table id="productTable" class="table" style="width:100%">
+            <thead>
+              <tr>
+                <th>ID</th><th>Nama Produk</th><th>Kategori</th>
+                <th>Harga</th><th>Ditambahkan</th><th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast-zone" id="toastZone"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+  let productStore = {};
+  let nextId = 1;
+  let dt = null;
+
+  $(document).ready(function () {
+    dt = $('#productTable').DataTable({
+      data: [],
+      columns: [
+        { data: 'id' }, { data: 'nama' }, { data: 'kategori' },
+        { data: 'harga' }, { data: 'createdAt' },
+        { data: 'aksi', orderable: false, searchable: false }
+      ],
+      language: {
+        search: "Cari:", lengthMenu: "Tampilkan _MENU_ produk",
+        info: "Menampilkan _START_–_END_ dari _TOTAL_ produk",
+        infoEmpty: "Tidak ada produk", zeroRecords: "Produk tidak ditemukan",
+        paginate: { previous: "‹", next: "›" }
+      },
+      pageLength: 5, lengthMenu: [5, 10, 25, 50], order: [[0, 'desc']],
+      drawCallback: function () {
+        $('#productTable tbody .btn-del-row').off('click').on('click', function () {
+          deleteProduct(parseInt($(this).data('id')));
+        });
+        $('#productTable tbody .btn-edit-row').off('click').on('click', function () {
+          openEdit(parseInt($(this).data('id')));
+        });
+      }
+    });
+    seedData();
+  });
+
+  function seedData() {
+    const seeds = [
+      { nama: 'Nike Air Zoom Pegasus 40', kategori: 'Sepatu', harga: 1850000 },
+      { nama: 'Adidas Tiro Training Jersey', kategori: 'Pakaian', harga: 420000 },
+      { nama: 'Raket Badminton Yonex Astrox', kategori: 'Perlengkapan', harga: 2300000 },
+      { nama: 'Under Armour Sports Cap', kategori: 'Aksesoris', harga: 285000 },
+    ];
+    seeds.forEach(s => addProduct(s.nama, s.kategori, s.harga, false));
+    showToast('Data contoh dimuat!', 'info');
+  }
+
+  function formatRupiah(n) { return 'Rp ' + Number(n).toLocaleString('id-ID'); }
+
+  function catBadge(kat) {
+    const map = { 'Sepatu':'cat-sepatu','Pakaian':'cat-pakaian','Perlengkapan':'cat-perlengkapan','Aksesoris':'cat-aksesoris','Lainnya':'cat-lainnya' };
+    return `<span class="cat-badge ${map[kat]||'cat-lainnya'}">${kat}</span>`;
+  }
+
+  function actionBtns(id) {
+    return `<div class="action-btns">
+      <button class="btn-edit-row" data-id="${id}" title="Edit"><i class="fa fa-pen"></i></button>
+      <button class="btn-del-row"  data-id="${id}" title="Hapus"><i class="fa fa-trash"></i></button>
+    </div>`;
+  }
+
+  function buildRow(p) {
+    return {
+      id:        `<span class="id-cell">#${String(p.id).padStart(3,'0')}</span>`,
+      nama:      `<strong class="name-cell">${p.nama}</strong>`,
+      kategori:  catBadge(p.kategori),
+      harga:     `<span class="price-cell">${formatRupiah(p.harga)}</span>`,
+      createdAt: `<span class="date-cell">${p.createdAt}</span>`,
+      aksi:      actionBtns(p.id)
+    };
+  }
+
+  function updateStats() {
+    const all = Object.values(productStore);
+    const nilai = all.reduce((s,p) => s+Number(p.harga),0)/1e6;
+    $('#statTotal').text(all.length);
+    $('#statKategori').text(new Set(all.map(p=>p.kategori)).size);
+    $('#statNilai').text(nilai>=1 ? nilai.toFixed(1) : (nilai*1000).toFixed(0)+'rb');
+  }
+
+  function addProduct(nama, kategori, harga, toast=true) {
+    const id = nextId++;
+    const now = new Date().toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'});
+    const product = { id, nama, kategori, harga, createdAt: now };
+    productStore[id] = product;
+    dt.row.add(buildRow(product)).draw(false);
+    updateStats();
+    if (toast) showToast(`"${nama}" berhasil ditambahkan!`, 'success');
+  }
+
+  function deleteProduct(id) {
+    const p = productStore[id];
+    if (!p) return;
+    if (!confirm(`Hapus produk "${p.nama}"?`)) return;
+    delete productStore[id];
+    dt.rows(function(idx,data){ return data.aksi && data.aksi.includes(`data-id="${id}"`); }).remove().draw();
+    updateStats();
+    showToast(`"${p.nama}" dihapus.`, 'error');
+    if (parseInt($('#editId').val())===id) cancelEdit();
+  }
+
+  function openEdit(id) {
+    const p = productStore[id];
+    if (!p) return;
+    $('#editId').val(id);
+    $('#inputNama').val(p.nama);
+    $('#inputKategori').val(p.kategori);
+    $('#inputHarga').val(p.harga);
+    $('#formTitle').text('Edit Produk');
+    $('#btnLabel').text('Update Produk');
+    $('#editIdLabel').text('#'+String(id).padStart(3,'0')+' — '+p.nama);
+    $('#editIndicator').addClass('active');
+    $('#btnCancel').show();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  function updateProduct(id, nama, kategori, harga) {
+    const p = productStore[id];
+    if (!p) return;
+    p.nama=nama; p.kategori=kategori; p.harga=harga;
+    dt.rows(function(idx,data){ return data.aksi && data.aksi.includes(`data-id="${id}"`); }).every(function(){ this.data(buildRow(p)); });
+    dt.draw(false);
+    updateStats();
+    showToast(`"${nama}" berhasil diupdate!`, 'info');
+    cancelEdit();
+  }
+
+  function cancelEdit() {
+    $('#editId,#inputNama,#inputKategori,#inputHarga').val('');
+    $('#inputKategori').val('');
+    $('#formTitle').text('Tambah Produk');
+    $('#btnLabel').text('Simpan Produk');
+    $('#editIndicator').removeClass('active');
+    $('#btnCancel').hide();
+  }
+
+  function submitForm() {
+    const nama=($('#inputNama').val()||'').trim();
+    const kategori=$('#inputKategori').val();
+    const harga=parseFloat($('#inputHarga').val());
+    const editId=$('#editId').val();
+    if (!nama)          { showToast('Nama produk wajib diisi!','error'); return; }
+    if (!kategori)      { showToast('Pilih kategori produk!','error'); return; }
+    if (!harga||harga<0){ showToast('Masukkan harga yang valid!','error'); return; }
+    if (editId) updateProduct(parseInt(editId),nama,kategori,harga);
+    else { addProduct(nama,kategori,harga); cancelEdit(); }
+  }
+
+  function clearAll() {
+    if (Object.keys(productStore).length===0){ showToast('Tabel sudah kosong.','info'); return; }
+    if (!confirm('Hapus semua produk?')) return;
+    productStore={}; dt.clear().draw(); updateStats(); cancelEdit();
+    showToast('Semua produk dihapus.','error');
+  }
+
+  function showToast(msg, type='success') {
+    const icons={success:'fa-circle-check',error:'fa-circle-xmark',info:'fa-circle-info'};
+    const colors={success:'var(--success)',error:'var(--accent)',info:'var(--primary)'};
+    const toast=$(`<div class="sz-toast ${type}"><i class="fa ${icons[type]}" style="color:${colors[type]};font-size:1.1rem;"></i><span>${msg}</span></div>`);
+    $('#toastZone').append(toast);
+    setTimeout(()=>toast.fadeOut(300,()=>toast.remove()),3000);
+  }
+
+  $(document).on('keydown','#inputNama,#inputKategori,#inputHarga',function(e){ if(e.key==='Enter') submitForm(); });
+</script>
+</body>
+</html>
