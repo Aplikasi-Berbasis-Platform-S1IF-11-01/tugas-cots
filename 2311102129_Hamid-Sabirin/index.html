@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manajemen Produk | COTS</title>
+  <meta name="description" content="Halaman manajemen data produk dengan fitur CRUD, pencarian, dan pagination." />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+
+  <!-- DataTables CSS -->
+  <link href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+  <link href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css" rel="stylesheet" />
+
+  <!-- Custom CSS -->
+  <link href="style.css" rel="stylesheet" />
+</head>
+<body>
+
+<!-- ══════════ NAVBAR ══════════ -->
+<nav class="navbar-custom">
+  <div class="container d-flex align-items-center justify-content-between">
+    <a href="#" class="navbar-brand-logo">
+      <div class="brand-icon"><i class="bi bi-box-seam-fill"></i></div>
+      <div>
+        <div>Produk Manager | Hamid Sabirin 2311102129</div>
+        <div class="navbar-tagline">Sistem Manajemen Produk - COTS ABP</div>
+      </div>
+    </a>
+    <span class="nav-badge" id="navBadge"><i class="bi bi-box-seam me-1"></i>0 Produk</span>
+  </div>
+</nav>
+
+<!-- ══════════ STATS (2 kolom × 2 baris) ══════════ -->
+<section class="stats-section">
+  <div class="container">
+    <div class="row g-3">
+      <div class="col-6 col-md-3">
+        <div class="stat-card stat-card-1">
+          <div class="stat-icon-box"><i class="bi bi-box-seam-fill"></i></div>
+          <div>
+            <div class="stat-label">Total Produk</div>
+            <div class="stat-value" id="statTotal">0</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-card stat-card-2">
+          <div class="stat-icon-box"><i class="bi bi-tags-fill"></i></div>
+          <div>
+            <div class="stat-label">Kategori</div>
+            <div class="stat-value" id="statKategori">0</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-card stat-card-3">
+          <div class="stat-icon-box"><i class="bi bi-trophy-fill"></i></div>
+          <div>
+            <div class="stat-label">Harga Tertinggi</div>
+            <div class="stat-value" id="statMax" style="font-size:1.1rem;">Rp 0</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-card stat-card-4">
+          <div class="stat-icon-box"><i class="bi bi-graph-up-arrow"></i></div>
+          <div>
+            <div class="stat-label">Rata-rata Harga</div>
+            <div class="stat-value" id="statAvg" style="font-size:1.1rem;">Rp 0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ MAIN CONTENT ══════════ -->
+<main class="main-area">
+  <div class="container">
+    <div class="row g-4 align-items-start">
+
+      <!-- ── FORM INPUT (Kiri) ── -->
+      <div class="col-lg-4">
+        <div class="card-custom">
+          <div class="section-heading">
+            <div class="head-icon head-icon-blue"><i class="bi bi-plus-lg"></i></div>
+            <span id="formTitle">Tambah Produk</span>
+          </div>
+
+          <!-- Edit Mode Banner -->
+          <div class="edit-mode-banner" id="editBanner">
+            <i class="bi bi-pencil-square"></i>
+            <span>Mode Edit Aktif</span>
+            <button class="btn-cancel-edit" onclick="cancelEdit()">
+              <i class="bi bi-x-lg"></i> Batal
+            </button>
+          </div>
+
+          <form id="productForm" novalidate>
+            <input type="hidden" id="editId" />
+
+            <div class="mb-3">
+              <label class="form-label-custom" for="namaProduk">Nama Produk</label>
+              <input type="text" id="namaProduk" class="form-control-custom"
+                placeholder="Contoh: Sepatu Lari Nike" />
+              <div class="err-msg" id="errNama">
+                <i class="bi bi-exclamation-circle me-1"></i>Nama produk tidak boleh kosong.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label-custom" for="kategori">Kategori</label>
+              <select id="kategori" class="form-select-custom">
+                <option value="" disabled selected>-- Pilih Kategori --</option>
+                <option value="Elektronik">Elektronik</option>
+                <option value="Pakaian">Pakaian</option>
+                <option value="Makanan">Makanan</option>
+                <option value="Minuman">Minuman</option>
+                <option value="Olahraga">Olahraga</option>
+                <option value="Kecantikan">Kecantikan</option>
+                <option value="Lainnya">Lainnya</option>
+              </select>
+              <div class="err-msg" id="errKategori">
+                <i class="bi bi-exclamation-circle me-1"></i>Pilih kategori terlebih dahulu.
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label-custom" for="harga">Harga (Rp)</label>
+              <input type="number" id="harga" class="form-control-custom"
+                placeholder="Contoh: 150000" min="0" />
+              <div class="err-msg" id="errHarga">
+                <i class="bi bi-exclamation-circle me-1"></i>Masukkan harga yang valid (≥ 0).
+              </div>
+            </div>
+
+            <div class="d-flex gap-2">
+              <button type="submit" class="btn-submit flex-grow-1" id="btnSubmit">
+                <i class="bi bi-plus-circle-fill"></i> Tambah
+              </button>
+              <button type="button" class="btn-reset-form" onclick="resetForm()" title="Reset Form">
+                <i class="bi bi-arrow-counterclockwise"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- ── TABEL PRODUK (Kanan) ── -->
+      <div class="col-lg-8">
+        <div class="card-custom">
+          <div class="section-heading">
+            <div class="head-icon head-icon-violet"><i class="bi bi-table"></i></div>
+            <span>Daftar Produk</span>
+          </div>
+
+          <div class="table-responsive">
+            <table id="produkTable" class="table w-100" style="border-collapse:collapse;">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Nama Produk</th>
+                  <th>Kategori</th>
+                  <th>Harga</th>
+                  <th style="text-align:center;">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="produkBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<!-- ══════════ MODAL HAPUS ══════════ -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="d-flex align-items-center gap-3">
+          <div style="width:40px;height:40px;border-radius:10px;background:#fee2e2;display:grid;place-items:center;color:#dc2626;font-size:1.2rem;flex-shrink:0;">
+            <i class="bi bi-trash3-fill"></i>
+          </div>
+          <div>
+            <div class="fw-bold" style="color:#1e293b;">Hapus Produk</div>
+            <div style="font-size:.82rem;color:#64748b;">Tindakan ini tidak dapat dibatalkan.</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-body" style="color:#64748b;font-size:.92rem;">
+        Apakah kamu yakin ingin menghapus produk
+        <strong id="deleteProductName" style="color:#1e293b;"></strong>?
+      </div>
+      <div class="modal-footer gap-2">
+        <button type="button" class="btn-reset-form" data-bs-dismiss="modal">Batal</button>
+        <button type="button" id="confirmDelete" class="btn-hapus-modal">
+          <i class="bi bi-trash3-fill"></i> Ya, Hapus
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ TOAST STACK ══════════ -->
+<div class="toast-stack" id="toastStack"></div>
+
+<!-- ══════════ SCRIPTS ══════════ -->
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<!-- Bootstrap Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables -->
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
+<!-- Custom JS -->
+<script src="script.js"></script>
+
+</body>
+</html>
