@@ -176,6 +176,7 @@ html<!-- DataTable CSS -->
 </table>
 ```
 Tampilan
+
 ![Gambar 1](Images/Tampilkan.png)
 
 ## 1.5 Fitur Search dan Pagination
