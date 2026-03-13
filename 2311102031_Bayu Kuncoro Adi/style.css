@@ -1,0 +1,134 @@
+body{
+
+background: linear-gradient(135deg,#a5f3fc,#f0f9ff,#fef9c3);
+
+font-family:'Segoe UI';
+
+}
+
+
+/* HEADER */
+
+.header-box{
+
+background:white;
+
+padding:20px;
+
+border-radius:12px;
+
+box-shadow:0 6px 15px rgba(0,0,0,0.1);
+
+}
+
+.header-box h1{
+
+font-weight:bold;
+
+color:#2563eb;
+
+}
+
+
+/* FORM */
+
+.form-box{
+
+border:none;
+
+border-radius:12px;
+
+box-shadow:0 6px 15px rgba(0,0,0,0.08);
+
+}
+
+.form-control{
+
+border-radius:8px;
+
+}
+
+
+/* CATALOG */
+
+.catalog-card{
+
+background:white;
+
+padding:18px;
+
+border-radius:12px;
+
+box-shadow:0 5px 12px rgba(0,0,0,0.1);
+
+transition:all 0.25s;
+
+}
+
+.catalog-card:hover{
+
+transform:translateY(-6px) scale(1.03);
+
+box-shadow:0 10px 20px rgba(0,0,0,0.15);
+
+}
+
+.catalog-title{
+
+font-weight:bold;
+
+font-size:16px;
+
+color:#1e293b;
+
+}
+
+.catalog-category{
+
+font-size:13px;
+
+color:#64748b;
+
+}
+
+.catalog-price{
+
+font-size:15px;
+
+color:#0284c7;
+
+font-weight:600;
+
+margin-top:5px;
+
+}
+
+
+/* BUTTON */
+
+.btn{
+
+border-radius:8px;
+
+}
+
+
+/* TABLE */
+
+table{
+
+background:white;
+
+border-radius:10px;
+
+overflow:hidden;
+
+}
+
+thead{
+
+background:#2563eb;
+
+color:white;
+
+}
