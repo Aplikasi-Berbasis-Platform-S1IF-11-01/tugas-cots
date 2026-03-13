@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GlowCare – Skincare Store</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<style>
+:root {
+  --cream: #fdf6ef;
+  --blush: #e8c4b8;
+  --rose: #c8836a;
+  --deep: #5c2d1e;
+  --mocha: #8b4e35;
+  --sand: #f0e0d0;
+  --white: #fffaf6;
+  --shadow: rgba(92,45,30,0.12);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--deep);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── NOISE TEXTURE OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+.page-wrap { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 40px 24px 80px; }
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  background: linear-gradient(135deg, #3d1a10 0%, #7a3520 50%, #c8836a 100%);
+  border-radius: 24px;
+  padding: 56px 52px 56px;
+  margin-bottom: 48px;
+  overflow: hidden;
+  color: var(--white);
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  width: 420px; height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,200,170,0.22) 0%, transparent 70%);
+  top: -120px; right: -80px;
+  pointer-events: none;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  width: 260px; height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.07) 0%, transparent 70%);
+  bottom: -60px; left: 30%;
+  pointer-events: none;
+}
+
+.hero-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--blush);
+  border: 1px solid rgba(232,196,184,0.4);
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-bottom: 18px;
+}
+
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(38px, 6vw, 68px);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -1px;
+  margin-bottom: 14px;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--blush);
+}
+
+.hero p {
+  font-size: 14px;
+  color: rgba(255,250,246,0.72);
+  max-width: 400px;
+  line-height: 1.7;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 36px;
+  margin-top: 36px;
+}
+
+.stat { text-align: left; }
+.stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--blush);
+  line-height: 1;
+  display: block;
+}
+.stat-label { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,250,246,0.5); }
+
+/* ── DECORATIVE CIRCLES ── */
+.circle-deco {
+  position: absolute;
+  right: 52px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: -10px;
+}
+
+.ring {
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.15);
+  position: absolute;
+}
+.ring-1 { width: 180px; height: 180px; right: 60px; top: 20px; }
+.ring-2 { width: 120px; height: 120px; right: 40px; top: 80px; border-color: rgba(232,196,184,0.25); }
+.ring-3 { width: 60px; height: 60px; right: 100px; top: 30px; background: rgba(232,196,184,0.12); border: none; }
+
+/* ── SECTION TITLE ── */
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--deep);
+  margin-bottom: 6px;
+}
+.section-title span { font-style: italic; color: var(--rose); }
+.section-sub { font-size: 12px; color: var(--mocha); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; opacity: 0.6; }
+
+/* ── INPUT PANEL ── */
+.input-panel {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 36px 40px;
+  margin-bottom: 40px;
+  box-shadow: 0 4px 32px var(--shadow);
+  border: 1px solid rgba(200,131,106,0.1);
+}
+
+.form-group { margin-bottom: 0; }
+.form-label {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--mocha);
+  font-weight: 500;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.form-control, .form-select {
+  background: var(--cream);
+  border: 1.5px solid var(--sand);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: var(--deep);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+
+.form-control:focus, .form-select:focus {
+  outline: none;
+  border-color: var(--rose);
+  box-shadow: 0 0 0 3px rgba(200,131,106,0.12);
+  background: var(--white);
+}
+
+.btn-add {
+  background: linear-gradient(135deg, var(--mocha), var(--rose));
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 13px 28px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 24px;
+  box-shadow: 0 4px 20px rgba(200,131,106,0.35);
+}
+
+.btn-add:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(200,131,106,0.45); }
+.btn-add:active { transform: translateY(0); }
+
+/* ── FILTER PILLS ── */
+.filter-wrap { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
+.pill {
+  background: var(--white);
+  border: 1.5px solid var(--sand);
+  color: var(--mocha);
+  padding: 7px 18px;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'DM Sans', sans-serif;
+}
+.pill.active, .pill:hover {
+  background: var(--rose);
+  border-color: var(--rose);
+  color: white;
+}
+
+/* ── PRODUCT GRID ── */
+#productGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.prod-card {
+  background: var(--white);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 2px 16px var(--shadow);
+  border: 1px solid rgba(200,131,106,0.08);
+  transition: transform 0.25s, box-shadow 0.25s;
+  animation: fadeUp 0.4s ease both;
+  position: relative;
+}
+
+.prod-card:hover { transform: translateY(-5px); box-shadow: 0 10px 32px rgba(92,45,30,0.16); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.prod-thumb {
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 52px;
+  position: relative;
+  overflow: hidden;
+}
+
+.prod-thumb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.04));
+}
+
+.prod-body { padding: 16px 18px 18px; }
+.prod-cat {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--rose);
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+.prod-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--deep);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+.prod-price {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--mocha);
+}
+
+.card-actions {
+  position: absolute;
+  top: 10px; right: 10px;
+  display: flex;
+  gap: 5px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 2;
+}
+.prod-card:hover .card-actions { opacity: 1; }
+
+.btn-icon {
+  background: rgba(255,255,255,0.92);
+  border: none;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.13);
+  transition: background 0.2s, transform 0.2s;
+}
+.btn-icon svg { pointer-events: none; }
+.btn-icon.edit-btn { color: #7a5030; }
+.btn-icon.hapus-btn { color: #b05050; }
+.btn-icon.edit-btn:hover  { background: #7a5030; color: white; transform: scale(1.1); }
+.btn-icon.hapus-btn:hover { background: #b05050; color: white; transform: scale(1.1); }
+
+/* ── MODAL EDIT ── */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(60,20,10,0.45);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.25s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+
+.modal-box {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 36px 40px;
+  width: 100%; max-width: 520px;
+  box-shadow: 0 20px 60px rgba(60,20,10,0.25);
+  transform: translateY(20px);
+  transition: transform 0.25s;
+  position: relative;
+}
+.modal-overlay.open .modal-box { transform: translateY(0); }
+
+.modal-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--deep);
+  margin-bottom: 4px;
+}
+.modal-title span { font-style: italic; color: var(--rose); }
+.modal-sub { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--mocha); opacity: 0.55; margin-bottom: 22px; }
+
+.btn-modal-close {
+  position: absolute; top: 16px; right: 18px;
+  background: var(--sand); border: none;
+  width: 30px; height: 30px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--mocha); font-size: 14px;
+  transition: background 0.2s;
+}
+.btn-modal-close:hover { background: var(--blush); }
+
+.btn-save {
+  background: linear-gradient(135deg, var(--mocha), var(--rose));
+  color: white; border: none; border-radius: 12px;
+  padding: 12px 26px; font-family: 'DM Sans', sans-serif;
+  font-size: 14px; font-weight: 500; cursor: pointer;
+  box-shadow: 0 4px 18px rgba(200,131,106,0.35);
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex; align-items: center; gap: 8px; margin-top: 22px;
+}
+.btn-save:hover { transform: translateY(-2px); box-shadow: 0 8px 26px rgba(200,131,106,0.45); }
+
+/* ── EMPTY STATE ── */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--mocha);
+  opacity: 0.5;
+  grid-column: 1 / -1;
+}
+.empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+.empty-state p { font-size: 14px; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 18px; }
+
+/* ── TABLE VIEW ── */
+.table-panel {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 30px 32px;
+  margin-top: 40px;
+  box-shadow: 0 4px 32px var(--shadow);
+  border: 1px solid rgba(200,131,106,0.1);
+  display: none;
+}
+
+.view-toggle { display: flex; gap: 8px; margin-bottom: 24px; }
+.view-btn {
+  background: var(--sand);
+  border: none;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  color: var(--mocha);
+  transition: all 0.2s;
+}
+.view-btn.active { background: var(--deep); color: var(--white); }
+
+table { width: 100%; border-collapse: collapse; }
+thead tr { border-bottom: 2px solid var(--sand); }
+th { padding: 10px 14px; text-align: left; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--mocha); font-weight: 500; }
+tbody tr { border-bottom: 1px solid var(--sand); transition: background 0.15s; }
+tbody tr:hover { background: var(--cream); }
+td { padding: 13px 14px; font-size: 14px; color: var(--deep); }
+.td-cat {
+  display: inline-block;
+  background: var(--sand);
+  color: var(--rose);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+.del-row, .edit-row {
+  background: none; border: none;
+  width: 30px; height: 30px; border-radius: 8px;
+  display: inline-flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: background 0.2s;
+}
+.edit-row { color: #7a5030; }
+.del-row  { color: #b05050; }
+.edit-row:hover { background: #f0e0d0; }
+.del-row:hover  { background: #fde8e8; }
+
+/* ── CATEGORY COLORS ── */
+.bg-cleanser { background: linear-gradient(135deg, #e8f4f0, #c5e6de); }
+.bg-toner    { background: linear-gradient(135deg, #f0e8f4, #ddc5e6); }
+.bg-serum    { background: linear-gradient(135deg, #f4ede8, #e6d4c5); }
+.bg-moisturizer { background: linear-gradient(135deg, #f4f0e8, #e6ddc5); }
+.bg-sunscreen   { background: linear-gradient(135deg, #f4f0e8, #f0e4b5); }
+
+/* ── TOAST ── */
+.toast-notif {
+  position: fixed;
+  bottom: 30px; right: 30px;
+  background: var(--deep);
+  color: var(--white);
+  padding: 14px 22px;
+  border-radius: 12px;
+  font-size: 13px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+  z-index: 999;
+  transform: translateY(20px);
+  opacity: 0;
+  transition: all 0.3s;
+}
+.toast-notif.show { transform: translateY(0); opacity: 1; }
+
+/* ── RESPONSIVE ── */
+@media(max-width: 768px) {
+  .hero { padding: 36px 28px; }
+  .hero h1 { font-size: 36px; }
+  .ring-1, .ring-2, .ring-3 { display: none; }
+  .hero-stats { gap: 20px; }
+  .input-panel { padding: 24px 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="ring ring-1"></div>
+    <div class="ring ring-2"></div>
+    <div class="ring ring-3"></div>
+    <div>
+      <div class="hero-badge">✦ Skincare Store Manager</div>
+      <h1>Glow<em>Care</em><br>Studio</h1>
+      <p>Kelola koleksi produk skincare-mu seperti toko kecantikan profesional rapi, elegan, efisien — by Boutefhika Nuha (2311102316)</p>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-num" id="totalProduk">0</span>
+          <span class="stat-label">Produk</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num" id="totalKategori">0</span>
+          <span class="stat-label">Kategori</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num" id="totalNilai">Rp 0</span>
+          <span class="stat-label">Total Nilai</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INPUT PANEL -->
+  <div class="input-panel">
+    <div class="section-title">Tambah <span>Produk Baru</span></div>
+    <div class="section-sub">Isi detail produk skincare di bawah ini</div>
+
+    <form id="formProduk">
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label class="form-label">Nama Produk</label>
+          <input type="text" class="form-control" id="namaProduk" placeholder="e.g. Cetaphil Gentle Cleanser" required>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Kategori</label>
+          <select class="form-select" id="kategoriProduk">
+            <option>Cleanser</option>
+            <option>Toner</option>
+            <option>Serum</option>
+            <option>Moisturizer</option>
+            <option>Sunscreen</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Harga (Rp)</label>
+          <input type="number" class="form-control" id="hargaProduk" placeholder="150000" min="0" required>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Stok</label>
+          <input type="number" class="form-control" id="stokProduk" placeholder="10" min="0" required>
+        </div>
+      </div>
+      <button type="submit" class="btn-add">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+        Tambah ke Katalog
+      </button>
+    </form>
+  </div>
+
+  <!-- CATALOG -->
+  <div class="d-flex align-items-start justify-content-between flex-wrap gap-3 mb-3">
+    <div>
+      <div class="section-title">Katalog <span>Produk</span></div>
+      <div class="section-sub">Semua produk tersimpan</div>
+    </div>
+    <div class="view-toggle">
+      <button class="view-btn active" id="btnGrid">⊞ Grid</button>
+      <button class="view-btn" id="btnTable">≡ Tabel</button>
+    </div>
+  </div>
+
+  <!-- FILTER -->
+  <div class="filter-wrap" id="filterWrap">
+    <button class="pill active" data-cat="Semua">Semua</button>
+    <button class="pill" data-cat="Cleanser">Cleanser</button>
+    <button class="pill" data-cat="Toner">Toner</button>
+    <button class="pill" data-cat="Serum">Serum</button>
+    <button class="pill" data-cat="Moisturizer">Moisturizer</button>
+    <button class="pill" data-cat="Sunscreen">Sunscreen</button>
+  </div>
+
+  <!-- GRID VIEW -->
+  <div id="productGrid">
+    <div class="empty-state">
+      <div class="icon">🧴</div>
+      <p>Belum ada produk. Yuk tambahkan produk pertamamu!</p>
+    </div>
+  </div>
+
+  <!-- TABLE VIEW -->
+  <div class="table-panel" id="tablePanel">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Produk</th>
+          <th>Kategori</th>
+          <th>Harga</th>
+          <th>Stok</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal-overlay" id="modalEdit">
+  <div class="modal-box">
+    <button class="btn-modal-close" id="modalClose">✕</button>
+    <div class="modal-title">Edit <span>Produk</span></div>
+    <div class="modal-sub">Perbarui informasi produk</div>
+    <form id="formEdit">
+      <input type="hidden" id="editIdx">
+      <div class="row g-3">
+        <div class="col-12">
+          <label class="form-label">Nama Produk</label>
+          <input type="text" class="form-control" id="editNama" required>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Kategori</label>
+          <select class="form-select" id="editKategori">
+            <option>Cleanser</option>
+            <option>Toner</option>
+            <option>Serum</option>
+            <option>Moisturizer</option>
+            <option>Sunscreen</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Harga (Rp)</label>
+          <input type="number" class="form-control" id="editHarga" min="0" required>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Stok</label>
+          <input type="number" class="form-control" id="editStok" min="0" required>
+        </div>
+      </div>
+      <button type="submit" class="btn-save">
+        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+        Simpan Perubahan
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast-notif" id="toast"></div>
+
+<script>
+const catEmoji = {
+  'Cleanser': '🧼',
+  'Toner': '💧',
+  'Serum': '✨',
+  'Moisturizer': '🌿',
+  'Sunscreen': '☀️'
+};
+const catBg = {
+  'Cleanser': 'bg-cleanser',
+  'Toner': 'bg-toner',
+  'Serum': 'bg-serum',
+  'Moisturizer': 'bg-moisturizer',
+  'Sunscreen': 'bg-sunscreen'
+};
+
+let dataProduk = [];
+let activeFilter = 'Semua';
+let viewMode = 'grid';
+
+function formatRupiah(n) {
+  return 'Rp ' + Number(n).toLocaleString('id-ID');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function updateStats() {
+  const total = dataProduk.length;
+  const cats = new Set(dataProduk.map(p => p.kategori)).size;
+  const nilai = dataProduk.reduce((s, p) => s + Number(p.harga) * Number(p.stok), 0);
+  document.getElementById('totalProduk').textContent = total;
+  document.getElementById('totalKategori').textContent = cats;
+  document.getElementById('totalNilai').textContent = nilai >= 1000000
+    ? 'Rp ' + (nilai / 1000000).toFixed(1) + 'jt'
+    : formatRupiah(nilai);
+}
+
+function renderGrid() {
+  const grid = document.getElementById('productGrid');
+  const filtered = activeFilter === 'Semua'
+    ? dataProduk
+    : dataProduk.filter(p => p.kategori === activeFilter);
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="empty-state"><div class="icon">🧴</div><p>${activeFilter === 'Semua' ? 'Belum ada produk. Yuk tambahkan produk pertamamu!' : 'Tidak ada produk di kategori ini.'}</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map((p, i) => {
+    const realIdx = dataProduk.indexOf(p);
+    return `
+    <div class="prod-card" style="animation-delay:${i * 0.05}s">
+      <div class="card-actions">
+        <button class="btn-icon edit-btn" data-id="${realIdx}" title="Edit">
+          <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536M9 13l6.536-6.536a2 2 0 112.828 2.828L11.828 15.828a2 2 0 01-1.414.586H7v-3a2 2 0 01.586-1.414z"/></svg>
+        </button>
+        <button class="btn-icon hapus-btn" data-id="${realIdx}" title="Hapus">
+          <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M1 7h22M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+        </button>
+      </div>
+      <div class="prod-thumb ${catBg[p.kategori] || ''}">
+        <span>${catEmoji[p.kategori] || '🧴'}</span>
+      </div>
+      <div class="prod-body">
+        <div class="prod-cat">${p.kategori}</div>
+        <div class="prod-name">${p.nama}</div>
+        <div class="prod-price">${formatRupiah(p.harga)}</div>
+        <div style="font-size:12px;color:#a06050;margin-top:4px;opacity:.7">Stok: ${p.stok}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderTable() {
+  const filtered = activeFilter === 'Semua'
+    ? dataProduk
+    : dataProduk.filter(p => p.kategori === activeFilter);
+
+  document.getElementById('tableBody').innerHTML = filtered.length === 0
+    ? '<tr><td colspan="6" style="text-align:center;padding:32px;opacity:.4;font-style:italic">Tidak ada data</td></tr>'
+    : filtered.map((p, i) => {
+        const realIdx = dataProduk.indexOf(p);
+        return `<tr>
+          <td style="color:#b07060;font-weight:500">${i + 1}</td>
+          <td style="font-weight:500">${catEmoji[p.kategori] || '🧴'} ${p.nama}</td>
+          <td><span class="td-cat">${p.kategori}</span></td>
+          <td>${formatRupiah(p.harga)}</td>
+          <td>${p.stok}</td>
+          <td style="display:flex;gap:4px;align-items:center">
+            <button class="edit-row edit-btn" data-id="${realIdx}" title="Edit">
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536M9 13l6.536-6.536a2 2 0 112.828 2.828L11.828 15.828a2 2 0 01-1.414.586H7v-3a2 2 0 01.586-1.414z"/></svg>
+            </button>
+            <button class="del-row hapus-btn" data-id="${realIdx}" title="Hapus">
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M1 7h22M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+            </button>
+          </td>
+        </tr>`;
+      }).join('');
+}
+
+function render() {
+  if (viewMode === 'grid') {
+    document.getElementById('productGrid').style.display = 'grid';
+    document.getElementById('tablePanel').style.display = 'none';
+    renderGrid();
+  } else {
+    document.getElementById('productGrid').style.display = 'none';
+    document.getElementById('tablePanel').style.display = 'block';
+    renderTable();
+  }
+  updateStats();
+}
+
+// FORM SUBMIT
+document.getElementById('formProduk').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const nama = document.getElementById('namaProduk').value.trim();
+  const kategori = document.getElementById('kategoriProduk').value;
+  const harga = document.getElementById('hargaProduk').value;
+  const stok = document.getElementById('stokProduk').value;
+  if (!nama || !harga || !stok) return;
+  dataProduk.push({ nama, kategori, harga, stok });
+  render();
+  this.reset();
+  showToast('✨ ' + nama + ' berhasil ditambahkan!');
+});
+
+// HAPUS (event delegation)
+document.addEventListener('click', function(e) {
+  const hapus = e.target.closest('.hapus-btn');
+  if (hapus) {
+    const id = parseInt(hapus.getAttribute('data-id'));
+    const nama = dataProduk[id]?.nama || '';
+    dataProduk.splice(id, 1);
+    render();
+    showToast('🗑 ' + nama + ' dihapus.');
+  }
+});
+
+// EDIT — open modal
+document.addEventListener('click', function(e) {
+  const edit = e.target.closest('.edit-btn');
+  if (edit) {
+    const id = parseInt(edit.getAttribute('data-id'));
+    const p = dataProduk[id];
+    if (!p) return;
+    document.getElementById('editIdx').value = id;
+    document.getElementById('editNama').value = p.nama;
+    document.getElementById('editKategori').value = p.kategori;
+    document.getElementById('editHarga').value = p.harga;
+    document.getElementById('editStok').value = p.stok;
+    document.getElementById('modalEdit').classList.add('open');
+  }
+});
+
+// MODAL CLOSE
+document.getElementById('modalClose').addEventListener('click', () => {
+  document.getElementById('modalEdit').classList.remove('open');
+});
+document.getElementById('modalEdit').addEventListener('click', function(e) {
+  if (e.target === this) this.classList.remove('open');
+});
+
+// SAVE EDIT
+document.getElementById('formEdit').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const id = parseInt(document.getElementById('editIdx').value);
+  dataProduk[id] = {
+    nama: document.getElementById('editNama').value.trim(),
+    kategori: document.getElementById('editKategori').value,
+    harga: document.getElementById('editHarga').value,
+    stok: document.getElementById('editStok').value
+  };
+  document.getElementById('modalEdit').classList.remove('open');
+  render();
+  showToast('✏️ ' + dataProduk[id].nama + ' berhasil diperbarui!');
+});
+
+// FILTER
+document.getElementById('filterWrap').addEventListener('click', function(e) {
+  if (e.target.classList.contains('pill')) {
+    document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+    e.target.classList.add('active');
+    activeFilter = e.target.getAttribute('data-cat');
+    render();
+  }
+});
+
+// VIEW TOGGLE
+document.getElementById('btnGrid').addEventListener('click', () => {
+  viewMode = 'grid';
+  document.getElementById('btnGrid').classList.add('active');
+  document.getElementById('btnTable').classList.remove('active');
+  render();
+});
+document.getElementById('btnTable').addEventListener('click', () => {
+  viewMode = 'table';
+  document.getElementById('btnTable').classList.add('active');
+  document.getElementById('btnGrid').classList.remove('active');
+  render();
+});
+
+// INIT
+render();
+</script>
+
+</body>
+</html>
