@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rizal Dwi Anggoro JERSEY - Admin Panel</title>
+    
+    <!-- Import CSS Bootstrap untuk styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Import CSS DataTables untuk membuat tabel lebih interaktif -->
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    
+    <!-- Import Font Awesome untuk icon -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- File CSS tambahan buatan sendiri -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Navbar / Header halaman -->
+<nav class="navbar navbar-expand-lg navbar-dark shadow-sm mb-4">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#"><i class="fa-solid fa-futbol me-2"></i> 2311102034_Rizal Dwi Anggoro - JERSEY</a>
+    </div>
+</nav>
+
+<div class="container">
+    <!-- Bagian statistik produk -->
+    <div class="row mb-4 text-white">
+
+ 
+        <!-- Card Total Produk -->       
+        <div class="col-md-3 mb-3">
+            <div class="stat-card bg-info-gradient p-3 shadow-sm rounded-4">
+                <div class="d-flex align-items-center">
+                    <div class="stat-icon me-3"><i class="fa-solid fa-box"></i></div>
+                    <div>
+                        <small>TOTAL PRODUK</small>
+                        <h3 id="statTotal" class="mb-0 fw-bold">0</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Card Jumlah Kategori -->
+        <div class="col-md-3 mb-3">
+            <div class="stat-card bg-purple-gradient p-3 shadow-sm rounded-4">
+                <div class="d-flex align-items-center">
+                    <div class="stat-icon me-3"><i class="fa-solid fa-tags"></i></div>
+                    <div>
+                        <small>KATEGORI</small>
+                        <h3 id="statKategori" class="mb-0 fw-bold">0</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Harga Tertinggi -->
+        <div class="col-md-3 mb-3">
+            <div class="stat-card bg-orange-gradient p-3 shadow-sm rounded-4">
+                <div class="d-flex align-items-center">
+                    <div class="stat-icon me-3"><i class="fa-solid fa-trophy"></i></div>
+                    <div>
+                        <small>HARGA TERTINGGI</small>
+                        <h4 id="statTertinggi" class="mb-0 fw-bold">Rp 0</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Rata-rata Harga -->
+        <div class="col-md-3 mb-3">
+            <div class="stat-card bg-green-gradient p-3 shadow-sm rounded-4">
+                <div class="d-flex align-items-center">
+                    <div class="stat-icon me-3"><i class="fa-solid fa-chart-line"></i></div>
+                    <div>
+                        <small>RATA-RATA HARGA</small>
+                        <h4 id="statRata" class="mb-0 fw-bold">Rp 0</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <!-- Form input data jersey -->
+        <div class="col-lg-4 mb-4">
+            <div class="card border-0 shadow-sm p-4 rounded-4">
+                <h5 class="mb-4 fw-bold text-primary">Input Koleksi Baru</h5>   
+                 <!-- Form untuk menambah produk -->               
+                <form id="jerseyForm">
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">NAMA KLUB / NEGARA</label>
+                        <input type="text" id="clubName" class="form-control" placeholder="Contoh: AC Milan" required>
+                    </div>
+                    <!-- Pilihan tipe jersey -->
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">TIPE JERSEY</label>
+                        <select id="type" class="form-select" required>
+                            <option value="Home">Home (Kandang)</option>
+                            <option value="Away">Away (Tandang)</option>
+                            <option value="Third">Third (Ketiga)</option>
+                        </select>
+                    </div>
+                    <!-- Input harga jersey -->
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">HARGA (IDR)</label>
+                        <input type="number" id="price" class="form-control" placeholder="850000" required>
+                    </div>
+                    <!-- Tombol submit -->
+                    <button type="submit" class="btn btn-primary w-100 fw-bold py-2 rounded-3 shadow-sm">SIMPAN BARANG</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Tabel daftar produk jersey -->
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm p-4 rounded-4">
+                <table id="jerseyTable" class="table table-hover w-100">
+                    <thead class="table-light">
+                        <tr>
+                            <th>PRODUK</th>
+                            <th>TIPE</th>
+                            <th>HARGA</th>
+                            <th class="text-center">AKSI</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal untuk edit data jersey -->
+<div class="modal fade" id="editModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content rounded-4 border-0">
+            <!-- Header modal -->
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold">Update Detail Jersey</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <!-- Form edit -->
+            <form id="editForm">
+                <div class="modal-body">
+                    <!-- ID produk disimpan secara hidden -->
+                    <input type="hidden" id="editId">
+                    <!-- Edit nama klub -->
+                    <div class="mb-3">
+                        <label class="form-label">Nama Klub</label>
+                        <input type="text" id="editClub" class="form-control" required>
+                    </div>
+                    <!-- Edit tipe jersey -->
+                    <div class="mb-3">
+                        <label class="form-label">Tipe</label>
+                        <select id="editType" class="form-select">
+                            <option value="Home">Home</option>
+                            <option value="Away">Away</option>
+                            <option value="Third">Third</option>
+                        </select>
+                    </div>
+                    <!-- Edit harga -->
+                    <div class="mb-3">
+                        <label class="form-label">Harga</label>
+                        <input type="number" id="editPrice" class="form-control" required>
+                    </div>
+                </div>
+                <!-- Tombol modal -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary fw-bold">Simpan Perubahan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Import library JavaScript -->
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

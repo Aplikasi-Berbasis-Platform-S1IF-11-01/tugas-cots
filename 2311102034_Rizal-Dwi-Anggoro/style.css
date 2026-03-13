@@ -1,0 +1,46 @@
+body { 
+    background-color: #f8f9fa; 
+    color: #333;
+    font-family: 'Poppins', sans-serif;
+    padding-bottom: 50px;
+}
+
+.navbar { background: linear-gradient(90deg, #0d6efd, #00d4ff); }
+
+/* Gradien untuk Stat Cards */
+.bg-info-gradient { background: linear-gradient(45deg, #00b4db, #00d4ff); }
+.bg-purple-gradient { background: linear-gradient(45deg, #8e2de2, #4a00e0); }
+.bg-orange-gradient { background: linear-gradient(45deg, #f09819, #edde5d); }
+.bg-green-gradient { background: linear-gradient(45deg, #11998e, #38ef7d); }
+
+.stat-card {
+    transition: transform 0.3s ease;
+    border: none;
+}
+.stat-card:hover { transform: scale(1.05); }
+
+.stat-icon {
+    font-size: 2.5rem;
+    opacity: 0.3;
+}
+
+.card { border: none; }
+
+.form-control, .form-select {
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    border: 1px solid #dee2e6;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.1);
+}
+
+.table thead th {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    color: #6c757d;
+    text-transform: uppercase;
+}
+
+.badge { padding: 0.5em 0.8em; }
