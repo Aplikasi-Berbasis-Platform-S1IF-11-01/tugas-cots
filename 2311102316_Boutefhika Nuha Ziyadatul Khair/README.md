@@ -94,6 +94,7 @@ Form ini terdiri dari beberapa field input:
 | Kategori    | Select     | Pilihan kategori produk seperti Cleanser, Toner, Serum |
 | Harga       | Number     | Digunakan untuk memasukkan harga produk                |
 | Stok        | Number     | Digunakan untuk memasukkan jumlah stok produk          |
+
 Contoh kode form input:
 ```
 <input type="text" class="form-control" id="namaProduk">
@@ -123,48 +124,83 @@ dataProduk.push({ nama, kategori, harga, stok });
 ```
 Setelah data dimasukkan, fungsi render() akan dipanggil untuk menampilkan data produk pada halaman web.
 
-## Penggunaan JQuery Datatable pada Tabel
+## 1.4 Penggunaan JQuery Datatable pada Tabel
+Tabel produk diinisialisasi menggunakan jQuery DataTable 1.13.6 yang terintegrasi dengan Bootstrap 5. Berikut konfigurasi yang digunakan:
+| Opsi | Nilai | Fungsi |
+|-----|-----|-----|
+| pageLength | 5 | Default menampilkan 5 baris data |
+| lengthMenu | [5, 10, 25, 50] | Pilihan jumlah baris yang ditampilkan |
+| order | [[0, 'asc']] | Mengurutkan data berdasarkan kolom pertama secara ascending |
+| language | id-ID | Menggunakan bahasa Indonesia pada tampilan DataTable |
+| columnDefs | orderable: false, targets: 5 | Kolom **Aksi** tidak dapat diurutkan (sort) |
 
-Tabel produk pada aplikasi **GlowCare – Skincare Store** menggunakan plugin **jQuery DataTable** untuk meningkatkan fungsionalitas tabel. Plugin ini memungkinkan tabel memiliki fitur interaktif seperti pencarian data, pengurutan kolom, serta pagination secara otomatis.
-
-Dengan menggunakan DataTable, pengguna dapat dengan mudah mencari data produk tertentu dan mengatur jumlah data yang ditampilkan pada tabel.
-
-## 1.4 Fitur DataTable yang Digunakan
-| Fitur | Fungsi |
-|------|------|
-| Search | Mencari data produk secara real-time |
-| Pagination | Membagi data ke dalam beberapa halaman |
-| Sorting | Mengurutkan data berdasarkan kolom |
-| Length Menu | Mengatur jumlah data yang ditampilkan |
-Library yang digunakan:
-Untuk menggunakan DataTable, perlu menambahkan beberapa library berikut pada halaman HTML:
+Bukti kode .js:
 ```
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap5.min.css">
-
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap5.min.js"></script>
-```
-Inisialisasi DataTable:
-Tabel produk kemudian diinisialisasi menggunakan fungsi berikut:
-```
-$(document).ready(function () {
-    $('#tabelProduk').DataTable({
-        pageLength: 5,
-        lengthMenu: [5, 10, 25, 50],
-        order: [[0, 'asc']]
-    });
+javascriptdtInstance = $('#produkDataTable').DataTable({
+    language: {
+      search: "🔍 Cari:",
+      lengthMenu: "Tampilkan _MENU_ produk",
+      info: "Menampilkan _START_–_END_ dari _TOTAL_ produk",
+      infoEmpty: "Tidak ada produk",
+      zeroRecords: "Produk tidak ditemukan",
+      paginate: { first: "«", last: "»", next: "›", previous: "‹" }
+    },
+    pageLength: 5,
+    lengthMenu: [5, 10, 25, 50],
+    columnDefs: [{ orderable: false, targets: 5 }],
+    order: [[0, 'asc']]
 });
 ```
-Penjelasan
-| Konfigurasi  | Fungsi                                                  |
-| ------------ | ------------------------------------------------------- |
-| `pageLength` | Menentukan jumlah data yang tampil pada halaman pertama |
-| `lengthMenu` | Pilihan jumlah data yang dapat ditampilkan              |
-| `order`      | Mengatur urutan default tabel                           |
-Dengan konfigurasi tersebut, tabel produk dapat menampilkan data secara lebih terstruktur dan memudahkan pengguna dalam mengelola serta mencari data produk.
 
-## 1.5 Tampilan Produk (Grid View)
+Bukti kode .html:
+```
+html<!-- DataTable CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- DataTable JS -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+<!-- Tabel dengan id yang di-bind ke DataTable -->
+<table id="produkDataTable" class="table table-hover" style="width:100%">
+  <thead>
+    <tr>
+      <th>#</th><th>Produk</th><th>Kategori</th>
+      <th>Harga</th><th>Stok</th><th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody id="tableBody"></tbody>
+</table>
+```
+Tampilan
+![Gambar 1](Images/Tampilan.png)
+
+## 1.5 Fitur Search dan Pagination
+Fitur search pada web ini dapat memfilter data secara real-time berdasarkan semua kolom — nama produk, kategori, harga, maupun stok. Sedangkan pagination di bawah tabel terdapat navigasi halaman dengan tombol ‹ (Previous) dan › (Next). Dropdown di kiri atas tabel memungkinkan user memilih jumlah data per halaman (5 / 10 / 25 / 50).
+Bukti kode:
+```
+javascriptlanguage: {
+    search: "Cari:",
+    lengthMenu: "Tampilkan _MENU_ produk",
+    info: "Menampilkan _START_–_END_ dari _TOTAL_ produk",
+    paginate: { previous: "‹", next: "›" }
+}
+```
+Fitur search — dapat mencari berdasarkan semua kolom secara real-time tanpa reload halaman.
+Tombol pagination — navigasi halaman ‹ 1 2 3 › tampil di bawah tabel. Default 5 data per halaman, bisa diubah lewat dropdown menjadi 10, 25, atau 50.
+
+Fitur Search
+
+![Gambar 2](Images/Pencarian.png)
+
+Fitur Pagination
+
+![Gambar 3](Images/Pagination.png)
+
+## 1.6 Tampilan Produk (Grid View)
 Produk yang telah ditambahkan akan ditampilkan dalam bentuk grid produk.
 Fungsi yang digunakan untuk menampilkan produk pada grid adalah:
 ```
@@ -175,14 +211,16 @@ Informasi yang ditampilkan pada kartu produk antara lain:
 * Kategori produk
 * Harga produk
 * Jumlah stok produk
+
 Selain itu, setiap kartu produk juga memiliki tombol aksi:
 * Tombol Edit
 * Tombol Hapus
+
 Tampilan grid ini membuat katalog produk terlihat lebih menarik dan menyerupai tampilan toko online.
 
-![Gambar 1](Images/Grid.png)
+![Gambar 4](Images/Grid.png)
 
-## 1.6 Tampilan Produk (Table View)
+## 1.7 Tampilan Produk (Table View)
 Selain grid view, sistem juga menyediakan table view untuk melihat data produk dalam bentuk tabel.
 Fungsi yang digunakan untuk menampilkan tabel adalah:
 ```
@@ -191,14 +229,15 @@ function renderTable()
 Struktur tabel terdiri dari beberapa kolom berikut:
 | No | Produk | Kategori | Harga | Stok | Aksi |
 | -- | ------ | -------- | ----- | ---- | ---- |
+
 Pada kolom aksi terdapat tombol:
 * Edit produk
 * Hapus produk
 Pengguna dapat berpindah antara tampilan grid dan tabel menggunakan tombol navigasi.
 
-![Gambar 2](Images/Tabel.png)
+![Gambar 5](Images/Tabel.png)
 
-## 1.7 Fitur Hapus Produk
+## 1.8 Fitur Hapus Produk
 Fitur hapus digunakan untuk menghapus produk dari sistem.
 Contoh kode untuk menghapus data:
 ```
@@ -209,12 +248,13 @@ Ketika tombol hapus ditekan:
 * Tampilan katalog diperbarui
 * Sistem menampilkan notifikasi bahwa produk berhasil dihapus
 
-## 1.8 Fitur Edit Produk
+## 1.9 Fitur Edit Produk
 Selain menghapus data, pengguna juga dapat memperbarui informasi produk menggunakan fitur Edit Produk.
 Ketika tombol edit ditekan:
 * Data produk dimasukkan ke dalam form edit
 * Modal edit ditampilkan
 * Pengguna dapat mengubah data produk
+
 Contoh kode update data:
 ```
 dataProduk[id] = {
@@ -226,7 +266,7 @@ stok: editStok
 ```
 Setelah tombol Simpan Perubahan ditekan, data produk akan diperbarui dan ditampilkan kembali pada katalog.
 
-## 1.9 Fitur Filter Produk Berdasarkan Kategori
+## 1.10 Fitur Filter Produk Berdasarkan Kategori
 Pada halaman katalog produk terdapat fitur **filter kategori** yang memungkinkan pengguna untuk menampilkan produk berdasarkan jenis kategori tertentu.
 Beberapa kategori yang tersedia pada aplikasi ini antara lain:
 - Semua
@@ -235,13 +275,15 @@ Beberapa kategori yang tersedia pada aplikasi ini antara lain:
 - Serum
 - Moisturizer
 - Sunscreen
+
 Ketika pengguna menekan salah satu tombol kategori, sistem akan menampilkan hanya produk dengan kategori yang sesuai. Contoh:
 - Jika tombol **Cleanser** ditekan, maka hanya produk kategori Cleanser yang akan ditampilkan.
-  ![Gambar 3](Images/Cleanser.png)
+  ![Gambar 6](Images/Cleanser.png)
 - Jika tombol **Serum** ditekan, maka hanya produk kategori Serum yang akan muncul.
-  ![Gambar 4](Images/Kosong.png)
+  ![Gambar 7](Images/Kosong.png)
 - Jika tombol **Semua** ditekan, maka seluruh produk akan ditampilkan kembali.
-  ![Gambar 5](Images/Tabel.png)
+  ![Gambar 8](Images/Semua.png)
+
 Fitur ini membantu pengguna dalam mencari produk dengan lebih cepat dan terorganisir.
 
 ## 1.10 Sistem CRUD
@@ -252,6 +294,7 @@ Aplikasi ini menerapkan konsep CRUD (Create, Read, Update, Delete).
 | Read    | Menampilkan produk   |
 | Update  | Mengubah data produk |
 | Delete  | Menghapus produk     |
+
 Alur CRUD pada aplikasi:
 ```
 CREATE -> push() ke array
@@ -260,21 +303,26 @@ UPDATE -> update object berdasarkan index
 DELETE -> splice() dari array
 ```
 Tampilan:
+
 Create
-![Gambar 6](Images/Tambah.png)
+![Gambar 9](Images/Tambah.png)
 
 Read
-![Gambar 7](Images/Read.png)
+![Gambar 10](Images/Read.png)
 
 Update
+
 Edit produk toner:
-![Gambar 8](Images/Edit.png)
+![Gambar 11](Images/Edit.png)
+
 Setelah diedit:
-![Gambar 9](Images/SetelahEdit.png)
+![Gambar 12](Images/SetelahEdit.png)
 
 Delete
+
 Hapus produk serum
 ![Gambar 13](Images/Hapus.png)
+
 Setelah dihapus
 ![Gambar 14](Images/SetelahHapus.png)
 
