@@ -176,7 +176,7 @@ html<!-- DataTable CSS -->
 </table>
 ```
 Tampilan
-![Gambar 1](Images/Tampilan.png)
+![Gambar 1](Images/Tampilkan.png)
 
 ## 1.5 Fitur Search dan Pagination
 Fitur search pada web ini dapat memfilter data secara real-time berdasarkan semua kolom — nama produk, kategori, harga, maupun stok. Sedangkan pagination di bawah tabel terdapat navigasi halaman dengan tombol ‹ (Previous) dan › (Next). Dropdown di kiri atas tabel memungkinkan user memilih jumlah data per halaman (5 / 10 / 25 / 50).
@@ -305,28 +305,35 @@ DELETE -> splice() dari array
 Tampilan:
 
 Create
+
 ![Gambar 9](Images/Tambah.png)
 
 Read
+
 ![Gambar 10](Images/Read.png)
 
 Update
 
 Edit produk toner:
+
 ![Gambar 11](Images/Edit.png)
 
 Setelah diedit:
+
 ![Gambar 12](Images/SetelahEdit.png)
 
 Delete
 
 Hapus produk serum
+
 ![Gambar 13](Images/Hapus.png)
 
 Setelah dihapus
+
 ![Gambar 14](Images/SetelahHapus.png)
 
 Output:
+
 ![Gambar 15](Images/Output.png)
 
 ## Kesimpulan
