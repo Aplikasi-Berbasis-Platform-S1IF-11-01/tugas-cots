@@ -123,7 +123,48 @@ dataProduk.push({ nama, kategori, harga, stok });
 ```
 Setelah data dimasukkan, fungsi render() akan dipanggil untuk menampilkan data produk pada halaman web.
 
-## 1.4 Tampilan Produk (Grid View)
+## Penggunaan JQuery Datatable pada Tabel
+
+Tabel produk pada aplikasi **GlowCare – Skincare Store** menggunakan plugin **jQuery DataTable** untuk meningkatkan fungsionalitas tabel. Plugin ini memungkinkan tabel memiliki fitur interaktif seperti pencarian data, pengurutan kolom, serta pagination secara otomatis.
+
+Dengan menggunakan DataTable, pengguna dapat dengan mudah mencari data produk tertentu dan mengatur jumlah data yang ditampilkan pada tabel.
+
+## 1.4 Fitur DataTable yang Digunakan
+| Fitur | Fungsi |
+|------|------|
+| Search | Mencari data produk secara real-time |
+| Pagination | Membagi data ke dalam beberapa halaman |
+| Sorting | Mengurutkan data berdasarkan kolom |
+| Length Menu | Mengatur jumlah data yang ditampilkan |
+Library yang digunakan:
+Untuk menggunakan DataTable, perlu menambahkan beberapa library berikut pada halaman HTML:
+```
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap5.min.css">
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap5.min.js"></script>
+```
+Inisialisasi DataTable:
+Tabel produk kemudian diinisialisasi menggunakan fungsi berikut:
+```
+$(document).ready(function () {
+    $('#tabelProduk').DataTable({
+        pageLength: 5,
+        lengthMenu: [5, 10, 25, 50],
+        order: [[0, 'asc']]
+    });
+});
+```
+Penjelasan
+| Konfigurasi  | Fungsi                                                  |
+| ------------ | ------------------------------------------------------- |
+| `pageLength` | Menentukan jumlah data yang tampil pada halaman pertama |
+| `lengthMenu` | Pilihan jumlah data yang dapat ditampilkan              |
+| `order`      | Mengatur urutan default tabel                           |
+Dengan konfigurasi tersebut, tabel produk dapat menampilkan data secara lebih terstruktur dan memudahkan pengguna dalam mengelola serta mencari data produk.
+
+## 1.5 Tampilan Produk (Grid View)
 Produk yang telah ditambahkan akan ditampilkan dalam bentuk grid produk.
 Fungsi yang digunakan untuk menampilkan produk pada grid adalah:
 ```
@@ -139,7 +180,9 @@ Selain itu, setiap kartu produk juga memiliki tombol aksi:
 * Tombol Hapus
 Tampilan grid ini membuat katalog produk terlihat lebih menarik dan menyerupai tampilan toko online.
 
-## 1.5 Tampilan Produk (Table View)
+![Gambar 1](Images/Grid.png)
+
+## 1.6 Tampilan Produk (Table View)
 Selain grid view, sistem juga menyediakan table view untuk melihat data produk dalam bentuk tabel.
 Fungsi yang digunakan untuk menampilkan tabel adalah:
 ```
@@ -153,7 +196,9 @@ Pada kolom aksi terdapat tombol:
 * Hapus produk
 Pengguna dapat berpindah antara tampilan grid dan tabel menggunakan tombol navigasi.
 
-## 1.6 Fitur Hapus Produk
+![Gambar 2](Images/Tabel.png)
+
+## 1.7 Fitur Hapus Produk
 Fitur hapus digunakan untuk menghapus produk dari sistem.
 Contoh kode untuk menghapus data:
 ```
@@ -164,7 +209,7 @@ Ketika tombol hapus ditekan:
 * Tampilan katalog diperbarui
 * Sistem menampilkan notifikasi bahwa produk berhasil dihapus
 
-## 1.7 Fitur Edit Produk
+## 1.8 Fitur Edit Produk
 Selain menghapus data, pengguna juga dapat memperbarui informasi produk menggunakan fitur Edit Produk.
 Ketika tombol edit ditekan:
 * Data produk dimasukkan ke dalam form edit
@@ -181,7 +226,25 @@ stok: editStok
 ```
 Setelah tombol Simpan Perubahan ditekan, data produk akan diperbarui dan ditampilkan kembali pada katalog.
 
-## 1.8 Sistem CRUD
+## 1.9 Fitur Filter Produk Berdasarkan Kategori
+Pada halaman katalog produk terdapat fitur **filter kategori** yang memungkinkan pengguna untuk menampilkan produk berdasarkan jenis kategori tertentu.
+Beberapa kategori yang tersedia pada aplikasi ini antara lain:
+- Semua
+- Cleanser
+- Toner
+- Serum
+- Moisturizer
+- Sunscreen
+Ketika pengguna menekan salah satu tombol kategori, sistem akan menampilkan hanya produk dengan kategori yang sesuai. Contoh:
+- Jika tombol **Cleanser** ditekan, maka hanya produk kategori Cleanser yang akan ditampilkan.
+  ![Gambar 3](Images/Cleanser.png)
+- Jika tombol **Serum** ditekan, maka hanya produk kategori Serum yang akan muncul.
+  ![Gambar 4](Images/Kosong.png)
+- Jika tombol **Semua** ditekan, maka seluruh produk akan ditampilkan kembali.
+  ![Gambar 5](Images/Tabel.png)
+Fitur ini membantu pengguna dalam mencari produk dengan lebih cepat dan terorganisir.
+
+## 1.10 Sistem CRUD
 Aplikasi ini menerapkan konsep CRUD (Create, Read, Update, Delete).
 | Operasi | Fungsi               |
 | ------- | -------------------- |
@@ -196,9 +259,28 @@ READ -> render produk ke halaman
 UPDATE -> update object berdasarkan index
 DELETE -> splice() dari array
 ```
+Tampilan:
+Create
+![Gambar 6](Images/Tambah.png)
+
+Read
+![Gambar 7](Images/Read.png)
+
+Update
+Edit produk toner:
+![Gambar 8](Images/Edit.png)
+Setelah diedit:
+![Gambar 9](Images/SetelahEdit.png)
+
+Delete
+Hapus produk serum
+![Gambar 13](Images/Hapus.png)
+Setelah dihapus
+![Gambar 14](Images/SetelahHapus.png)
+
+Output:
+![Gambar 15](Images/Output.png)
 
 ## Kesimpulan
-Berdasarkan praktikum yang telah dilakukan, dapat disimpulkan bahwa pembuatan aplikasi web sederhana untuk manajemen produk dapat dilakukan menggunakan HTML, CSS, JavaScript, dan Bootstrap.
-Dengan memanfaatkan JavaScript object sebagai penyimpanan data, sistem CRUD dapat diterapkan tanpa menggunakan database.
-Penggunaan Bootstrap membantu mempercepat proses pembuatan tampilan yang responsif dan modern, sedangkan JavaScript memungkinkan interaksi pengguna dilakukan secara dinamis tanpa perlu memuat ulang halaman.
+Berdasarkan yang telah dilakukan, dapat disimpulkan bahwa pembuatan aplikasi web sederhana untuk manajemen produk dapat dilakukan menggunakan HTML, CSS, JavaScript, dan Bootstrap.Dengan memanfaatkan JavaScript object sebagai penyimpanan data, sistem CRUD dapat diterapkan tanpa menggunakan database. Penggunaan Bootstrap membantu mempercepat proses pembuatan tampilan yang responsif dan modern, serta JavaScript memungkinkan interaksi pengguna dilakukan secara dinamis tanpa perlu memuat ulang halaman.
 
