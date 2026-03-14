@@ -1,0 +1,376 @@
+<!DOCTYPE html> 
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas COTS - RICO ADE PRATAMA</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            background-color: #efefef;
+        }
+        .navbar-custom {
+            background-color: #ff0000;
+        }
+        /* 2311102138_RICO ADE PRATAMA */
+        .bg-card-1 {
+            background-color: #6f42c1;
+            color: white;
+        }
+        .bg-card-2 {
+            background-color: #8F8CF2;
+            color: white;
+        }
+        .bg-card-3 {
+            background-color: #0dcaf0;
+            color: white;
+        }
+        .bg-card-4 {
+            background-color: #20c997;
+            color: white;
+        }
+        .summary-icon {
+            font-size: 2rem;
+            opacity: 0.8;
+        }
+        .card-summary {
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        /* Styling untuk Header Card Form & Tabel */
+        .card-header-custom {
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+            border-radius: 6px 6px 0 0 !important;
+        }
+        /* Custom Header Background Warna Merah */
+        .bg-custom-red {
+            background-color: #ff0000 !important;
+            color: white !important;
+        }
+        /* Styling untuk Kotak Judul */
+        .title-box {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            padding: 25px 30px;
+            border-left: 6px solid #ff0000;
+            width: 100%;
+        }
+        /* 2311102138_RICO ADE PRATAMA */
+        .bg-Jersey {
+            background-color: #6f42c1 !important;
+            color: white;
+        }
+        .bg-Rompi {
+            background-color: #8F8CF2 !important;
+            color: white;
+        }
+        .bg-Sepatu {
+            background-color: #0dcaf0 !important;
+            color: white;
+        }
+        .bg-KaosKaki {
+            background-color: #20c997 !important;
+            color: white;
+        }
+        .bg-SarungTangan {
+            background-color: #0a8bfc !important;
+            color: white;
+        }
+        .bg-Lainnya {
+            background-color: #2f00ff !important;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark navbar-custom shadow-sm mb-4">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1">
+                TUGAS COTS - 2311102138_RICO ADE PRATAMA
+            </span>
+        </div>
+    </nav>
+    <div class="container-fluid px-4">
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="title-box text-center">
+                    <h2 class="fw-bold mb-2" style="color: #ff0000 !important;">FIX GOAL PRODUCT MANAGER</h2>
+                    <p class="text-muted fs-5 mb-0">Kelola Data Inventaris Peralatan Sepak Bola</p>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card card-summary bg-card-1 p-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-0 text-uppercase" style="font-size: 0.8rem;">Total Produk</h6>
+                            <h3 class="mb-0 fw-bold" id="sumTotal">0</h3>
+                        </div>
+                        <i class="fa-solid fa-box summary-icon"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card card-summary bg-card-2 p-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-0 text-uppercase" style="font-size: 0.8rem;">Kategori</h6>
+                            <h3 class="mb-0 fw-bold" id="sumKategori">0</h3>
+                        </div>
+                        <i class="fa-solid fa-tags summary-icon"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card card-summary bg-card-3 p-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-0 text-uppercase" style="font-size: 0.8rem;">Harga Tertinggi</h6>
+                            <h3 class="mb-0 fw-bold" id="sumTertinggi" style="font-size: 1.5rem;">Rp 0</h3>
+                        </div>
+                        <i class="fa-solid fa-trophy summary-icon"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card card-summary bg-card-4 p-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-0 text-uppercase" style="font-size: 0.8rem;">Rata-rata Harga</h6>
+                            <h3 class="mb-0 fw-bold" id="sumRata" style="font-size: 1.5rem;">Rp 0</h3>
+                        </div>
+                        <i class="fa-solid fa-chart-line summary-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm border-0 rounded">
+                    <div class="card-header bg-primary text-white fw-bold py-3 card-header-custom">
+                        Tambah Produk Baru
+                    </div>
+                    <div class="card-body p-4">
+                        <form id="formProduk">
+                            <div class="mb-3">
+                                <label class="form-label text-muted" style="font-size: 0.85rem;">NAMA BARANG</label>
+                                <input type="text" class="form-control form-control-lg fs-6" id="namaProduk"
+                                    placeholder="Contoh: Sepatu Nike Mercurial" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-muted" style="font-size: 0.85rem;">KATEGORI</label>
+                                <select class="form-select form-select-lg fs-6" id="kategori" required>
+                                    <option value="" disabled selected>Pilih Kategori...</option>
+                                    <option value="Jersey">Jersey</option>
+                                    <option value="Rompi">Rompi</option>
+                                    <option value="Sepatu">Sepatu</option>
+                                    <option value="Kaos Kaki">Kaos Kaki</option>
+                                    <option value="Sarung Tangan">Sarung Tangan</option>
+                                    <option value="Lainnya">Lainnya</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label text-muted" style="font-size: 0.85rem;">HARGA (IDR)</label>
+                                <input type="number" class="form-control form-control-lg fs-6" id="harga"
+                                    placeholder="Contoh: 100000" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold">SIMPAN BARANG</button>
+                            <div class="text-center mt-3 fs-6 text-muted">
+                                &lt; RICO ADE PRATAMA / 2311102138 &gt;
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card shadow-sm border-0 rounded">
+                    <div class="card-header bg-custom-red fw-bold py-3 card-header-custom">
+                        Daftar Produk
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="table-responsive">
+                            <table id="tabelProduk" class="table align-middle table-hover" style="width:100%">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="text-muted" style="font-size: 0.85rem;">PRODUK</th>
+                                        <th class="text-muted" style="font-size: 0.85rem;">KATEGORI</th>
+                                        <th class="text-muted" style="font-size: 0.85rem;">HARGA</th>
+                                        <th class="text-muted text-center" style="font-size: 0.85rem;">AKSI</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalEdit" tabindex="-1" aria-labelledby="modalEditLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow-lg border-0">
+                <div class="modal-header bg-warning py-3">
+                    <h5 class="modal-title fw-bold text-dark" id="modalEditLabel"><i
+                            class="fa-solid fa-pen-to-square me-2"></i>Edit Data Produk</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="formEditProduk">
+                        <input type="hidden" id="editId">
+                        <div class="mb-3">
+                            <label class="form-label text-muted" style="font-size: 0.85rem;">NAMA BARANG</label>
+                            <input type="text" class="form-control form-control-lg fs-6" id="editNama" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-muted" style="font-size: 0.85rem;">KATEGORI</label>
+                            <select class="form-select form-select-lg fs-6" id="editKategori" required>
+                                <option value="" disabled>Pilih Kategori...</option>
+                                <option value="Jersey">Jersey</option>
+                                <option value="Rompi">Rompi</option>
+                                <option value="Sepatu">Sepatu</option>
+                                <option value="Kaos Kaki">Kaos Kaki</option>
+                                <option value="Sarung Tangan">Sarung Tangan</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label text-muted" style="font-size: 0.85rem;">HARGA (IDR)</label>
+                            <input type="number" class="form-control form-control-lg fs-6" id="editHarga" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer border-0 p-4 pt-0 justify-content-center">
+                    <button type="button" class="btn btn-outline-secondary btn-lg px-4"
+                        data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" form="formEditProduk" class="btn btn-warning btn-lg px-4 fw-bold">Simpan
+                        Perubahan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            let dataProduk = [
+                { id: 1, nama: "Sepatu Nike Mercurial Vapor", kategori: "Sepatu", harga: 3200000 },
+                { id: 2, nama: "Jersey Timnas Indonesia", kategori: "Jersey", harga: 750000 },
+                { id: 3, nama: "Sarung Tangan Adidas Predator", kategori: "Sarung Tangan", harga: 1500000 }
+            ];
+            const formatRupiah = (angka) => {
+                return 'Rp ' + parseInt(angka).toLocaleString('id-ID');
+            };
+            const updateSummary = () => {
+                let totalProduk = dataProduk.length;
+                let kategoriUnik = new Set(dataProduk.map(item => item.kategori)).size;
+                let hargaTertinggi = 0;
+                let totalHarga = 0;
+                if (totalProduk > 0) {
+                    let hargaArray = dataProduk.map(item => parseInt(item.harga));
+                    hargaTertinggi = Math.max(...hargaArray);
+                    totalHarga = hargaArray.reduce((a, b) => a + b, 0);
+                }
+                let rataRata = totalProduk > 0 ? Math.round(totalHarga / totalProduk) : 0;
+                $('#sumTotal').text(totalProduk);
+                $('#sumKategori').text(kategoriUnik);
+                $('#sumTertinggi').text(formatRupiah(hargaTertinggi));
+                $('#sumRata').text(formatRupiah(rataRata));
+            };
+            const renderBadge = (kategori) => {
+                let classKategori = kategori.replace(/\s+/g, '');
+                return `<span class="badge bg-${classKategori} px-3 py-2 text-capitalize">${kategori}</span>`;
+            };
+            let tabel = $('#tabelProduk').DataTable({
+                data: dataProduk,
+                columns: [
+                    {
+                        data: 'nama',
+                        className: 'fw-bold' 
+                    },
+                    {
+                        data: 'kategori',
+                        render: function (data) { return renderBadge(data); }
+                    },
+                    {
+                        data: 'harga',
+                        render: function (data) { return formatRupiah(data); }
+                    },
+                    {
+                        data: 'id',
+                        className: 'text-center',
+                        orderable: false,
+                        searchable: false,
+                        render: function (data) {
+                            return `
+                            <button class="btn btn-outline-warning btn-sm me-1 btn-edit" data-id="${data}" title="Edit Data"><i class="fa-solid fa-pen"></i></button>
+                            <button class="btn btn-outline-danger btn-sm btn-hapus" data-id="${data}" title="Hapus"><i class="fa-solid fa-trash"></i></button>
+                        `;
+                        }
+                    }
+                ],
+                language: { search: "Cari:", lengthMenu: "Show _MENU_ entries" }
+            });
+            updateSummary();
+            // Submit Tambah Data 2311102138_RICO ADE PRATAMA
+            $('#formProduk').submit(function (e) {
+                e.preventDefault();
+                let produkBaru = {
+                    id: Date.now(),
+                    nama: $('#namaProduk').val(),
+                    kategori: $('#kategori').val(),
+                    harga: parseInt($('#harga').val())
+                };
+                dataProduk.push(produkBaru);
+                tabel.row.add(produkBaru).draw();
+                updateSummary();
+                $('#formProduk')[0].reset();
+            });
+            // Edit Data
+            $('#tabelProduk tbody').on('click', '.btn-edit', function () {
+                let idEdit = $(this).data('id');
+                let produk = dataProduk.find(item => item.id == idEdit);
+                if (produk) {
+                    $('#editId').val(produk.id);
+                    $('#editNama').val(produk.nama);
+                    $('#editKategori').val(produk.kategori);
+                    $('#editHarga').val(produk.harga);
+                    $('#modalEdit').modal('show');
+                }
+            });
+            $('#formEditProduk').submit(function (e) {
+                e.preventDefault();
+                let idEdit = $('#editId').val();
+                let produkIndex = dataProduk.findIndex(item => item.id == idEdit);
+                if (produkIndex !== -1) {
+                    dataProduk[produkIndex].nama = $('#editNama').val();
+                    dataProduk[produkIndex].kategori = $('#editKategori').val();
+                    dataProduk[produkIndex].harga = parseInt($('#editHarga').val());
+                    let rowData = dataProduk[produkIndex];
+                    tabel.row(function (idx, data, node) { return data.id == idEdit; }).data(rowData).draw();
+                    updateSummary();
+                    $('#modalEdit').modal('hide');
+                }
+            });
+            // Hapus Data
+            $('#tabelProduk tbody').on('click', '.btn-hapus', function () {
+                let idHapus = $(this).data('id');
+                let baris = $(this).parents('tr');
+                if (confirm('Hapus barang ini dari inventaris?')) {
+                    dataProduk = dataProduk.filter(produk => produk.id !== idHapus);
+                    tabel.row(baris).remove().draw();
+                    updateSummary();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
