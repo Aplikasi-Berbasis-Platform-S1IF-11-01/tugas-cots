@@ -25,56 +25,76 @@
 <body>
 
 <!-- ══════════ NAVBAR ══════════ -->
-<nav class="navbar-custom">
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm py-3">
   <div class="container d-flex align-items-center justify-content-between">
-    <a href="#" class="navbar-brand-logo">
-      <div class="brand-icon"><i class="bi bi-box-seam-fill"></i></div>
+    <a href="#" class="navbar-brand d-flex align-items-center gap-3 fw-bold text-dark text-decoration-none">
+      <div class="brand-icon bg-primary bg-gradient rounded-3 place-items-center text-white" style="width:45px;height:45px;box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);">
+        <i class="bi bi-box-seam-fill" style="font-size: 1.4rem;"></i>
+      </div>
       <div>
-        <div>Produk Manager | Hamid Sabirin 2311102129</div>
-        <div class="navbar-tagline">Sistem Manajemen Produk - COTS ABP</div>
+        <div class="fs-5">Produk Manager | Hamid Sabirin 2311102129</div>
+        <div class="small text-muted">Sistem Manajemen Produk - COTS ABP</div>
       </div>
     </a>
-    <span class="nav-badge" id="navBadge"><i class="bi bi-box-seam me-1"></i>0 Produk</span>
+    <span class="badge rounded-pill bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 fw-bold" id="navBadge">
+      <i class="bi bi-box-seam me-1"></i>0 Produk
+    </span>
   </div>
 </nav>
 
 <!-- ══════════ STATS (2 kolom × 2 baris) ══════════ -->
-<section class="stats-section">
+<section class="bg-white border-bottom py-4 mb-4">
   <div class="container">
     <div class="row g-3">
       <div class="col-6 col-md-3">
-        <div class="stat-card stat-card-1">
-          <div class="stat-icon-box"><i class="bi bi-box-seam-fill"></i></div>
-          <div>
-            <div class="stat-label">Total Produk</div>
-            <div class="stat-value" id="statTotal">0</div>
+        <div class="card border-0 shadow-sm h-100 bg-primary bg-gradient text-white position-relative overflow-hidden p-3 stat-card-hover">
+          <div class="d-flex align-items-center gap-3">
+            <div class="bg-white bg-opacity-25 rounded-3 place-items-center text-white" style="width:45px;height:45px;font-size:1.3rem;">
+              <i class="bi bi-box-seam-fill"></i>
+            </div>
+            <div>
+              <div class="small fw-semibold text-uppercase opacity-75" style="letter-spacing: 0.05em; font-size: 0.7rem;">Total Produk</div>
+              <div class="h3 fw-bold mb-0" id="statTotal">0</div>
+            </div>
           </div>
         </div>
       </div>
       <div class="col-6 col-md-3">
-        <div class="stat-card stat-card-2">
-          <div class="stat-icon-box"><i class="bi bi-tags-fill"></i></div>
-          <div>
-            <div class="stat-label">Kategori</div>
-            <div class="stat-value" id="statKategori">0</div>
+        <div class="card border-0 shadow-sm h-100 bg-info bg-gradient text-white position-relative overflow-hidden p-3 stat-card-hover">
+          <div class="d-flex align-items-center gap-3">
+            <div class="bg-white bg-opacity-25 rounded-3 place-items-center text-white" style="width:45px;height:45px;font-size:1.3rem;">
+              <i class="bi bi-tags-fill"></i>
+            </div>
+            <div>
+              <div class="small fw-semibold text-uppercase opacity-75" style="letter-spacing: 0.05em; font-size: 0.7rem;">Kategori</div>
+              <div class="h3 fw-bold mb-0" id="statKategori">0</div>
+            </div>
           </div>
         </div>
       </div>
       <div class="col-6 col-md-3">
-        <div class="stat-card stat-card-3">
-          <div class="stat-icon-box"><i class="bi bi-trophy-fill"></i></div>
-          <div>
-            <div class="stat-label">Harga Tertinggi</div>
-            <div class="stat-value" id="statMax" style="font-size:1.1rem;">Rp 0</div>
+        <div class="card border-0 shadow-sm h-100 bg-warning bg-gradient text-white position-relative overflow-hidden p-3 stat-card-hover">
+          <div class="d-flex align-items-center gap-3">
+            <div class="bg-white bg-opacity-25 rounded-3 place-items-center text-white" style="width:45px;height:45px;font-size:1.3rem;">
+              <i class="bi bi-trophy-fill"></i>
+            </div>
+            <div>
+              <div class="small fw-semibold text-uppercase opacity-75" style="letter-spacing: 0.05em; font-size: 0.7rem;">Harga Tertinggi</div>
+              <div class="h5 fw-bold mb-0" id="statMax">Rp 0</div>
+            </div>
           </div>
         </div>
       </div>
       <div class="col-6 col-md-3">
-        <div class="stat-card stat-card-4">
-          <div class="stat-icon-box"><i class="bi bi-graph-up-arrow"></i></div>
-          <div>
-            <div class="stat-label">Rata-rata Harga</div>
-            <div class="stat-value" id="statAvg" style="font-size:1.1rem;">Rp 0</div>
+        <div class="card border-0 shadow-sm h-100 bg-success bg-gradient text-white position-relative overflow-hidden p-3 stat-card-hover">
+          <div class="d-flex align-items-center gap-3">
+            <div class="bg-white bg-opacity-25 rounded-3 d-grid place-items-center text-white" style="width:45px;height:45px;font-size:1.3rem;">
+              <i class="bi bi-graph-up-arrow"></i>
+            </div>
+            <div>
+              <div class="small fw-semibold text-uppercase opacity-75" style="letter-spacing: 0.05em; font-size: 0.7rem;">Rata-rata Harga</div>
+              <div class="h5 fw-bold mb-0" id="statAvg">Rp 0</div>
+            </div>
           </div>
         </div>
       </div>
@@ -89,17 +109,19 @@
 
       <!-- ── FORM INPUT (Kiri) ── -->
       <div class="col-lg-4">
-        <div class="card-custom">
-          <div class="section-heading">
-            <div class="head-icon head-icon-blue"><i class="bi bi-plus-lg"></i></div>
-            <span id="formTitle">Tambah Produk</span>
+        <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+          <div class="d-flex align-items-center gap-3 mb-4 pb-2 border-bottom border-2">
+            <div class="bg-primary bg-opacity-10 text-primary rounded-3 place-items-center" style="width:38px;height:38px; font-size: 1.1rem;">
+              <i class="bi bi-plus-lg"></i>
+            </div>
+            <h5 class="mb-0 fw-bold" id="formTitle">Tambah Produk</h5>
           </div>
 
           <!-- Edit Mode Banner -->
-          <div class="edit-mode-banner" id="editBanner">
+          <div class="alert alert-info d-none align-items-center gap-2 py-2 px-3 mb-4 rounded-3 border-info-subtle shadow-sm" id="editBanner">
             <i class="bi bi-pencil-square"></i>
-            <span>Mode Edit Aktif</span>
-            <button class="btn-cancel-edit" onclick="cancelEdit()">
+            <span class="small fw-bold">Mode Edit Aktif</span>
+            <button type="button" class="btn btn-sm btn-link text-decoration-none ms-auto p-0 small fw-bold" onclick="cancelEdit()">
               <i class="bi bi-x-lg"></i> Batal
             </button>
           </div>
@@ -108,17 +130,17 @@
             <input type="hidden" id="editId" />
 
             <div class="mb-3">
-              <label class="form-label-custom" for="namaProduk">Nama Produk</label>
-              <input type="text" id="namaProduk" class="form-control-custom"
+              <label class="form-label small fw-bold text-muted text-uppercase mb-1" for="namaProduk" style="letter-spacing: 0.05em;">Nama Produk</label>
+              <input type="text" id="namaProduk" class="form-control border-2 bg-light bg-opacity-50 py-2 rounded-3"
                 placeholder="Contoh: Sepatu Lari Nike" />
-              <div class="err-msg" id="errNama">
+              <div class="invalid-feedback d-none" id="errNama">
                 <i class="bi bi-exclamation-circle me-1"></i>Nama produk tidak boleh kosong.
               </div>
             </div>
 
             <div class="mb-3">
-              <label class="form-label-custom" for="kategori">Kategori</label>
-              <select id="kategori" class="form-select-custom">
+              <label class="form-label small fw-bold text-muted text-uppercase mb-1" for="kategori" style="letter-spacing: 0.05em;">Kategori</label>
+              <select id="kategori" class="form-select border-2 bg-light bg-opacity-50 py-2 rounded-3">
                 <option value="" disabled selected>-- Pilih Kategori --</option>
                 <option value="Elektronik">Elektronik</option>
                 <option value="Pakaian">Pakaian</option>
@@ -128,25 +150,25 @@
                 <option value="Kecantikan">Kecantikan</option>
                 <option value="Lainnya">Lainnya</option>
               </select>
-              <div class="err-msg" id="errKategori">
+              <div class="invalid-feedback d-none" id="errKategori">
                 <i class="bi bi-exclamation-circle me-1"></i>Pilih kategori terlebih dahulu.
               </div>
             </div>
 
             <div class="mb-4">
-              <label class="form-label-custom" for="harga">Harga (Rp)</label>
-              <input type="number" id="harga" class="form-control-custom"
+              <label class="form-label small fw-bold text-muted text-uppercase mb-1" for="harga" style="letter-spacing: 0.05em;">Harga (Rp)</label>
+              <input type="number" id="harga" class="form-control border-2 bg-light bg-opacity-50 py-2 rounded-3"
                 placeholder="Contoh: 150000" min="0" />
-              <div class="err-msg" id="errHarga">
+              <div class="invalid-feedback d-none" id="errHarga">
                 <i class="bi bi-exclamation-circle me-1"></i>Masukkan harga yang valid (≥ 0).
               </div>
             </div>
 
             <div class="d-flex gap-2">
-              <button type="submit" class="btn-submit flex-grow-1" id="btnSubmit">
-                <i class="bi bi-plus-circle-fill"></i> Tambah
+              <button type="submit" class="btn btn-primary bg-gradient w-100 py-2 rounded-3 fw-bold shadow-sm" id="btnSubmit">
+                <i class="bi bi-plus-circle-fill me-1"></i> Tambah
               </button>
-              <button type="button" class="btn-reset-form" onclick="resetForm()" title="Reset Form">
+              <button type="button" class="btn btn-outline-secondary px-3 py-2 rounded-3 fw-bold" onclick="resetForm()" title="Reset Form">
                 <i class="bi bi-arrow-counterclockwise"></i>
               </button>
             </div>
@@ -156,21 +178,23 @@
 
       <!-- ── TABEL PRODUK (Kanan) ── -->
       <div class="col-lg-8">
-        <div class="card-custom">
-          <div class="section-heading">
-            <div class="head-icon head-icon-violet"><i class="bi bi-table"></i></div>
-            <span>Daftar Produk</span>
+        <div class="card border-0 shadow-sm rounded-4 p-4">
+          <div class="d-flex align-items-center gap-3 mb-4 pb-2 border-bottom border-2">
+            <div class="bg-violet-light text-violet rounded-3 place-items-center" style="width:38px;height:38px; font-size: 1.1rem;">
+              <i class="bi bi-table"></i>
+            </div>
+            <h5 class="mb-0 fw-bold">Daftar Produk</h5>
           </div>
 
           <div class="table-responsive">
-            <table id="produkTable" class="table w-100" style="border-collapse:collapse;">
-              <thead>
+            <table id="produkTable" class="table table-hover align-middle w-100" style="border-collapse:separate; border-spacing: 0 8px;">
+              <thead class="text-secondary small fw-bold text-uppercase" style="letter-spacing: 0.05em;">
                 <tr>
-                  <th>No</th>
-                  <th>Nama Produk</th>
-                  <th>Kategori</th>
-                  <th>Harga</th>
-                  <th style="text-align:center;">Aksi</th>
+                  <th class="border-0">No</th>
+                  <th class="border-0">Nama Produk</th>
+                  <th class="border-0">Kategori</th>
+                  <th class="border-0">Harga</th>
+                  <th class="border-0 text-center">Aksi</th>
                 </tr>
               </thead>
               <tbody id="produkBody"></tbody>
@@ -186,26 +210,26 @@
 <!-- ══════════ MODAL HAPUS ══════════ -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
+    <div class="modal-content border-0 shadow-lg rounded-4">
+      <div class="modal-header border-0 pb-0 pt-4 px-4">
         <div class="d-flex align-items-center gap-3">
-          <div style="width:40px;height:40px;border-radius:10px;background:#fee2e2;display:grid;place-items:center;color:#dc2626;font-size:1.2rem;flex-shrink:0;">
+          <div class="bg-danger bg-opacity-10 text-danger rounded-4 place-items-center" style="width:55px;height:55px;font-size:1.6rem;">
             <i class="bi bi-trash3-fill"></i>
           </div>
           <div>
-            <div class="fw-bold" style="color:#1e293b;">Hapus Produk</div>
-            <div style="font-size:.82rem;color:#64748b;">Tindakan ini tidak dapat dibatalkan.</div>
+            <h5 class="modal-title fw-bold text-dark">Hapus Produk</h5>
+            <p class="small text-muted mb-0">Tindakan ini tidak dapat dibatalkan.</p>
           </div>
         </div>
       </div>
-      <div class="modal-body" style="color:#64748b;font-size:.92rem;">
+      <div class="modal-body px-4 py-4 text-secondary">
         Apakah kamu yakin ingin menghapus produk
-        <strong id="deleteProductName" style="color:#1e293b;"></strong>?
+        <strong id="deleteProductName" class="text-dark"></strong>?
       </div>
-      <div class="modal-footer gap-2">
-        <button type="button" class="btn-reset-form" data-bs-dismiss="modal">Batal</button>
-        <button type="button" id="confirmDelete" class="btn-hapus-modal">
-          <i class="bi bi-trash3-fill"></i> Ya, Hapus
+      <div class="modal-footer border-0 pt-0 pb-4 px-4 gap-2">
+        <button type="button" class="btn btn-light fw-bold px-4 py-2 rounded-3 border" data-bs-dismiss="modal">Batal</button>
+        <button type="button" id="confirmDelete" class="btn btn-danger bg-gradient fw-bold px-4 py-2 rounded-3 shadow-sm">
+          <i class="bi bi-trash3-fill me-1"></i> Ya, Hapus
         </button>
       </div>
     </div>
