@@ -1,0 +1,32 @@
+body {
+    background-color: #f0f2f5;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.card {
+    border-radius: 12px;
+}
+
+.card-header {
+    border-radius: 12px 12px 0 0 !important;
+}
+
+.btn {
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.2);
+}
+
+/* Kustomisasi DataTables agar lebih bersih */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0;
+    margin-left: 5px;
+}
+
+table.dataTable thead th {
+    border-bottom: 2px solid #dee2e6;
+}
