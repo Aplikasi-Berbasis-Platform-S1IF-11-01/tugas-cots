@@ -1,11 +1,3 @@
-// ══════════════════════════════════════════════
-//  script.js — Manajemen Produk | COTS ABP 2026
-// ══════════════════════════════════════════════
-
-// ────────────────────────────────────────
-//  DATA STORE — Object Mapping
-//  Format: { "p1": { id, nama, kategori, harga }, ... }
-// ────────────────────────────────────────
 const store    = {};
 let nextId     = 1;
 let editingId  = null;
@@ -39,7 +31,7 @@ $(document).ready(function () {
       { data: 'nama' },
       { data: 'kategori' },
       { data: 'hargaFmt' },
-      { data: 'aksi',    orderable: false, className: 'text-center', width: '90px' },
+      { data: 'aksi',    orderable: false, className: 'text-center', width: '100px' },
       { data: 'seq',     visible: false }
     ],
     order: [[5, 'desc']],
@@ -92,8 +84,10 @@ function buildRow(p, idx) {
     kategori: `<span class="badge-kategori ${badgeClass(p.kategori)}">${p.kategori}</span>`,
     hargaFmt: `<span style="font-weight:700;color:#059669;">${formatRupiah(p.harga)}</span>`,
     aksi:
-      `<button class="btn-action btn-edit-row"   onclick="startEdit('${p.id}')" title="Edit"><i class="bi bi-pencil-fill"></i></button> ` +
-      `<button class="btn-action btn-delete-row" onclick="promptDelete('${p.id}')" title="Hapus"><i class="bi bi-trash3-fill"></i></button>`
+      `<div class="d-flex justify-content-center gap-2">` +
+      `<button class="btn-action btn-edit-row"   onclick="startEdit('${p.id}')" title="Edit"><i class="bi bi-pencil-fill"></i></button>` +
+      `<button class="btn-action btn-delete-row" onclick="promptDelete('${p.id}')" title="Hapus"><i class="bi bi-trash3-fill"></i></button>` +
+      `</div>`
   };
 }
 
@@ -128,7 +122,7 @@ function addProduct(nama, kategori, harga) {
   const seq = nextId++;
   const id  = 'p' + seq;
   store[id] = { id, nama, kategori, harga, seq };
-  dt.row.add(buildRow(store[id], 0)).draw(false);
+  dt.row.add(buildRow(store[id], 0)).draw(); // Hilangkan false agar sort terpicu
   refreshStats();
 }
 
@@ -136,11 +130,12 @@ function addProduct(nama, kategori, harga) {
 //  CRUD — UPDATE
 // ────────────────────────────────────────
 function updateProduct(id, nama, kategori, harga) {
-  store[id] = { id, nama, kategori, harga };
+  const seq = nextId++; // Tambahkan seq baru agar naik ke atas saat diupdate
+  store[id] = { id, nama, kategori, harga, seq };
   dt.rows().every(function () {
     if (this.data().id === id) this.data(buildRow(store[id], 0)).invalidate();
   });
-  dt.draw(false);
+  dt.draw(); // Hilangkan false agar sort terpicu
   refreshStats();
 }
 
@@ -170,7 +165,14 @@ document.getElementById('productForm').addEventListener('submit', function (e) {
 });
 
 function setErr(id, show) {
-  document.getElementById(id).style.display = show ? 'block' : 'none';
+  const el = document.getElementById(id);
+  if (show) {
+    el.classList.remove('d-none');
+    el.classList.add('d-block');
+  } else {
+    el.classList.add('d-none');
+    el.classList.remove('d-block');
+  }
 }
 
 // ────────────────────────────────────────
@@ -185,7 +187,8 @@ function startEdit(id) {
   document.getElementById('harga').value           = p.harga;
   document.getElementById('formTitle').textContent = 'Edit Produk';
   document.getElementById('btnSubmit').innerHTML   = '<i class="bi bi-check-circle-fill"></i> Simpan';
-  document.getElementById('editBanner').classList.add('show');
+  document.getElementById('editBanner').classList.remove('d-none');
+  document.getElementById('editBanner').classList.add('d-flex');
   document.querySelector('.col-lg-4').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
@@ -194,7 +197,8 @@ function cancelEdit() {
   resetForm();
   document.getElementById('formTitle').textContent = 'Tambah Produk';
   document.getElementById('btnSubmit').innerHTML   = '<i class="bi bi-plus-circle-fill"></i> Tambah';
-  document.getElementById('editBanner').classList.remove('show');
+  document.getElementById('editBanner').classList.add('d-none');
+  document.getElementById('editBanner').classList.remove('d-flex');
   ['errNama', 'errKategori', 'errHarga'].forEach(id => setErr(id, false));
 }
 
