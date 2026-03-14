@@ -608,10 +608,10 @@ renderTable();
 ![Halaman utama DigiDaw](assets/1.png)
 
 ### Tambah DigiDaw
-![](assets/3.png)
+![](assets/2.png)
 
 ### Tampilan Tabel
-![Tampilan tabel DataTable DigiDaw](assets/2.png)
+![Tampilan tabel DataTable DigiDaw](assets/3.png)
 
 ### Edit DigiDaw
 ![](assets/4.png)
