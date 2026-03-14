@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>La'Vabie — Manajemen Produk</title>
+
+    <!-- External CSS Libraries -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+
+    <!-- Custom CSS -->
+    <link href="style.css" rel="stylesheet" />
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div>
+                <span class="brand-name">La'<em>Vabie</em></span>
+                <div class="brand-sub">TOKO BUSANA & FASHION</div>
+            </div>
+            <span class="nav-right">SINCE 2023</span>
+        </div>
+    </nav>
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <div class="container">
+            <h1 class="page-title">Manajemen <em>Produk</em></h1>
+            <p class="page-sub">Kelola seluruh koleksi La'Vabie</p>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="container pb-5">
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header">✦ Tambah Produk Baru</div>
+                    <div class="card-body">
+                        <form id="form">
+                            <div class="mb-3">
+                                <label class="form-label">Nama Produk</label>
+                                <input type="text" id="nama" class="form-control" placeholder="e.g. Blouse Linen Cream"
+                                    required />
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Kategori</label>
+                                <select id="kategori" class="form-select" required>
+                                    <option value="">Pilih Kategori</option>
+                                    <option>Atasan</option>
+                                    <option>Bawahan</option>
+                                    <option>Dress</option>
+                                    <option>Hijab</option>
+                                    <option>Aksesoris</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Harga</label>
+                                <input type="number" id="harga" class="form-control" placeholder="0" min="1" required />
+                            </div>
+                            <button type="submit" class="btn btn-primary">Tambah Produk</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header">Daftar Produk</div>
+                    <div class="card-body p-0">
+                        <table id="tabel" class="table mb-0" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Nomor</th>
+                                    <th>Nama Produk</th>
+                                    <th>Kategori</th>
+                                    <th>Harga</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Hapus -->
+    <div class="modal fade" id="modalHapus" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-body text-center py-4">
+                    <div style="font-size:2rem;margin-bottom:8px">🗑️</div>
+                    <p>Hapus <strong id="namaHapus"></strong>?</p>
+                    <div class="d-flex gap-2 justify-content-center mt-3">
+                        <button class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
+                        <button class="btn btn-danger btn-sm" id="konfirmasiHapus">Hapus</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Edit -->
+    <div class="modal fade" id="modalEdit" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">✎ Edit Produk</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formEdit">
+                        <input type="hidden" id="editId">
+                        <div class="mb-3">
+                            <label class="form-label">Nama Produk</label>
+                            <input type="text" id="editNama" class="form-control" required />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Kategori</label>
+                            <select id="editKategori" class="form-select" required>
+                                <option value="">Pilih Kategori</option>
+                                <option>Atasan</option>
+                                <option>Bawahan</option>
+                                <option>Dress</option>
+                                <option>Hijab</option>
+                                <option>Aksesoris</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Harga</label>
+                            <input type="number" id="editHarga" class="form-control" min="1" required />
+                        </div>
+                        <div class="d-flex gap-2 justify-content-end">
+                            <button type="button" class="btn btn-outline-secondary btn-sm"
+                                data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary btn-sm">Simpan Perubahan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast align-items-center" id="toast" role="alert">
+        <div class="d-flex">
+            <div class="toast-body" id="toastMsg"></div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    </div>
+
+    <!-- External JS Libraries -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="app.js"></script>
+</body>
+
+</html>
