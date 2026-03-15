@@ -5,13 +5,13 @@
   <h3>DATA PRODUK <br> Bootstrap, jQuery DataTables & JavaScript</h3>
   <br />
   <br />
- <img src="assets/logo.jpeg" alt ="logo" width = "300"> 
+ <img src="assets/TU.jpg" alt ="logo" width = "300"> 
   <br />
   <br />
   <h3>Disusun Oleh :</h3>
   <p>
-    <strong>Mohammad Alfan Naraya</strong><br>
-    <strong>2311102170</strong><br>
+    <strong>Shiva Indah Kurnia</strong><br>
+    <strong>2311102035</strong><br>
     <strong>S1 IF-11-01</strong>
   </p>
   <br />
@@ -52,129 +52,55 @@
 ### Kode HTML (`cots.html`)
 
 ```html
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nara Music Store - Inventaris</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<nav class="navbar navbar-expand-lg navbar-dark mb-4">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <i class="bi bi-droplet-fill"></i> KING WOAH
+        </a>
+        <span class="navbar-text text-white fw-medium">
+            Manajemen Produk Galon
+        </span>
+    </div>
+</nav>
 
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-3 sidebar-brand">
-            <div class="mb-5 text-center">
-                <i class="bi bi-music-note-beamed fs-1 text-info"></i>
-                <h3 class="fw-bold mt-2">NARA MUSIC STORE</h3>
-                <p class="small text-white-50">Manajemen Inventaris Gitar</p>
-            </div>
-
-            <div class="mt-4">
-                <h6 class="text-white-50 mb-3">FORM INPUT</h6>
-                <form id="guitarForm">
-                    <div class="mb-3">
-                        <label class="small text-white-50">Nama Model</label>
-                        <input type="text" id="modelName" class="form-control bg-transparent text-white border-secondary" placeholder="Contoh: Fender Stratocaster" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="small text-white-50">Kategori</label>
-                        <select id="category" class="form-select bg-transparent text-white border-secondary" required>
-                            <option value="" class="text-dark">Pilih Kategori</option>
-                            <option value="Elektrik" class="text-dark">Gitar Elektrik</option>
-                            <option value="Akustik" class="text-dark">Gitar Akustik</option>
-                            <option value="Bass" class="text-dark">Gitar Bass</option>
-                        </select>
-                    </div>
-                    <div class="mb-4">
-                        <label class="small text-white-50">Harga Jual (Rp)</label>
-                        <input type="number" id="price" class="form-control bg-transparent text-white border-secondary" placeholder="0" required>
-                    </div>
-                    <button type="submit" class="btn btn-purple w-100">
-                        <i class="bi bi-plus-lg me-2"></i>Tambah ke Stok
-                    </button>
-                </form>
-            </div>
-        </div>
-
-        <div class="col-lg-9 p-5">
-            <div class="d-flex justify-content-between align-items-center mb-5">
-                <div>
-                    <h1 class="fw-bold m-0">NARA MUSIC STORE</h1>
-                    <p class="text-muted">Pantau dan kelola koleksi instrumen Anda.</p>
+<div class="container mb-5">
+    <div class="row g-4">
+        <div class="col-lg-4">
+            <div class="card card-water h-100">
+                <div class="card-header">
+                    <h5 class="card-title" id="formTitle"><i class="bi bi-plus-circle-fill me-2"></i> Tambah Produk</h5>
                 </div>
-                <span class="badge bg-white text-dark shadow-sm p-3 rounded-4">
-                    <i class="bi bi-calendar3 me-2 text-primary"></i>
-                    <span id="dateDisplay"></span>
-                </span>
+                <div class="card-body">
+                    <form id="formProduk">
+                        <button type="submit" class="btn btn-water w-100" id="btnSimpan">Simpan Produk</button>
+                    </form>
+                </div>
             </div>
+        </div>
 
-            <div class="card guitar-card p-4">
-                <table id="inventoryTable" class="table w-100">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Model Instrumen</th>
-                            <th>Kategori</th>
-                            <th>Nilai Harga</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+        <div class="col-lg-8">
+            <div class="card card-water h-100">
+                <div class="card-header">
+                    <h5 class="card-title"><i class="bi bi-table me-2"></i> Daftar Produk</h5>
+                </div>
+                <div class="card-body">
+                    <table id="tabelProduk" class="table table-water table-hover w-100">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nama Produk</th>
+                                <th>Kategori</th>
+                                <th>Harga</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style="border-radius: 20px;">
-            <div class="modal-header border-0 p-4">
-                <h5 class="fw-bold">Edit Data Instrumen</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body p-4">
-                <form id="editForm">
-                    <input type="hidden" id="editIndex">
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold text-muted">Nama Model</label>
-                        <input type="text" id="editModelName" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold text-muted">Kategori</label>
-                        <select id="editCategory" class="form-select" required>
-                            <option value="Elektrik">Gitar Elektrik</option>
-                            <option value="Akustik">Gitar Akustik</option>
-                            <option value="Bass">Gitar Bass</option>
-                        </select>
-                    </div>
-                    <div class="mb-4">
-                        <label class="form-label small fw-bold text-muted">Harga (Rp)</label>
-                        <input type="number" id="editPrice" class="form-control" required>
-                    </div>
-                    <button type="submit" class="btn btn-purple w-100">Simpan Perubahan</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-
-<script src="script.js"></script>
-</body>
-</html>
 ```
 
 ---
@@ -182,68 +108,35 @@
 ### Kode CSS (`style.css`)
 
 ```css
+/* --- Tema Warna & Variabel --- */
 :root {
-    --primary-purple: #4834d4;
-    --dark-purple: #130f40;
-    --light-bg: #f5f6fa;
-    --white: #ffffff;
+    --primary-aqua: #00bcd4; 
+    --secondary-aqua: #03a9f4; 
+    --water-gradient: linear-gradient(135deg, #e0f7fa 0%, #ffffff 100%);
+    --blue-gradient: linear-gradient(135deg, var(--secondary-aqua) 0%, var(--primary-aqua) 100%);
 }
 
-body {
-    background-color: var(--light-bg);
-    font-family: 'Outfit', sans-serif;
-    color: var(--dark-purple);
-}
-
-.sidebar-brand {
-    padding: 30px;
-    background: var(--dark-purple);
-    color: white;
-    min-height: 100vh;
-    border-right: 4px solid var(--primary-purple);
-}
-
-.guitar-card {
-    background: var(--white);
-    border: none;
+/* --- Desain Kartu Transparan (Glassmorphism) --- */
+.card-water {
+    border: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(19, 15, 64, 0.05);
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
 }
 
-.form-control, .form-select {
+/* --- Efek Hover Tabel --- */
+.table-water tbody tr:hover {
+    background-color: rgba(129, 212, 250, 0.15);
+    transform: scale(1.01);
+}
+
+/* --- Tombol Kustom --- */
+.btn-water {
+    background: var(--blue-gradient);
     border-radius: 12px;
-    border: 2px solid #eee;
-    padding: 12px;
-}
-
-.form-control:focus {
-    border-color: var(--primary-purple);
-    box-shadow: none;
-}
-
-.btn-purple {
-    background: linear-gradient(135deg, #686de0, #4834d4);
     color: white;
-    border: none;
-    padding: 15px;
-    border-radius: 15px;
     font-weight: 600;
-    text-transform: uppercase;
-}
-
-.btn-purple:hover { color: white; opacity: 0.9; }
-
-.badge-type {
-    background: #f0edff;
-    color: var(--primary-purple);
-    padding: 8px 15px;
-    border-radius: 10px;
-    font-weight: 600;
-}
-
-.price-text {
-    color: #000;
-    font-weight: 700;
 }
 ```
 
@@ -253,106 +146,41 @@ body {
 
 ```javascript
 $(document).ready(function() {
-    // Tampilkan Tanggal Saat Ini
-    $('#dateDisplay').text(new Date().toLocaleDateString('id-ID', { 
-        day: 'numeric', 
-        month: 'long', 
-        year: 'numeric' 
-    }));
+    // 1. Ambil data dari penyimpanan lokal browser
+    let productsArr = JSON.parse(localStorage.getItem('dataFreshAqua')) || [];
 
-    // 1. DATA MANAGEMENT: Ambil dari LocalStorage atau buat array kosong
-    let guitarInventory = JSON.parse(localStorage.getItem('nara_inventory')) || [];
-
-    // 2. INITIALIZE DATATABLES: Konfigurasi fitur tabel
-    const table = $('#inventoryTable').DataTable({
-        pageLength: 7,
-        language: {
-            search: "",
-            searchPlaceholder: "Cari instrumen...",
-            lengthMenu: "Tampilkan _MENU_ data",
-            info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
-            infoEmpty: "Data tidak ditemukan",
-            zeroRecords: "Pencarian tidak ditemukan",
-            paginate: { 
-                next: '<i class="bi bi-chevron-right"></i>', 
-                previous: '<i class="bi bi-chevron-left"></i>' 
-            }
-        }
-    });
-
-    // 3. REFRESH FUNCTION: Sinkronisasi data array ke tampilan tabel
-    function refreshInventory() {
-        table.clear();
-        guitarInventory.map((item, index) => {
-            table.row.add([
-                `<span class="text-muted">#GTR-${index + 1}</span>`,
-                `<div class="d-flex align-items-center">
-                    <div class="bg-light p-2 rounded me-3"><i class="bi bi-guitar-fill text-primary"></i></div>
-                    <span class="fw-bold">${item.nama}</span>
-                </div>`,
-                `<span class="badge-type">${item.kategori}</span>`,
-                `<span class="price-text">Rp ${parseInt(item.harga).toLocaleString('id-ID')}</span>`,
-                `<div class="d-flex gap-2">
-                    <button class="btn btn-sm btn-outline-primary border-0 rounded-circle" onclick="openEditModal(${index})" title="Edit">
-                        <i class="bi bi-pencil-square"></i>
-                    </button>
-                    <button class="btn btn-sm btn-outline-danger border-0 rounded-circle" onclick="deleteItem(${index})" title="Hapus">
-                        <i class="bi bi-trash3-fill"></i>
-                    </button>
-                </div>`
+    // 2. Fungsi untuk menampilkan data ke dalam tabel
+    const renderProducts = () => {
+        dataTable.clear(); 
+        productsArr.forEach((product) => {
+            dataTable.row.add([
+                `#${product.id.toString().slice(-4)}`,
+                product.nama,
+                product.kategori,
+                formatRupiah(product.harga),
+                `<button class="btn-edit" data-id="${product.id}">Edit</button>`
             ]);
         });
-        table.draw();
-        
-        // Simpan ke LocalStorage agar data tidak hilang saat refresh halaman
-        localStorage.setItem('nara_inventory', JSON.stringify(guitarInventory));
-    }
-
-    // Jalankan render pertama kali saat halaman dibuka
-    refreshInventory();
-
-    // 4. CREATE: Menambah data baru
-    $('#guitarForm').on('submit', function(e) {
-        e.preventDefault();
-        guitarInventory.push({
-            nama: $('#modelName').val(),
-            kategori: $('#category').val(),
-            harga: $('#price').val()
-        });
-        this.reset();
-        refreshInventory();
-    });
-
-    // 5. UPDATE (Part 1): Membuka Modal Edit dan mengisi data lama
-    window.openEditModal = function(index) {
-        const item = guitarInventory[index];
-        $('#editIndex').val(index);
-        $('#editModelName').val(item.nama);
-        $('#editCategory').val(item.kategori);
-        $('#editPrice').val(item.harga);
-        $('#editModal').modal('show');
+        dataTable.draw();
     };
 
-    // 5. UPDATE (Part 2): Menyimpan perubahan dari modal
-    $('#editForm').on('submit', function(e) {
+    // 3. Logika Simpan & Update Data
+    $('#formProduk').on('submit', function(e) {
         e.preventDefault();
-        const index = $('#editIndex').val();
-        guitarInventory[index] = {
-            nama: $('#editModelName').val(),
-            kategori: $('#editCategory').val(),
-            harga: $('#editPrice').val()
-        };
-        $('#editModal').modal('hide');
-        refreshInventory();
+        // Cek apakah mode Edit atau Tambah Baru
+        if (currentEditId) {
+            // Logika Update (Cari index lalu ganti isinya)
+        } else {
+            // Logika Create (Push data baru ke array)
+        }
+        localStorage.setItem('dataFreshAqua', JSON.stringify(productsArr));
+        renderProducts();
     });
 
-    // 6. DELETE: Menghapus data berdasarkan index
-    window.deleteItem = function(i) {
-        if(confirm("Apakah Anda yakin ingin menghapus instrumen ini dari daftar stok?")) {
-            guitarInventory.splice(i, 1);
-            refreshInventory();
-        }
-    }
+    // 4. Logika Hapus Data dengan Konfirmasi SweetAlert2
+    $('#tabelProduk').on('click', '.btn-hapus', function() {
+        // Filter array untuk menghapus ID yang dipilih
+    });
 });
 ```
 
@@ -372,50 +200,58 @@ $(document).ready(function() {
 
 #### 3. Fitur Pencarian (Search)
 
-![Fitur Searching](assets/4.png)
+![Fitur Searching](assets/7.png)
 
 #### 4. Edit Data
 
-![Edit Data Produk](assets/5.png)
+![Edit Data Produk](assets/4.png)
+![Tampilan Data Setelah Diedit](assets/6.png)
 
 #### 5. Hapus Data
 
-![Hapus Data Produk](assets/6.png)
-![Hapus Data Berhasil](assets/7.png)
+![Hapus Data Produk](assets/5.png)
+![Hapus Data Berhasil](assets/8.png)
 ---
 
 ### Penjelasan Kode
 
 #### 1. HTML (`index.html`)
 
-* **Pada baris 1–17**, merupakan bagian **Head & Metadata**. Di sini dideklarasikan `<!DOCTYPE html>` dan penggunaan `<meta charset="UTF-8">` untuk memastikan karakter teks ditampilkan dengan benar. Baris ini juga memuat dependensi eksternal seperti Bootstrap CSS, DataTables CSS, dan Google Fonts, serta menghubungkan file `style.css` lokal untuk kustomisasi tampilan.
-* **Pada baris 21–51**, terdapat bagian **Sidebar & Form Input**. Area ini menggunakan sistem *grid* Bootstrap `.col-lg-3`. Di dalamnya terdapat elemen `<form id="guitarForm">` yang berfungsi sebagai antarmuka penginputan data instrumen. Setiap input memiliki `id` spesifik seperti `modelName`, `category`, dan `price` yang krusial bagi JavaScript untuk mengambil nilai data secara akurat.
-* **Pada baris 53–83**, merupakan bagian **Main Content & Tabel Data**. Menggunakan area utama `.col-lg-9` untuk menampilkan judul toko dan elemen `<span id="dateDisplay">` untuk tanggal dinamis. Terdapat elemen `<table>` dengan `id="inventoryTable"` yang akan diubah secara otomatis oleh library DataTables menjadi tabel interaktif dengan fitur pencarian dan paginasi.
-* **Pada baris 87–114**, terdapat komponen **Modal System**. Bagian ini menggunakan kelas `.modal` dari Bootstrap yang berfungsi sebagai jendela *pop-up* untuk melakukan proses perubahan data (*Update*). Form di dalamnya memiliki input tersembunyi (`id="editIndex"`) untuk menyimpan referensi baris data yang sedang disunting oleh pengguna.
-* **Pada baris 117–123**, merupakan bagian **Script Loader**. Pustaka JavaScript (jQuery, Bootstrap, DataTables) dan file `script.js` lokal diletakkan di akhir dokumen sebelum tag penutup `</body>`. Hal ini bertujuan untuk mengoptimalkan performa pemuatan halaman agar struktur visual tampil terlebih dahulu sebelum logika program dijalankan.
+HTML (HyperText Markup Language) bertugas sebagai fondasi atau kerangka utama aplikasi.
+* Framework Bootstrap 5: Digunakan untuk mempercepat pembuatan tata letak (layout) yang rapi dan responsif tanpa harus menulis banyak baris kode dasar.
+* Sistem Grid: Menggunakan kelas .row dan .col-lg- untuk membagi layar menjadi dua bagian: Panel Input (kiri) dan Panel Tabel Data (kanan).
+* Komponen Form: Menggunakan tag <form> dengan berbagai tipe input (text, number, select) untuk menangkap data spesifikasi galon dari pengguna.
+* Placeholder Tabel: Tag <table> dengan ID tabelProduk disediakan sebagai wadah kosong yang nantinya akan diisi secara dinamis oleh JavaScript.
+* Integrasi Library: Terdapat pemanggilan CDN untuk Font Poppins, Bootstrap Icons, DataTables, dan SweetAlert2 agar tampilan lebih modern.
 
 ---
 
 #### 2. CSS (`style.css`)
 
-* **Pada baris 1–6**, terdapat deklarasi variabel CSS pada pseudo-class `:root`. Bagian ini mendefinisikan palet warna utama seperti `--primary-purple` dan `--dark-purple` untuk menjaga konsistensi warna di seluruh aplikasi serta mempermudah proses pemeliharaan kode (*maintenance*).
-* **Pada baris 8–12**, elemen `body` dikonfigurasi menggunakan font 'Outfit' dengan *fallback* sans-serif untuk memberikan kesan modern. Selain itu, penggunaan warna latar belakang `--light-bg` bertujuan untuk memberikan kontras yang lembut terhadap elemen kartu dan teks.
-* **Pada baris 14–20**, terdapat kelas `.sidebar-brand` yang mengatur tampilan area samping. Penggunaan warna `--dark-purple` dan penambahan aksen `border-right` setebal 4px memberikan identitas visual yang kuat serta pemisah yang jelas antara area input dan area data.
-* **Pada baris 22–27**, kelas `.guitar-card` dirancang untuk membungkus tabel inventaris. Penggunaan `border-radius: 20px` dan `box-shadow` halus memberikan efek kedalaman (*depth*) sehingga tampilan terlihat lebih elegan dan modern.
-* **Pada baris 29–41**, dilakukan kustomisasi pada elemen formulir dan tombol. Elemen `.form-control` dibuat lebih membulat, sementara kelas `.btn-purple` menggunakan teknik *linear-gradient* agar tombol terlihat lebih interaktif dan menonjol.
-* **Pada baris 43–54**, terdapat pengaturan untuk kelas `.badge-type` dan `.price-text`. Bagian ini berfungsi untuk memberikan penanda visual pada kategori instrumen serta memberikan penekanan cetak tebal pada nilai harga agar mudah dibaca oleh pengguna.
+CSS (Cascading Style Sheets) bertugas memberikan identitas visual "FreshAqua" yang segar dan profesional.
+* Custom Variables (:root): Menggunakan variabel untuk menyimpan kode warna biru air (cyan dan aqua). Ini memudahkan perubahan tema warna secara global hanya dengan mengubah satu baris kode.
+* Konsep Glassmorphism: Implementasi pada kelas .card-water yang menggunakan backdrop-filter: blur(10px) dan latar belakang transparan. Hal ini memberikan efek "kaca buram" yang elegan.
+* Desain Responsif: Memberikan aturan visual agar elemen seperti tombol dan input tetap terlihat proporsional baik di layar laptop maupun ponsel.
+* User Experience (UX): Menambahkan efek transition dan hover (seperti efek kartu yang sedikit terangkat saat didekati kursor) untuk memberikan umpan balik visual kepada pengguna.
 
 ---
 
 #### 3. JavaScript (`script.js`)
 
-* **Pada baris 1–4**, dilakukan inisialisasi variabel `guitars` yang mengambil data dari `localStorage`. Bagian ini menggunakan `JSON.parse` untuk mengubah data string kembali menjadi objek, sehingga data yang telah disimpan sebelumnya tidak hilang saat halaman dimuat ulang.
-* **Pada baris 7–15**, terdapat fungsi `displayDate()` yang berfungsi untuk memanipulasi elemen `#dateDisplay`. Fungsi ini mengambil data waktu dari sistem dan menampilkannya dalam format tanggal lokal Indonesia pada bagian header aplikasi.
-* **Pada baris 18–35**, terdapat logika utama untuk fitur **Create**. *Event listener* pada `guitarForm` menangkap data inputan pengguna, mencegah perilaku *default* pengiriman form, dan memasukkan data objek baru ke dalam array menggunakan metode `.push()`.
-* **Pada baris 38–55**, terdapat fungsi `renderTable()` yang menangani aspek **Read**. Bagian ini akan mengosongkan isi tabel terlebih dahulu, kemudian melakukan iterasi (*looping*) pada array untuk mencetak baris-baris data baru secara dinamis ke dalam elemen `<tbody>`.
-* **Pada baris 58–72**, didefinisikan fungsi untuk fitur **Update**. Saat tombol edit ditekan, data pada baris tersebut akan dikirim ke **Modal Edit**, dan sistem menggunakan input tersembunyi `editIndex` untuk memastikan data yang diubah berada pada posisi yang benar di dalam array.
-* **Pada baris 75–83**, terdapat fungsi untuk fitur **Delete**. Fungsi ini menggunakan metode `.splice()` berdasarkan indeks data yang dipilih oleh pengguna untuk menghapus instrumen dari daftar, yang kemudian diikuti dengan pembaruan penyimpanan lokal.
-* **Pada baris 86–95**, dilakukan inisialisasi **DataTables API**. Bagian ini sangat penting karena mengintegrasikan tabel HTML dengan pustaka DataTables untuk mengaktifkan fitur pencarian otomatis (*search*), pengurutan (*sorting*), dan pembagian halaman (*pagination*).
+JavaScript (JS) bertugas sebagai otak yang mengatur alur data dan interaksi pengguna agar aplikasi tidak hanya statis.
+
+* Manajemen Array & Local Storage:
+  - productsArr: Variabel array untuk menampung seluruh data produk.
+  - localStorage: Berfungsi menyimpan data ke dalam memori browser. Hasilnya, data tidak akan hilang meskipun halaman di-refresh atau browser ditutup.
+
+* Logika CRUD (Create, Read, Update, Delete):
+  - Create: Menangkap input dari form dan menambahkannya ke array menggunakan push().
+  - Read: Fungsi renderProducts() secara otomatis membersihkan tabel lama dan menggambarnya kembali dengan data terbaru.
+  - Update: Menggunakan variabel currentEditId untuk membedakan apakah pengguna sedang menambah data baru atau memperbaiki data yang sudah ada.
+  - Delete: Menggunakan fungsi filter() untuk menghapus item berdasarkan ID unik yang dihasilkan dari Date.now().
+
+* DataTables Plugin: Mengubah tabel HTML biasa menjadi tabel pintar yang memiliki fitur pencarian (search), pengurutan (sorting), dan pembagian halaman (pagination) secara otomatis.
+* SweetAlert2: Menggantikan jendela peringatan bawaan browser yang kaku dengan notifikasi pop-up yang cantik dan interaktif.
 ---
 
 ## 3. Referensi
