@@ -1,0 +1,73 @@
+body{
+background: linear-gradient(135deg,#5c0a1d,#7a0f2a,#a3163b);
+min-height:100vh;
+font-family: 'Segoe UI',sans-serif;
+color:white;
+}
+
+.header-box{
+background:rgba(255,255,255,0.1);
+backdrop-filter:blur(10px);
+padding:25px;
+border-radius:20px;
+box-shadow:0 10px 25px rgba(0,0,0,0.3);
+}
+
+.custom-card{
+background:rgba(255,255,255,0.12);
+backdrop-filter:blur(12px);
+border:none;
+border-radius:20px;
+color:white;
+box-shadow:0 10px 30px rgba(0,0,0,0.25);
+}
+
+.form-control{
+border-radius:12px;
+border:none;
+}
+
+.btn-maroon{
+background:#800020;
+color:white;
+border:none;
+border-radius:12px;
+font-weight:600;
+transition:0.3s;
+}
+
+.btn-maroon:hover{
+background:#a1123a;
+transform:scale(1.03);
+}
+
+.table-maroon{
+background:#800020;
+color:white;
+}
+
+.table{
+color:white;
+}
+
+.dataTables_wrapper .dataTables_filter input{
+border-radius:10px;
+border:none;
+padding:6px 10px;
+}
+
+.dataTables_wrapper .dataTables_length select{
+border-radius:10px;
+padding:5px;
+}
+
+.btn-warning{
+background:#ffb6c1;
+border:none;
+color:#800020;
+}
+
+.btn-danger{
+background:#ff4d6d;
+border:none;
+}
