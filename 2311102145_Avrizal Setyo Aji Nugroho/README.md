@@ -291,9 +291,8 @@ body {
     color: #2c3e50;
     box-shadow: none !important;
 }
-
----
 ```
+
 ---
 
 ### Kode JavaScript (`COTS.js`)
