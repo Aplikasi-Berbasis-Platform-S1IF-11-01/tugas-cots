@@ -294,6 +294,8 @@ body {
 
 ---
 
+---
+
 ### Kode JavaScript (`COTS.js`)
 
 ```javascript
@@ -389,27 +391,27 @@ $(document).ready(function () {
 
 #### 1. Tampilan Awal Halaman
 
-![Tampilan Awal Web](TampilanAwal.PNG)
+![Tampilan Awal Web](TampilanAwal.png)
 
 #### 2. Input Data & Data Berhasil Ditambahkan
 
-![Form Input Produk & Data Berhasil Ditambahkan](TampilanInput.PNG)
+![Form Input Produk & Data Berhasil Ditambahkan](TampilanInput.png)
 
 #### 3. Fitur Pencarian (Search)
 
-![Fitur Searching](Search1.PNG)
-![Fitur Searching](Search2.PNG)
+![Fitur Searching](Search1.png)
+![Fitur Searching](Search2.png)
 
 #### 4. Edit Data
 
 Mengedit Samsung S21 ke Samsung S26 beserta harganya
-![Edit Data Produk](Edit.PNG)
+![Edit Data Produk](Edit.png)
 
 #### 5. Hapus Data
 
 Menghapus Burger Burger king
-![Hapus Data Produk](Hapus.PNG)
-![Hapus Data Produk](BuktiHapus.PNG)
+![Hapus Data Produk](Hapus.png)
+![Hapus Data Produk](BuktiHapus.png)
 
 ---
 
