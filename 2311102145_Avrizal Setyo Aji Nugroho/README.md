@@ -293,7 +293,7 @@ body {
 }
 
 ---
-
+```
 ---
 
 ### Kode JavaScript (`COTS.js`)
