@@ -11,7 +11,7 @@
 
   <br>
 
-  <img src="telyu.png" />
+  <img src="asset/telyu.png" />
 
 
 
