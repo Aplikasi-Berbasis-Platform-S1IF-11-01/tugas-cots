@@ -35,16 +35,117 @@
 
 ## 1. Dasar Teori
 
-**HTML atau HyperText Markup Language** merupakan bahasa dasar yang digunakan untuk membangun halaman web. HTML berfungsi untuk menyusun elemen-elemen dasar pada sebuah website, seperti judul, paragraf, tabel, gambar, hyperlink, dan form. Dalam struktur dasarnya, dokumen HTML terdiri dari deklarasi <!DOCTYPE html>, elemen <html>, <head>, dan <body>. Bagian <body> merupakan tempat semua konten yang ditampilkan pada browser.  ￼
+1. Website dan Aplikasi Berbasis Platform
+Aplikasi berbasis platform merupakan aplikasi yang dibangun untuk berjalan pada suatu platform tertentu, salah satunya adalah **platform web**. Aplikasi web dapat diakses melalui browser tanpa harus melakukan instalasi seperti aplikasi desktop. Teknologi dasar yang digunakan dalam pengembangan aplikasi web meliputi **HTML**, **CSS**, dan **JavaScript**.
 
-Dalam HTML, sebuah elemen dibentuk oleh tag. Tag umumnya terdiri dari tag pembuka dan tag penutup, misalnya <p>...</p> atau <table>...</table>. Selain itu, HTML juga memiliki atribut, yaitu informasi tambahan yang diletakkan pada tag pembuka untuk memberikan fungsi tertentu pada elemen. Atribut dapat digunakan untuk mengatur identitas elemen, ukuran, tujuan link, maupun karakteristik tampilan dasar.  ￼
+Dalam tugas ini, aplikasi yang dibuat berupa sistem sederhana untuk mengelola data produk. Sistem tersebut memiliki form input, tabel data, serta fitur CRUD sederhana yang dijalankan pada browser.
 
-Salah satu elemen penting dalam HTML adalah tabel. Tabel digunakan untuk menampilkan data dalam bentuk baris dan kolom sehingga informasi menjadi lebih terstruktur dan mudah dibaca. Pada HTML, tabel didefinisikan dengan tag <table>, sedangkan baris tabel ditulis dengan tag <tr>, judul kolom menggunakan tag <th>, dan isi data menggunakan tag <td>. Dengan susunan tersebut, data dapat ditampilkan secara sistematis sesuai kebutuhan pengguna.  ￼
+2. HTML
+**HTML (HyperText Markup Language)** adalah bahasa markup yang digunakan untuk menyusun struktur dasar sebuah halaman web. HTML berfungsi untuk menentukan elemen-elemen pada halaman, seperti:
+- heading atau judul,
+- paragraf,
+- form input,
+- tabel,
+- tombol,
+- dan struktur halaman lainnya.
 
-Selain membuat tabel dasar, HTML juga mendukung penggabungan sel menggunakan atribut colspan dan rowspan. Atribut colspan digunakan untuk menggabungkan beberapa kolom, sedangkan rowspan digunakan untuk menggabungkan beberapa baris. Fitur ini berguna ketika tabel memerlukan susunan data yang lebih kompleks. Namun, pada tugas tabel dasar, elemen yang paling utama digunakan adalah <table>, <tr>, <th>, dan <td>.  ￼
+Pada aplikasi ini, HTML digunakan untuk:
+- membuat sidebar navigasi,
+- membuat dashboard,
+- membuat form input produk,
+- membuat tabel data produk,
+- membuat modal popup edit,
+- dan membuat toast notification.
 
-Untuk menempatkan tampilan di bagian tengah halaman tanpa menggunakan CSS, HTML dapat menggunakan tag <center>. Pada modul praktikum, tag ini dicontohkan untuk meletakkan form di bagian tengah halaman. Dengan demikian, pada pembuatan tabel dasar tanpa bantuan CSS maupun styling lainnya, tabel dapat dibungkus menggunakan tag <center> agar tampil di tengah secara horizontal pada halaman web.
+3. CSS
+**CSS (Cascading Style Sheets)** adalah bahasa yang digunakan untuk mengatur tampilan dan desain halaman web. CSS memungkinkan pengembang untuk mengatur warna, ukuran, layout, jarak antar elemen, animasi, dan aspek visual lainnya.
 
+Pada aplikasi ini, CSS digunakan untuk:
+- mengatur layout sidebar dan konten utama,
+- memberikan tema Apple yang elegan,
+- mempercantik card, tabel, tombol, dan input,
+- membuat tampilan responsif,
+- serta memberi efek visual pada modal dan toast.
+
+4. JavaScript
+**JavaScript** adalah bahasa pemrograman yang digunakan untuk membuat halaman web menjadi interaktif. Dengan JavaScript, halaman tidak hanya bersifat statis, tetapi dapat merespons aksi pengguna seperti klik tombol, input data, edit, hapus, dan manipulasi data secara langsung.
+
+Pada aplikasi ini, JavaScript digunakan untuk:
+- menambah data produk,
+- menampilkan data ke dalam tabel,
+- menghitung ringkasan dashboard,
+- mengedit data melalui modal,
+- menghapus data,
+- menyimpan data ke localStorage,
+- dan menampilkan notifikasi toast.
+
+5. Bootstrap
+**Bootstrap** adalah framework CSS yang menyediakan kumpulan class siap pakai untuk membangun tampilan web yang rapi, modern, dan responsif. Dengan Bootstrap, pengembang dapat membuat komponen seperti tombol, form, tabel, modal, grid layout, dan navigasi dengan lebih cepat.
+
+Keunggulan Bootstrap:
+- mempercepat proses pembuatan tampilan,
+- mendukung desain responsif,
+- memiliki banyak komponen siap pakai,
+- mudah dikombinasikan dengan JavaScript dan jQuery.
+
+Pada program ini, Bootstrap digunakan untuk:
+- layout halaman,
+- form input,
+- tombol,
+- tabel,
+- modal popup,
+- toast notification,
+- dan struktur responsif keseluruhan halaman.
+
+6. jQuery
+**jQuery** adalah library JavaScript yang dirancang untuk mempermudah manipulasi DOM, event handling, animasi, dan interaksi antar elemen HTML. jQuery membuat penulisan kode JavaScript menjadi lebih singkat dan sederhana.
+
+Pada aplikasi ini, jQuery digunakan untuk:
+- mengambil nilai dari input,
+- menampilkan data ke tabel,
+- menangani event submit form,
+- mengganti isi elemen HTML,
+- mengatur perpindahan halaman dashboard dan manajemen produk,
+- serta mengintegrasikan DataTables.
+
+7. DataTables
+**DataTables** adalah plugin jQuery yang digunakan untuk membuat tabel HTML menjadi lebih interaktif. Dengan DataTables, tabel dapat memiliki fitur tambahan tanpa harus dibuat manual dari awal.
+
+Fitur utama DataTables:
+- **search** untuk pencarian data,
+- **pagination** untuk membagi data ke beberapa halaman,
+- pengaturan jumlah data per halaman,
+- penyusunan tabel yang lebih rapi.
+
+Dalam tugas ini, DataTables digunakan pada tabel data produk agar tabel memenuhi ketentuan tugas, yaitu memiliki fitur pencarian dan pagination.
+
+8. CRUD
+**CRUD** adalah singkatan dari:
+- **Create**: menambahkan data,
+- **Read**: menampilkan data,
+- **Update**: memperbarui data,
+- **Delete**: menghapus data.
+
+Konsep CRUD merupakan dasar dalam banyak sistem informasi dan aplikasi berbasis database maupun penyimpanan lokal.
+
+Pada aplikasi ini:
+- **Create** dilakukan melalui form input produk,
+- **Read** dilakukan dengan menampilkan data pada tabel dan dashboard,
+- **Update** dilakukan melalui modal edit,
+- **Delete** dilakukan melalui tombol hapus pada setiap baris tabel.
+
+9. Array dan Object
+Dalam JavaScript, **array** digunakan untuk menyimpan sekumpulan data, sedangkan **object** digunakan untuk menyimpan data dalam bentuk pasangan **key** dan **value**.
+
+Contoh object produk:
+```js
+{
+  id: 1,
+  namaProduk: "iPhone 20 Pro Max",
+  kategori: "iPhone",
+  harga: 10000000
+}
+```
 ---
 
 ## 2. Penjelasan Kode 
