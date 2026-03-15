@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreshAqua - Penjualan Galon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.min.css">
+    
+    <style>
+        /* --- Tema Air Kreatif --- */
+        :root {
+            --primary-aqua: #00bcd4; 
+            --secondary-aqua: #03a9f4; 
+            --accent-aqua: #81d4fa; 
+            --water-gradient: linear-gradient(135deg, #e0f7fa 0%, #ffffff 100%);
+            --blue-gradient: linear-gradient(135deg, var(--secondary-aqua) 0%, var(--primary-aqua) 100%);
+            --text-dark: #37474f; 
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--water-gradient);
+            color: var(--text-dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Tetesan air dekoratif */
+        body::before, body::after {
+            content: '';
+            position: absolute;
+            background-color: var(--accent-aqua);
+            opacity: 0.15;
+            border-radius: 50%;
+            z-index: -1;
+            filter: blur(2px);
+        }
+        body::before { width: 400px; height: 400px; top: -150px; right: -100px; }
+        body::after { width: 300px; height: 300px; bottom: -50px; left: -100px; }
+
+        /* --- Navbar Kreatif --- */
+        .navbar {
+            background: var(--blue-gradient);
+            box-shadow: 0 4px 15px rgba(0,188,212,0.3);
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+        .navbar-brand { font-weight: 700; display: flex; align-items: center; letter-spacing: 0.5px;}
+        .navbar-brand .bi { font-size: 1.5rem; margin-right: 0.5rem; }
+
+        /* --- Card Kreatif (Glassmorphism) --- */
+        .card-water {
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-water:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,188,212,0.15);
+        }
+        .card-water .card-header {
+            background: var(--blue-gradient);
+            border-radius: 20px 20px 0 0;
+            color: white;
+            border-bottom: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.2rem 1.5rem;
+        }
+        .card-water .card-title { margin: 0; font-weight: 600; font-size: 1.1rem;}
+
+        /* --- Formulir Input Kreatif --- */
+        .form-control-water {
+            border-radius: 12px;
+            border: 2px solid rgba(129, 212, 250, 0.4);
+            padding: 0.75rem 1rem;
+            background: rgba(255,255,255,0.9);
+            transition: all 0.3s;
+        }
+        .form-control-water:focus {
+            border-color: var(--primary-aqua);
+            box-shadow: 0 0 0 0.25rem rgba(0, 188, 212, 0.15);
+            background: #fff;
+        }
+        
+        /* Tombol Utama */
+        .btn-water {
+            background: var(--blue-gradient);
+            border: none;
+            border-radius: 12px;
+            padding: 0.75rem 1.5rem;
+            color: white;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,188,212,0.2);
+        }
+        .btn-water:hover {
+            background: linear-gradient(135deg, var(--primary-aqua) 0%, var(--secondary-aqua) 100%);
+            color: white;
+            transform: scale(1.02);
+            box-shadow: 0 6px 15px rgba(0,188,212,0.3);
+        }
+        
+        /* Tombol Aksi Tabel */
+        .action-buttons { display: flex; gap: 8px; justify-content: center; }
+        .btn-icon {
+            background-color: transparent;
+            border: none;
+            border-radius: 8px;
+            padding: 5px 10px;
+            font-size: 1.1rem;
+            transition: all 0.2s ease;
+        }
+        .btn-edit-water { color: #f57c00; background: rgba(245, 124, 0, 0.1); }
+        .btn-edit-water:hover { color: white; background: #f57c00; }
+        
+        .btn-delete-water { color: #ef5350; background: rgba(239, 83, 80, 0.1); }
+        .btn-delete-water:hover { color: white; background: #ef5350; }
+
+        /* --- Tabel Kreatif --- */
+        .table-water { border-radius: 15px; overflow: hidden; margin-bottom: 0; }
+        .table-water thead th {
+            background-color: var(--secondary-aqua);
+            color: white;
+            border-bottom: none;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.1rem;
+            padding: 1rem;
+        }
+        .table-water tbody tr { transition: all 0.2s ease; }
+        .table-water tbody tr:hover { background-color: rgba(129, 212, 250, 0.15); transform: scale(1.01); }
+        .table-water td { border-bottom: 1px solid rgba(129, 212, 250, 0.2); vertical-align: middle; padding: 1rem; }
+        
+        /* DataTable Pagination */
+        .dataTables_wrapper .dataTables_paginate .paginate_button { border: none !important; border-radius: 8px; }
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current { background: var(--secondary-aqua) !important; color: white !important; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-droplet-fill"></i> KING WOAH
+            </a>
+            <span class="navbar-text text-white fw-medium">
+                Manajemen Produk Galon
+            </span>
+        </div>
+    </nav>
+
+    <div class="container mb-5">
+        <div class="row g-4">
+            
+            <div class="col-lg-4">
+                <div class="card card-water h-100">
+                    <div class="card-header">
+                        <h5 class="card-title" id="formTitle"><i class="bi bi-plus-circle-fill me-2"></i> Tambah Produk</h5>
+                        <i class="bi bi-water text-white opacity-50 fs-4"></i>
+                    </div>
+                    <div class="card-body">
+                        <form id="formProduk">
+                            <div class="mb-3">
+                                <label for="namaProduk" class="form-label text-muted small fw-bold">NAMA PRODUK</label>
+                                <input type="text" class="form-control form-control-water" id="namaProduk" placeholder="Contoh: Galon Aqua 19L" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="kategori" class="form-label text-muted small fw-bold">KATEGORI</label>
+                                <select class="form-control form-control-water" id="kategori" required>
+                                    <option value="">Pilih Kategori...</option>
+                                    <option value="Air Mineral Asli">Air Mineral Asli</option>
+                                    <option value="Air RO (Reverse Osmosis)">Air RO (Reverse Osmosis)</option>
+                                    <option value="Isi Ulang Biasa">Isi Ulang Biasa</option>
+                                    <option value="Aksesoris/Lainnya">Aksesoris/Lainnya</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="harga" class="form-label text-muted small fw-bold">HARGA (Rp)</label>
+                                <input type="number" class="form-control form-control-water" id="harga" placeholder="Contoh: 15000" min="0" required>
+                            </div>
+                            <div class="d-flex flex-column gap-2 mt-4">
+                                <button type="submit" class="btn btn-water w-100" id="btnSimpan">
+                                    <i class="bi bi-save me-1"></i> Simpan Produk
+                                </button>
+                                <button type="button" class="btn btn-secondary w-100 d-none rounded-3 fw-bold" id="btnBatalEdit">
+                                    <i class="bi bi-x-circle me-1"></i> Batal Edit
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="card card-water h-100">
+                    <div class="card-header">
+                        <h5 class="card-title"><i class="bi bi-table me-2"></i> Daftar Produk</h5>
+                        <i class="bi bi-droplet text-white opacity-50 fs-4"></i>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="tabelProduk" class="table table-water table-hover w-100">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" width="5%">ID</th>
+                                        <th width="35%">Nama Produk</th>
+                                        <th width="20%">Kategori</th>
+                                        <th width="20%">Harga</th>
+                                        <th class="text-center" width="20%">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.all.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // --- Variabel Global ---
+            let productsArr = JSON.parse(localStorage.getItem('dataFreshAqua')) || [];
+            let dataTable;
+            let currentEditId = null; // Penanda apakah sedang mode edit atau tambah
+
+            // --- Fungsionalitas DataTable ---
+            const initializeDataTable = () => {
+                dataTable = $('#tabelProduk').DataTable({
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/id.json' 
+                    },
+                    columnDefs: [
+                        { className: "text-center", targets: [0, 4] } 
+                    ],
+                    order: [[0, 'desc']],
+                    pageLength: 5,
+                    lengthMenu: [5, 10, 25, 50]
+                });
+            };
+
+            const formatRupiah = (angka) => {
+                return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
+            };
+
+            const renderBadgeKategori = (kategori) => {
+                let badgeClass = 'bg-secondary';
+                if(kategori === 'Air Mineral Asli') badgeClass = 'bg-info text-dark';
+                else if(kategori === 'Air RO (Reverse Osmosis)') badgeClass = 'bg-primary';
+                else if(kategori === 'Isi Ulang Biasa') badgeClass = 'bg-success';
+                else if(kategori === 'Aksesoris/Lainnya') badgeClass = 'bg-warning text-dark';
+                return `<span class="badge ${badgeClass} rounded-pill px-3 py-2 shadow-sm">${kategori}</span>`;
+            }
+
+            // --- Fungsi untuk Me-render Ulang Tabel ---
+            const renderProducts = () => {
+                dataTable.clear(); 
+
+                productsArr.forEach((product) => {
+                    // Tombol Edit dan Hapus
+                    let btnActions = `
+                        <div class="action-buttons">
+                            <button class="btn-icon btn-edit-water btn-edit" data-id="${product.id}" title="Edit Produk">
+                                <i class="bi bi-pencil-fill"></i>
+                            </button>
+                            <button class="btn-icon btn-delete-water btn-hapus" data-id="${product.id}" title="Hapus Produk">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
+                        </div>
+                    `;
+
+                    dataTable.row.add([
+                        `<span class="text-muted fw-bold">#${product.id.toString().slice(-4)}</span>`,
+                        `<span class="fw-semibold">${product.nama}</span>`,
+                        renderBadgeKategori(product.kategori),
+                        `<span class="fw-bold text-success">${formatRupiah(product.harga)}</span>`,
+                        btnActions
+                    ]);
+                });
+
+                dataTable.draw();
+            };
+
+            // Inisialisasi
+            initializeDataTable();
+            renderProducts();
+
+            // --- Handle Event Edit Data (Tombol Pensil) ---
+            $('#tabelProduk tbody').on('click', '.btn-edit', function() {
+                let id = $(this).data('id');
+                // Cari data produk berdasarkan id
+                let product = productsArr.find(p => p.id === id);
+                
+                if(product) {
+                    // Masukkan nilai ke form
+                    $('#namaProduk').val(product.nama);
+                    $('#kategori').val(product.kategori);
+                    $('#harga').val(product.harga);
+                    
+                    // Ubah state form menjadi edit
+                    currentEditId = id;
+                    
+                    // Ubah tampilan form
+                    $('#formTitle').html('<i class="bi bi-pencil-square me-2"></i> Edit Produk');
+                    $('#btnSimpan').html('<i class="bi bi-pencil-square me-1"></i> Update Produk')
+                                   .removeClass('btn-water').addClass('btn-warning text-dark fw-bold');
+                    $('#btnBatalEdit').removeClass('d-none'); // Munculkan tombol batal
+                    
+                    // Fokuskan inputan pertama (animasi scroll jika pakai hp)
+                    $('#namaProduk').focus();
+                }
+            });
+
+            // --- Handle Tombol Batal Edit ---
+            $('#btnBatalEdit').on('click', function() {
+                resetFormState();
+            });
+
+            // Helper untuk mengembalikan form ke state awal (Tambah Produk)
+            const resetFormState = () => {
+                $('#formProduk')[0].reset();
+                currentEditId = null;
+                $('#formTitle').html('<i class="bi bi-plus-circle-fill me-2"></i> Tambah Produk');
+                $('#btnSimpan').html('<i class="bi bi-save me-1"></i> Simpan Produk')
+                               .removeClass('btn-warning text-dark fw-bold').addClass('btn-water');
+                $('#btnBatalEdit').addClass('d-none');
+            };
+
+            // --- Handle Event Submit Form (Create & Update) ---
+            $('#formProduk').on('submit', function(e) {
+                e.preventDefault();
+
+                let nama = $('#namaProduk').val().trim();
+                let kategori = $('#kategori').val();
+                let harga = parseInt($('#harga').val());
+
+                if(!nama || !kategori || !harga) return;
+
+                if (currentEditId) {
+                    // MENGUPDATE DATA (UPDATE)
+                    let index = productsArr.findIndex(p => p.id === currentEditId);
+                    if (index !== -1) {
+                        productsArr[index].nama = nama;
+                        productsArr[index].kategori = kategori;
+                        productsArr[index].harga = harga;
+                    }
+                    
+                    Swal.fire({ icon: 'success', title: 'Berhasil!', text: 'Data produk berhasil diperbarui', timer: 1500, showConfirmButton: false });
+                } else {
+                    // MENAMBAH DATA BARU (CREATE)
+                    let newProduct = {
+                        id: Date.now(), 
+                        nama: nama,
+                        kategori: kategori,
+                        harga: harga
+                    };
+                    productsArr.push(newProduct);
+                    
+                    Swal.fire({ icon: 'success', title: 'Tersimpan!', text: 'Produk baru berhasil ditambahkan', timer: 1500, showConfirmButton: false });
+                }
+                
+                // Simpan, reset, dan render ulang
+                localStorage.setItem('dataFreshAqua', JSON.stringify(productsArr));
+                resetFormState();
+                renderProducts();
+            });
+
+            // --- Handle Event Hapus Data menggunakan SweetAlert2 ---
+            $('#tabelProduk tbody').on('click', '.btn-hapus', function() {
+                let deleteId = $(this).data('id');
+                
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: "Data produk ini akan dihapus permanen!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ef5350',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Hapus dari array
+                        productsArr = productsArr.filter(product => product.id !== deleteId);
+                        localStorage.setItem('dataFreshAqua', JSON.stringify(productsArr));
+                        renderProducts();
+                        
+                        // Jika produk yang sedang diedit malah dihapus, reset form
+                        if (currentEditId === deleteId) resetFormState();
+
+                        Swal.fire({ icon: 'success', title: 'Terhapus!', text: 'Produk telah dihapus.', timer: 1500, showConfirmButton: false });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
