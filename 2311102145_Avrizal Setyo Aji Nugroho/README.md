@@ -176,120 +176,122 @@ Aplikasi ini dibangun menggunakan beberapa konsep dan teknologi inti berikut:
 
 ### Kode CSS (`style.css`)
 
-````css
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+```css
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
 body {
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    min-height: 100vh;
-    font-family: 'Poppins', sans-serif;
-    color: #333;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+  color: #333;
 }
 
 .main-wrapper {
-    padding-top: 40px;
-    padding-bottom: 40px;
+  padding-top: 40px;
+  padding-bottom: 40px;
 }
 
 .page-title {
-    font-weight: 700;
-    color: #2c3e50;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  font-weight: 700;
+  color: #2c3e50;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .card {
-    border: none;
-    border-radius: 16px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
 }
 
 .card-header {
-    border-top-left-radius: 16px !important;
-    border-top-right-radius: 16px !important;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    padding: 15px 20px;
+  border-top-left-radius: 16px !important;
+  border-top-right-radius: 16px !important;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 15px 20px;
 }
 
 .form-label {
-    font-weight: 500;
-    font-size: 0.9rem;
-    color: #555;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: #555;
 }
 
 .form-control,
 .form-select {
-    border-radius: 8px;
-    padding: 10px 15px;
-    border: 1px solid #ced4da;
-    transition: all 0.3s ease;
+  border-radius: 8px;
+  padding: 10px 15px;
+  border: 1px solid #ced4da;
+  transition: all 0.3s ease;
 }
 
 .form-control:focus,
 .form-select:focus {
-    border-color: #0d6efd;
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
 }
 
 .btn {
-    border-radius: 8px;
-    font-weight: 500;
-    padding: 10px 15px;
-    transition: all 0.2s;
+  border-radius: 8px;
+  font-weight: 500;
+  padding: 10px 15px;
+  transition: all 0.2s;
 }
 
 .btn:hover {
-    transform: translateY(-2px);
+  transform: translateY(-2px);
 }
 
 .btn-sm {
-    padding: 6px 12px;
+  padding: 6px 12px;
 }
 
 .table-container {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 #tabelProduk thead th {
-    background-color: #2c3e50;
-    color: #ffffff;
-    font-weight: 500;
-    border-bottom: none;
-    padding: 15px;
+  background-color: #2c3e50;
+  color: #ffffff;
+  font-weight: 500;
+  border-bottom: none;
+  padding: 15px;
 }
 
 #tabelProduk thead th:first-child {
-    border-top-left-radius: 10px;
+  border-top-left-radius: 10px;
 }
 
 #tabelProduk thead th:last-child {
-    border-top-right-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 .dataTables_wrapper .dataTables_filter input {
-    border-radius: 6px;
-    padding: 5px 10px;
-    border: 1px solid #ccc;
-    margin-left: 10px;
+  border-radius: 6px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  margin-left: 10px;
 }
 
 .page-item.active .page-link {
-    background-color: #0d6efd;
-    border-color: #0d6efd;
-    border-radius: 6px;
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+  border-radius: 6px;
 }
 
 .page-link {
-    border-radius: 6px;
-    margin: 0 3px;
-    color: #2c3e50;
-    box-shadow: none !important;
+  border-radius: 6px;
+  margin: 0 3px;
+  color: #2c3e50;
+  box-shadow: none !important;
 }
 ```
 
@@ -299,90 +301,103 @@ body {
 
 ```javascript
 $(document).ready(function () {
-    let table = $('#tabelProduk').DataTable({
-        language: {
-            search: "Cari:",
-            lengthMenu: "Tampilkan _MENU_ data",
-            info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ produk",
-            paginate: { next: "Lanjut", previous: "Kembali" },
-            emptyTable: "Belum ada produk yang ditambahkan."
-        }
-    });
+  let table = $("#tabelProduk").DataTable({
+    language: {
+      search: "Cari:",
+      lengthMenu: "Tampilkan _MENU_ data",
+      info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ produk",
+      paginate: { next: "Lanjut", previous: "Kembali" },
+      emptyTable: "Belum ada produk yang ditambahkan.",
+    },
+  });
 
-    let produkMap = {};
-    let counter = 1;
+  let produkMap = {};
+  let counter = 1;
 
-    $('#formProduk').on('submit', function (e) {
-        e.preventDefault();
+  $("#formProduk").on("submit", function (e) {
+    e.preventDefault();
 
-        let editId = $('#editId').val();
-        let nama = $('#namaProduk').val();
-        let kategori = $('#kategori').val();
-        let harga = $('#harga').val();
-        let hargaFormat = `Rp ${parseInt(harga).toLocaleString('id-ID')}`;
+    let editId = $("#editId").val();
+    let nama = $("#namaProduk").val();
+    let kategori = $("#kategori").val();
+    let harga = $("#harga").val();
+    let hargaFormat = `Rp ${parseInt(harga).toLocaleString("id-ID")}`;
 
-        let aksiButtons = function (idTarget) {
-            return `
+    let aksiButtons = function (idTarget) {
+      return `
             <button type="button" class="btn btn-warning btn-sm me-1 text-dark" onclick="editProduk(${idTarget})">Edit</button>
             <button type="button" class="btn btn-danger btn-sm" onclick="hapusProduk(${idTarget}, this)">Hapus</button>
         `;
-        };
-
-        if (editId === "") {
-            let id = counter++;
-            produkMap[id] = { id, nama, kategori, harga };
-
-            let rowNode = table.row.add([
-                id, nama, kategori, hargaFormat, aksiButtons(id)
-            ]).draw(false).node();
-            $(rowNode).attr('id', 'row-' + id);
-
-        } else {
-            produkMap[editId] = { id: parseInt(editId), nama, kategori, harga };
-
-            table.row('#row-' + editId).data([
-                editId, nama, kategori, hargaFormat, aksiButtons(editId)
-            ]).draw(false);
-
-            batalEdit();
-            alert("Data berhasil diperbarui!");
-        }
-
-        if (editId === "") this.reset();
-    });
-
-    window.editProduk = function (id) {
-        let data = produkMap[id];
-
-        $('#editId').val(data.id);
-        $('#namaProduk').val(data.nama);
-        $('#kategori').val(data.kategori);
-        $('#harga').val(data.harga);
-
-        $('#formTitle').text("Edit Produk (ID: " + data.id + ")").removeClass('bg-primary').addClass('bg-warning text-dark');
-        $('#btnSubmit').text("Update").removeClass('btn-success').addClass('btn-warning text-dark');
-        $('#btnCancel').removeClass('d-none');
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    window.batalEdit = function () {
-        $('#formProduk')[0].reset();
-        $('#editId').val('');
-        $('#formTitle').text("Input Produk Baru").removeClass('bg-warning text-dark').addClass('bg-primary text-white');
-        $('#btnSubmit').text("Simpan").removeClass('btn-warning text-dark').addClass('btn-success');
-        $('#btnCancel').addClass('d-none');
-    };
+    if (editId === "") {
+      let id = counter++;
+      produkMap[id] = { id, nama, kategori, harga };
 
-    window.hapusProduk = function (id, btn) {
-        if (confirm('Apakah Anda yakin ingin menghapus produk ini?')) {
-            delete produkMap[id];
-            table.row($(btn).parents('tr')).remove().draw();
-            if ($('#editId').val() == id) batalEdit();
-        }
-    };
+      let rowNode = table.row
+        .add([id, nama, kategori, hargaFormat, aksiButtons(id)])
+        .draw(false)
+        .node();
+      $(rowNode).attr("id", "row-" + id);
+    } else {
+      produkMap[editId] = { id: parseInt(editId), nama, kategori, harga };
+
+      table
+        .row("#row-" + editId)
+        .data([editId, nama, kategori, hargaFormat, aksiButtons(editId)])
+        .draw(false);
+
+      batalEdit();
+      alert("Data berhasil diperbarui!");
+    }
+
+    if (editId === "") this.reset();
+  });
+
+  window.editProduk = function (id) {
+    let data = produkMap[id];
+
+    $("#editId").val(data.id);
+    $("#namaProduk").val(data.nama);
+    $("#kategori").val(data.kategori);
+    $("#harga").val(data.harga);
+
+    $("#formTitle")
+      .text("Edit Produk (ID: " + data.id + ")")
+      .removeClass("bg-primary")
+      .addClass("bg-warning text-dark");
+    $("#btnSubmit")
+      .text("Update")
+      .removeClass("btn-success")
+      .addClass("btn-warning text-dark");
+    $("#btnCancel").removeClass("d-none");
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  window.batalEdit = function () {
+    $("#formProduk")[0].reset();
+    $("#editId").val("");
+    $("#formTitle")
+      .text("Input Produk Baru")
+      .removeClass("bg-warning text-dark")
+      .addClass("bg-primary text-white");
+    $("#btnSubmit")
+      .text("Simpan")
+      .removeClass("btn-warning text-dark")
+      .addClass("btn-success");
+    $("#btnCancel").addClass("d-none");
+  };
+
+  window.hapusProduk = function (id, btn) {
+    if (confirm("Apakah Anda yakin ingin menghapus produk ini?")) {
+      delete produkMap[id];
+      table.row($(btn).parents("tr")).remove().draw();
+      if ($("#editId").val() == id) batalEdit();
+    }
+  };
 });
-````
+```
 
 ---
 
