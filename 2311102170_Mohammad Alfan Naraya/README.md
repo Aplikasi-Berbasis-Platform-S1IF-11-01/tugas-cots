@@ -420,8 +420,9 @@ $(document).ready(function() {
 
 ## 3. Referensi
 
-- [Bootstrap 5 Documentation](https://getbootstrap.com/docs/5.3/)
-- [jQuery DataTables Documentation](https://datatables.net/manual/)
+- [Bootstrap 5](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
+- [jQuery DataTables](https://datatables.net/manual/)
+- [MDN Web Docs - Window.localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
+- [MDN Web Docs - Array.prototype.splice()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice)
+- [Google Fonts - Outfit](https://fonts.google.com/specimen/Outfit)
 - [Bootstrap Icons](https://icons.getbootstrap.com/)
-- [MDN Web Docs — JavaScript Array & Object Methods](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-- [Google Fonts — Plus Jakarta Sans](https://fonts.google.com/specimen/Plus+Jakarta+Sans)
