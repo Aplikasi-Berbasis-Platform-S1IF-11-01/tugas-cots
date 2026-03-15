@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Market Fruit - Manajemen Produk Buah</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+body{
+background:#f3f3f3;
+}
+
+.header{
+background:linear-gradient(90deg,#4CAF50,#7ED957);
+color:white;
+padding:15px;
+font-size:20px;
+font-weight:bold;
+}
+
+.card-stat{
+color:white;
+border-radius:15px;
+padding:20px;
+}
+
+.stat1{background:linear-gradient(45deg,#2ecc71,#1abc9c);}
+.stat2{background:linear-gradient(45deg,#6a11cb,#2575fc);}
+.stat3{background:linear-gradient(45deg,#f39c12,#f1c40f);}
+.stat4{background:linear-gradient(45deg,#00c6ff,#0072ff);}
+
+.table img{
+width:60px;
+border-radius:5px;
+}
+
+#preview{
+width:100px;
+margin-top:10px;
+display:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+🍏 Market Fruit - Manajemen Produk Buah
+</div>
+
+<div class="container mt-4">
+
+<!-- STATISTIK -->
+<div class="row g-3 mb-4">
+
+<div class="col-md-3">
+<div class="card-stat stat1">
+TOTAL PRODUK
+<h2 id="totalProduk">0</h2>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card-stat stat2">
+KATEGORI
+<h2 id="totalKategori">0</h2>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card-stat stat3">
+HARGA TERTINGGI
+<h4 id="hargaMax">Rp 0/kg</h4>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card-stat stat4">
+RATA-RATA HARGA
+<h4 id="hargaAvg">Rp 0/kg</h4>
+</div>
+</div>
+
+</div>
+
+<div class="row">
+
+<!-- FORM -->
+<div class="col-md-4">
+
+<div class="card p-3">
+
+<h4 class="text-success">Input Produk Buah</h4>
+
+<form id="fruitForm">
+
+<input type="hidden" id="editId">
+
+<div class="mb-3">
+<label>Nama Buah</label>
+<input type="text" id="nama" class="form-control" required>
+</div>
+
+<div class="mb-3">
+<label>Kategori</label>
+<select id="kategori" class="form-control">
+<option>Buah Lokal</option>
+<option>Buah Import</option>
+</select>
+</div>
+
+<div class="mb-3">
+<label>Harga (Rp/kg)</label>
+<input type="number" id="harga" class="form-control" required>
+</div>
+
+<div class="mb-3">
+<label>Upload Gambar</label>
+<input type="file" id="gambar" class="form-control">
+<img id="preview">
+</div>
+
+<button class="btn btn-success w-100">Simpan Produk</button>
+
+</form>
+
+</div>
+
+</div>
+
+<!-- TABEL -->
+<div class="col-md-8">
+
+<div class="card p-3 mb-3">
+
+<table id="fruitTable" class="table table-bordered">
+
+<thead>
+<tr>
+<th>Gambar</th>
+<th>Nama Buah</th>
+<th>Kategori</th>
+<th>Harga</th>
+<th>Aksi</th>
+</tr>
+</thead>
+
+<tbody></tbody>
+
+</table>
+
+</div>
+
+<!-- GRAFIK -->
+
+<div class="card p-3">
+
+<h4 class="text-success">Grafik Harga Buah</h4>
+
+<canvas id="fruitChart"></canvas>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<script>
+
+let dataProduk = JSON.parse(localStorage.getItem("buah")) || {};
+
+let table;
+let chart;
+
+$(document).ready(function(){
+
+table = $('#fruitTable').DataTable();
+
+renderTable();
+
+
+// preview gambar
+$('#gambar').change(function(){
+
+let file=this.files[0];
+
+if(file){
+
+let reader=new FileReader();
+
+reader.onload=function(e){
+
+$('#preview').attr("src",e.target.result).show();
+
+}
+
+reader.readAsDataURL(file);
+
+}
+
+});
+
+
+// submit form
+$('#fruitForm').submit(function(e){
+
+e.preventDefault();
+
+let id=$('#editId').val();
+let nama=$('#nama').val();
+let kategori=$('#kategori').val();
+let harga=$('#harga').val();
+
+let file=$('#gambar')[0].files[0];
+
+let reader=new FileReader();
+
+reader.onload=function(e){
+
+let img=e.target.result;
+
+if(id==""){
+
+let newId=Date.now();
+
+dataProduk[newId]={nama,kategori,harga,img};
+
+}else{
+
+dataProduk[id]={nama,kategori,harga,img};
+
+}
+
+saveData();
+renderTable();
+resetForm();
+
+}
+
+if(file){
+
+reader.readAsDataURL(file);
+
+}else{
+
+let img="";
+
+if(id!="" && dataProduk[id].img){
+img=dataProduk[id].img;
+}
+
+if(id==""){
+let newId=Date.now();
+dataProduk[newId]={nama,kategori,harga,img};
+}else{
+dataProduk[id]={nama,kategori,harga,img};
+}
+
+saveData();
+renderTable();
+resetForm();
+
+}
+
+});
+
+});
+
+
+function renderTable(){
+
+table.clear();
+
+let hargaList=[];
+let kategoriSet=new Set();
+
+for(let id in dataProduk){
+
+let p=dataProduk[id];
+
+hargaList.push(parseInt(p.harga));
+kategoriSet.add(p.kategori);
+
+table.row.add([
+
+p.img?`<img src="${p.img}">`:"",
+
+p.nama,
+
+p.kategori,
+
+"Rp "+parseInt(p.harga).toLocaleString("id-ID")+"/kg",
+
+`
+<button class="btn btn-warning btn-sm" onclick="editProduk('${id}')">Edit</button>
+<button class="btn btn-danger btn-sm" onclick="hapusProduk('${id}')">Hapus</button>
+`
+
+]);
+
+}
+
+table.draw();
+
+updateStat(hargaList,kategoriSet);
+
+updateChart();
+
+}
+
+
+function editProduk(id){
+
+let p=dataProduk[id];
+
+$('#editId').val(id);
+$('#nama').val(p.nama);
+$('#kategori').val(p.kategori);
+$('#harga').val(p.harga);
+
+if(p.img){
+$('#preview').attr("src",p.img).show();
+}
+
+}
+
+
+function hapusProduk(id){
+
+if(confirm("Hapus produk?")){
+
+delete dataProduk[id];
+
+saveData();
+renderTable();
+
+}
+
+}
+
+
+function saveData(){
+
+localStorage.setItem("buah",JSON.stringify(dataProduk));
+
+}
+
+
+function resetForm(){
+
+$('#fruitForm')[0].reset();
+$('#editId').val("");
+$('#preview').hide();
+
+}
+
+
+function updateStat(hargaList,kategoriSet){
+
+$('#totalProduk').text(Object.keys(dataProduk).length);
+
+$('#totalKategori').text(kategoriSet.size);
+
+if(hargaList.length>0){
+
+let max=Math.max(...hargaList);
+
+let avg=hargaList.reduce((a,b)=>a+b,0)/hargaList.length;
+
+$('#hargaMax').text("Rp "+max.toLocaleString("id-ID")+"/kg");
+
+$('#hargaAvg').text("Rp "+Math.round(avg).toLocaleString("id-ID")+"/kg");
+
+}
+
+}
+
+
+function updateChart(){
+
+let labels=[];
+let data=[];
+
+for(let id in dataProduk){
+
+labels.push(dataProduk[id].nama);
+
+data.push(dataProduk[id].harga);
+
+}
+
+if(chart){
+chart.destroy();
+}
+
+chart=new Chart(document.getElementById('fruitChart'),{
+
+type:'bar',
+
+data:{
+labels:labels,
+datasets:[{
+label:'Harga Buah (/kg)',
+data:data
+}]
+}
+
+});
+
+}
+
+</script>
+
+</body>
+</html>
