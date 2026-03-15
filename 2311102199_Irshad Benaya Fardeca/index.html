@@ -1,0 +1,319 @@
+<!-- Irshad Benaya Fardeca -->
+<!-- 2311102199 -->
+<!-- S1IF-11-01 -->
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Product Manager</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        body {
+            background: #f2f4f8;
+            font-family: Segoe UI, sans-serif;
+        }
+
+        .card {
+            border-radius: 12px;
+            border: none;
+        }
+
+        .btn-primary {
+            background: #4f46e5;
+            border: none;
+        }
+
+        .badge-price {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <nav class="navbar bg-white shadow-sm mb-4">
+        <div class="container">
+            <span class="navbar-brand fw-bold text-primary">
+                <i class="fa-solid fa-box"></i> Product Manager
+            </span>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-4">
+
+                <div class="card p-4 shadow-sm">
+
+                    <h5 class="mb-3">Tambah Produk</h5>
+
+                    <form id="productForm">
+
+                        <div class="mb-3">
+
+                            <label>Nama Produk</label>
+
+                            <input type="text" id="pName" class="form-control" required>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label>Kategori</label>
+
+                            <select id="pCategory" class="form-select" required>
+
+                                <option value="">Pilih</option>
+                                <option value="Elektronik">Elektronik</option>
+                                <option value="Pakaian">Pakaian</option>
+                                <option value="Makanan">Makanan</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label>Harga</label>
+
+                            <input type="number" id="pPrice" class="form-control" required>
+
+                        </div>
+
+                        <button class="btn btn-primary w-100">
+
+                            Tambah / Update Produk
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-8">
+
+                <div class="card p-4 shadow-sm">
+
+                    <h5 class="mb-3">Data Produk</h5>
+
+                    <table id="productTable" class="table table-striped">
+
+                        <thead>
+
+                            <tr>
+                                <th>Nama</th>
+                                <th>Kategori</th>
+                                <th>Harga</th>
+                                <th>Aksi</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+    <script>
+
+        let productData = []
+        let table
+        let editId = null
+
+        function saveData() {
+
+            localStorage.setItem("products", JSON.stringify(productData))
+
+        }
+
+        function loadData() {
+
+            let data = localStorage.getItem("products")
+
+            if (data) {
+
+                productData = JSON.parse(data)
+
+            }
+
+        }
+
+        function updateTable() {
+
+            table.clear()
+
+            productData.forEach(product => {
+
+                table.row.add([
+
+                    product.name,
+
+                    product.category,
+
+                    `<span class="badge-price">Rp ${product.price.toLocaleString('id-ID')}</span>`,
+
+                    `<button class="btn btn-warning btn-sm me-1" onclick="editProduct(${product.id})">
+<i class="fa fa-edit"></i>
+</button>
+
+<button class="btn btn-danger btn-sm" onclick="deleteProduct(${product.id})">
+<i class="fa fa-trash"></i>
+</button>`
+
+                ])
+
+            })
+
+            table.draw()
+
+        }
+
+        function editProduct(id) {
+
+            let product = productData.find(p => p.id === id)
+
+            $("#pName").val(product.name)
+            $("#pCategory").val(product.category)
+            $("#pPrice").val(product.price)
+
+            editId = id
+
+        }
+
+        function deleteProduct(id) {
+
+            Swal.fire({
+
+                title: "Hapus Produk?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Hapus"
+
+            }).then(result => {
+
+                if (result.isConfirmed) {
+
+                    productData = productData.filter(p => p.id !== id)
+
+                    saveData()
+
+                    updateTable()
+
+                    Swal.fire("Data terhapus", "", "success")
+
+                }
+
+            })
+
+        }
+
+        $(document).ready(function () {
+
+            table = $("#productTable").DataTable()
+
+            loadData()
+
+            updateTable()
+
+            $("#productForm").submit(function (e) {
+
+                e.preventDefault()
+
+                let name = $("#pName").val()
+                let category = $("#pCategory").val()
+                let price = parseInt($("#pPrice").val())
+
+                if (price <= 0) {
+
+                    Swal.fire({
+
+                        icon: "error",
+                        title: "Harga harus lebih dari 0"
+
+                    })
+
+                    return
+
+                }
+
+                if (editId) {
+
+                    let index = productData.findIndex(p => p.id === editId)
+
+                    productData[index].name = name
+                    productData[index].category = category
+                    productData[index].price = price
+
+                    editId = null
+
+                    Swal.fire("Produk berhasil diupdate", "", "success")
+
+                }
+
+                else {
+
+                    let item = {
+
+                        id: Date.now(),
+                        name: name,
+                        category: category,
+                        price: price
+
+                    }
+
+                    productData.push(item)
+
+                    Swal.fire("Produk berhasil ditambahkan", "", "success")
+
+                }
+
+                saveData()
+
+                updateTable()
+
+                $("#productForm")[0].reset()
+
+            })
+
+        })
+
+    </script>
+
+</body>
+
+</html>
