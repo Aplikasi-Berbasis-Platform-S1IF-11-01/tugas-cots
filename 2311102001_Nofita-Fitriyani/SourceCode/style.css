@@ -1,0 +1,33 @@
+body {
+  background-color: #f8f9fa;
+  position: relative;
+  min-height: 100vh;
+}
+
+.watermark {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-30deg);
+  font-size: 48px;
+  color: rgba(0, 0, 0, 0.06);
+  font-weight: bold;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  white-space: nowrap;
+}
+
+.card,
+.teks-bawah {
+  position: relative;
+  z-index: 1;
+}
+
+#tabelProduk_wrapper {
+  margin-top: 10px;
+}
+
+.btn-aksi {
+  margin-right: 5px;
+}
