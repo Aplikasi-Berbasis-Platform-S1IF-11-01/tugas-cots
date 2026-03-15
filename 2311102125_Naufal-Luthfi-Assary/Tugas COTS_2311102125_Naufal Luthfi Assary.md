@@ -38,8 +38,7 @@
 1. Website dan Aplikasi Berbasis Platform
 Aplikasi berbasis platform merupakan aplikasi yang dibangun untuk berjalan pada suatu platform tertentu, salah satunya adalah **platform web**. Aplikasi web dapat diakses melalui browser tanpa harus melakukan instalasi seperti aplikasi desktop. Teknologi dasar yang digunakan dalam pengembangan aplikasi web meliputi **HTML**, **CSS**, dan **JavaScript**.
 
-2. HTML
-**HTML (HyperText Markup Language)** adalah bahasa markup yang digunakan untuk menyusun struktur dasar sebuah halaman web. HTML berfungsi untuk menentukan elemen-elemen pada halaman, seperti:
+2. **HTML (HyperText Markup Language)** adalah bahasa markup yang digunakan untuk menyusun struktur dasar sebuah halaman web. HTML berfungsi untuk menentukan elemen-elemen pada halaman, seperti:
 - heading atau judul,
 - paragraf,
 - form input,
@@ -55,8 +54,7 @@ Pada aplikasi ini, HTML digunakan untuk:
 - membuat modal popup edit,
 - dan membuat toast notification.
 
-3. CSS
-**CSS (Cascading Style Sheets)** adalah bahasa yang digunakan untuk mengatur tampilan dan desain halaman web. CSS memungkinkan pengembang untuk mengatur warna, ukuran, layout, jarak antar elemen, animasi, dan aspek visual lainnya.
+3. **CSS (Cascading Style Sheets)** adalah bahasa yang digunakan untuk mengatur tampilan dan desain halaman web. CSS memungkinkan pengembang untuk mengatur warna, ukuran, layout, jarak antar elemen, animasi, dan aspek visual lainnya.
 
 Pada aplikasi ini, CSS digunakan untuk:
 - mengatur layout sidebar dan konten utama,
@@ -65,8 +63,7 @@ Pada aplikasi ini, CSS digunakan untuk:
 - membuat tampilan responsif,
 - serta memberi efek visual pada modal dan toast.
 
-4. JavaScript
-**JavaScript** adalah bahasa pemrograman yang digunakan untuk membuat halaman web menjadi interaktif. Dengan JavaScript, halaman tidak hanya bersifat statis, tetapi dapat merespons aksi pengguna seperti klik tombol, input data, edit, hapus, dan manipulasi data secara langsung.
+4. **JavaScript** adalah bahasa pemrograman yang digunakan untuk membuat halaman web menjadi interaktif. Dengan JavaScript, halaman tidak hanya bersifat statis, tetapi dapat merespons aksi pengguna seperti klik tombol, input data, edit, hapus, dan manipulasi data secara langsung.
 
 Pada aplikasi ini, JavaScript digunakan untuk:
 - menambah data produk,
@@ -77,8 +74,7 @@ Pada aplikasi ini, JavaScript digunakan untuk:
 - menyimpan data ke localStorage,
 - dan menampilkan notifikasi toast.
 
-5. Bootstrap
-**Bootstrap** adalah framework CSS yang menyediakan kumpulan class siap pakai untuk membangun tampilan web yang rapi, modern, dan responsif. Dengan Bootstrap, pengembang dapat membuat komponen seperti tombol, form, tabel, modal, grid layout, dan navigasi dengan lebih cepat.
+5. **Bootstrap** adalah framework CSS yang menyediakan kumpulan class siap pakai untuk membangun tampilan web yang rapi, modern, dan responsif. Dengan Bootstrap, pengembang dapat membuat komponen seperti tombol, form, tabel, modal, grid layout, dan navigasi dengan lebih cepat.
 
 Keunggulan Bootstrap:
 - mempercepat proses pembuatan tampilan,
@@ -95,8 +91,7 @@ Pada program ini, Bootstrap digunakan untuk:
 - toast notification,
 - dan struktur responsif keseluruhan halaman.
 
-6. jQuery
-**jQuery** adalah library JavaScript yang dirancang untuk mempermudah manipulasi DOM, event handling, animasi, dan interaksi antar elemen HTML. jQuery membuat penulisan kode JavaScript menjadi lebih singkat dan sederhana.
+6. **jQuery** adalah library JavaScript yang dirancang untuk mempermudah manipulasi DOM, event handling, animasi, dan interaksi antar elemen HTML. jQuery membuat penulisan kode JavaScript menjadi lebih singkat dan sederhana.
 
 Pada aplikasi ini, jQuery digunakan untuk:
 - mengambil nilai dari input,
@@ -106,8 +101,7 @@ Pada aplikasi ini, jQuery digunakan untuk:
 - mengatur perpindahan halaman dashboard dan manajemen produk,
 - serta mengintegrasikan DataTables.
 
-7. DataTables
-**DataTables** adalah plugin jQuery yang digunakan untuk membuat tabel HTML menjadi lebih interaktif. Dengan DataTables, tabel dapat memiliki fitur tambahan tanpa harus dibuat manual dari awal.
+7. **DataTables** adalah plugin jQuery yang digunakan untuk membuat tabel HTML menjadi lebih interaktif. Dengan DataTables, tabel dapat memiliki fitur tambahan tanpa harus dibuat manual dari awal.
 
 Fitur utama DataTables:
 - **search** untuk pencarian data,
@@ -117,8 +111,7 @@ Fitur utama DataTables:
 
 Dalam tugas ini, DataTables digunakan pada tabel data produk agar tabel memenuhi ketentuan tugas, yaitu memiliki fitur pencarian dan pagination.
 
-8. CRUD
-**CRUD** adalah singkatan dari:
+8. **CRUD** adalah singkatan dari:
 - **Create**: menambahkan data,
 - **Read**: menampilkan data,
 - **Update**: memperbarui data,
@@ -132,8 +125,7 @@ Pada aplikasi ini:
 - **Update** dilakukan melalui modal edit,
 - **Delete** dilakukan melalui tombol hapus pada setiap baris tabel.
 
-9. Array dan Object
-Dalam JavaScript, **array** digunakan untuk menyimpan sekumpulan data, sedangkan **object** digunakan untuk menyimpan data dalam bentuk pasangan **key** dan **value**.
+9. Array dan Object dalam JavaScript, **array** digunakan untuk menyimpan sekumpulan data, sedangkan **object** digunakan untuk menyimpan data dalam bentuk pasangan **key** dan **value**.
 
 Contoh object produk:
 ```js
