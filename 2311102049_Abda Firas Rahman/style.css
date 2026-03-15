@@ -1,0 +1,53 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f0f2f5;
+}
+
+/* Gradasi Biru*/
+.header-custom {
+    background: linear-gradient(135deg, #1fa2ff 0%, #12d8fa 50%, #a6ffcb 100%);
+    color: white !important;
+    font-weight: 600;
+    border-bottom: none;
+}
+
+/* Abda Firas Rahman - 2311102049 - Tugas Cots*/
+
+.header-custom::after {
+    filter: brightness(0) invert(1);
+  
+}
+
+.card-custom {
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.btn-gradient-success {
+    background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);
+    color: white;
+    border: none;
+    font-weight: 600;
+}
+
+.btn-gradient-success:hover {
+    opacity: 0.9;
+    color: white;
+}
+
+.table-custom {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100% !important;
+}
+
+.table-custom thead {
+    background-color: #f8f9fa;
+}
+
+.table-custom td,
+.table-custom th {
+    vertical-align: middle;
+    border-top: 1px solid #ebedf2;
+}
