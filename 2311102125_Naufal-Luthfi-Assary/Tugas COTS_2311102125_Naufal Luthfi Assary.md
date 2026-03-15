@@ -38,8 +38,6 @@
 1. Website dan Aplikasi Berbasis Platform
 Aplikasi berbasis platform merupakan aplikasi yang dibangun untuk berjalan pada suatu platform tertentu, salah satunya adalah **platform web**. Aplikasi web dapat diakses melalui browser tanpa harus melakukan instalasi seperti aplikasi desktop. Teknologi dasar yang digunakan dalam pengembangan aplikasi web meliputi **HTML**, **CSS**, dan **JavaScript**.
 
-Dalam tugas ini, aplikasi yang dibuat berupa sistem sederhana untuk mengelola data produk. Sistem tersebut memiliki form input, tabel data, serta fitur CRUD sederhana yang dijalankan pada browser.
-
 2. HTML
 **HTML (HyperText Markup Language)** adalah bahasa markup yang digunakan untuk menyusun struktur dasar sebuah halaman web. HTML berfungsi untuk menentukan elemen-elemen pada halaman, seperti:
 - heading atau judul,
