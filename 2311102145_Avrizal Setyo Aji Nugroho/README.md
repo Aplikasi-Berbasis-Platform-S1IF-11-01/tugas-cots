@@ -418,7 +418,7 @@ $(document).ready(function () {
 
 #### 4. Edit Data
 
-Mengedit Samsung S21 ke Samsung S26 beserta harganya
+Mengedit Samsung S24 ke Samsung S26 beserta harganya
 ![Edit Data Produk](Edit.png)
 
 #### 5. Hapus Data
