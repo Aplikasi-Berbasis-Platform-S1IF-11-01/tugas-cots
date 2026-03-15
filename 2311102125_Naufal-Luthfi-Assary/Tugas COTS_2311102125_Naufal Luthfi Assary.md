@@ -140,7 +140,7 @@ Contoh object produk:
 
 ## 2. Penjelasan Kode 
 
-Berikut merupakan implementasi Tabel dengan menggunakan HTML.
+Berikut merupakan implementasi Manajemen Produk dengan menggunakan HTML, JavaScript, CSS.
 
 ### Kode HTML (`index.html`)
 
