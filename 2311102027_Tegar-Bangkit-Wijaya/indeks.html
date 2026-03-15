@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manajemen Produk</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500&display=swap" rel="stylesheet" />
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+
+  <!-- DataTables (satu sumber saja) -->
+  <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg:      #0b0c10;
+      --surface: #13151a;
+      --card:    #1a1d24;
+      --border:  #252830;
+      --accent:  #f0c040;
+      --accent2: #e07b39;
+      --text:    #eef0f4;
+      --muted:   #6c7280;
+      --success: #34d399;
+      --danger:  #f87171;
+      --radius:  14px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 80% 50% at 10% -10%, rgba(240,192,64,.10) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 90% 110%, rgba(224,123,57,.09) 0%, transparent 55%);
+    }
+
+    .wrapper { position: relative; z-index: 1; }
+
+    /* ── TOP BAR ── */
+    .topbar {
+      background: rgba(19,21,26,.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 62px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 200;
+    }
+    .brand {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 1.25rem; letter-spacing: -.03em;
+      display: flex; align-items: center; gap: .55rem;
+    }
+    .brand-dot {
+      width: 9px; height: 9px; border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink {
+      0%,100%{opacity:1;transform:scale(1)}
+      50%{opacity:.4;transform:scale(1.5)}
+    }
+    .topbar-pill {
+      font-size: .72rem; font-weight: 500;
+      background: rgba(240,192,64,.1);
+      color: var(--accent);
+      border: 1px solid rgba(240,192,64,.28);
+      padding: .22rem .7rem;
+      border-radius: 30px;
+    }
+
+    /* ── MAIN ── */
+    .main { padding: 2.5rem 2rem; max-width: 1340px; margin: 0 auto; }
+
+    /* ── PAGE HEADER ── */
+    .pg-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      letter-spacing: -.04em; line-height: 1.15;
+    }
+    .pg-title span { color: var(--accent); }
+    .pg-sub { color: var(--muted); margin-top: .35rem; font-size: .9rem; }
+
+    /* ── STATS ── */
+    .stats { display: flex; gap: 1rem; flex-wrap: wrap; margin: 1.8rem 0 2rem; }
+    .stat {
+      flex: 1; min-width: 140px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.3rem;
+      display: flex; align-items: center; gap: .85rem;
+      transition: border-color .2s;
+    }
+    .stat:hover { border-color: rgba(240,192,64,.4); }
+    .stat-ico {
+      width: 40px; height: 40px; border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.15rem; flex-shrink: 0;
+    }
+    .ico-gold   { background: rgba(240,192,64,.14); color: var(--accent); }
+    .ico-orange { background: rgba(224,123,57,.14); color: var(--accent2); }
+    .ico-green  { background: rgba(52,211,153,.14); color: var(--success); }
+    .stat-lbl { font-size: .72rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+    .stat-val { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.35rem; line-height: 1.2; }
+
+    /* ── GLASS CARD ── */
+    .gcard {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .gcard-head {
+      padding: 1rem 1.4rem;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(255,255,255,.018);
+    }
+    .gcard-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700; font-size: .97rem;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .gcard-title i { color: var(--accent); }
+    .gcard-body { padding: 1.5rem; }
+
+    /* ── FORM ── */
+    .form-label {
+      font-size: .74rem; font-weight: 500;
+      text-transform: uppercase; letter-spacing: .06em;
+      color: var(--muted); margin-bottom: .4rem;
+      display: block;
+    }
+    .form-control, .form-select {
+      background: var(--surface) !important;
+      border: 1px solid var(--border) !important;
+      color: var(--text) !important;
+      border-radius: 10px !important;
+      padding: .65rem 1rem !important;
+      font-size: .9rem !important;
+      width: 100%;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .form-control:focus, .form-select:focus {
+      border-color: var(--accent) !important;
+      box-shadow: 0 0 0 3px rgba(240,192,64,.14) !important;
+      outline: none !important;
+      background: var(--surface) !important;
+      color: var(--text) !important;
+    }
+    .form-control::placeholder { color: var(--muted) !important; }
+    .form-select option { background: #1a1d24; color: var(--text); }
+
+    .ig-prefix {
+      display: flex;
+    }
+    .ig-prefix .prefix-text {
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-right: none;
+      color: var(--muted);
+      padding: .65rem .9rem;
+      border-radius: 10px 0 0 10px;
+      font-size: .85rem;
+      white-space: nowrap;
+      display: flex; align-items: center;
+    }
+    .ig-prefix .form-control {
+      border-radius: 0 10px 10px 0 !important;
+      border-left: none !important;
+      flex: 1;
+    }
+
+    /* ── BUTTONS ── */
+    .btn-add {
+      background: var(--accent);
+      color: #0b0c10;
+      border: none; border-radius: 10px;
+      padding: .65rem 0;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700; font-size: .88rem;
+      display: flex; align-items: center; justify-content: center; gap: .45rem;
+      cursor: pointer;
+      width: 100%;
+      transition: transform .15s, box-shadow .15s, background .15s;
+    }
+    .btn-add:hover {
+      background: #f5d070;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(240,192,64,.3);
+    }
+    .btn-add:active { transform: translateY(0); box-shadow: none; }
+
+    .btn-reset {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: .62rem 1.1rem;
+      font-size: .85rem;
+      cursor: pointer;
+      display: flex; align-items: center; gap: .4rem;
+      white-space: nowrap;
+      transition: all .15s;
+    }
+    .btn-reset:hover { border-color: var(--muted); color: var(--text); }
+
+    .btn-save-modal {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #0b0c10; border: none; border-radius: 10px;
+      padding: .6rem 1.4rem;
+      font-family: 'Syne', sans-serif; font-weight: 700; font-size: .86rem;
+      display: inline-flex; align-items: center; gap: .4rem;
+      cursor: pointer;
+      transition: opacity .15s, transform .15s;
+    }
+    .btn-save-modal:hover { opacity: .85; transform: translateY(-1px); }
+
+    /* ── TABLE ── */
+    #productTable { width: 100% !important; }
+
+    #productTable thead th {
+      background: var(--surface) !important;
+      color: var(--muted) !important;
+      font-size: .72rem !important;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      font-weight: 600 !important;
+      padding: .85rem 1rem !important;
+      border-bottom: 1px solid var(--border) !important;
+      border-top: none !important;
+      white-space: nowrap;
+    }
+    #productTable tbody td {
+      padding: .82rem 1rem !important;
+      border-bottom: 1px solid var(--border) !important;
+      border-top: none !important;
+      color: var(--text) !important;
+      background: transparent !important;
+      vertical-align: middle;
+    }
+    #productTable tbody tr:hover td { background: rgba(240,192,64,.035) !important; }
+    #productTable tbody tr:last-child td { border-bottom: none !important; }
+
+    .cat-badge {
+      display: inline-flex; align-items: center; gap: .32rem;
+      padding: .2rem .65rem;
+      border-radius: 20px;
+      font-size: .74rem; font-weight: 500;
+    }
+    .b-elektronik { background:rgba(96,165,250,.12);  color:#93c5fd; border:1px solid rgba(96,165,250,.25); }
+    .b-pakaian    { background:rgba(244,114,182,.12); color:#f9a8d4; border:1px solid rgba(244,114,182,.25); }
+    .b-makanan    { background:rgba(52,211,153,.12);  color:#6ee7b7; border:1px solid rgba(52,211,153,.25); }
+    .b-perabot    { background:rgba(167,139,250,.12); color:#c4b5fd; border:1px solid rgba(167,139,250,.25); }
+    .b-olahraga   { background:rgba(251,191,36,.12);  color:#fcd34d; border:1px solid rgba(251,191,36,.25); }
+    .b-lainnya    { background:rgba(148,163,184,.12); color:#cbd5e1; border:1px solid rgba(148,163,184,.25); }
+
+    .price-cell { font-family:'Syne',sans-serif; font-weight:600; font-size:.9rem; color:var(--success); }
+    .id-cell    { font-size:.78rem; color:var(--accent); font-family:monospace; }
+    .num-cell   { font-size:.8rem; color:var(--muted); }
+
+    .btn-act {
+      width: 30px; height: 30px; border-radius: 7px;
+      border: none; cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: .8rem;
+      transition: all .15s;
+    }
+    .btn-act.edit   { background:rgba(96,165,250,.15); color:#93c5fd; }
+    .btn-act.edit:hover   { background:rgba(96,165,250,.32); transform:translateY(-1px); }
+    .btn-act.del    { background:rgba(248,113,113,.12); color:var(--danger); }
+    .btn-act.del:hover    { background:rgba(248,113,113,.28); transform:translateY(-1px); }
+
+    /* ── DATATABLES OVERRIDES ── */
+    div.dataTables_wrapper { color:var(--text); }
+
+    div.dataTables_filter label,
+    div.dataTables_length label { color:var(--muted) !important; font-size:.82rem !important; }
+
+    div.dataTables_filter input {
+      background: var(--surface) !important;
+      border: 1px solid var(--border) !important;
+      color: var(--text) !important;
+      border-radius: 8px !important;
+      padding: .28rem .75rem !important;
+      margin-left: .5rem !important;
+      font-size: .82rem !important;
+      outline: none !important;
+    }
+    div.dataTables_filter input:focus { border-color: var(--accent) !important; }
+
+    div.dataTables_length select {
+      background: var(--surface) !important;
+      border: 1px solid var(--border) !important;
+      color: var(--text) !important;
+      border-radius: 8px !important;
+      padding: .25rem .45rem !important;
+      margin: 0 .4rem !important;
+    }
+    div.dataTables_info    { color:var(--muted) !important; font-size:.8rem !important; }
+    div.dataTables_paginate { font-size:.82rem !important; }
+
+    .paginate_button {
+      background: var(--surface) !important;
+      border: 1px solid var(--border) !important;
+      color: var(--muted) !important;
+      border-radius: 7px !important;
+      margin: 0 2px !important;
+      padding: .22rem .6rem !important;
+    }
+    .paginate_button:hover:not(.disabled) {
+      background: rgba(240,192,64,.12) !important;
+      border-color: var(--accent) !important;
+      color: var(--accent) !important;
+    }
+    .paginate_button.current,
+    .paginate_button.current:hover {
+      background: var(--accent) !important;
+      border-color: var(--accent) !important;
+      color: #0b0c10 !important;
+      font-weight: 700 !important;
+    }
+    .paginate_button.disabled { opacity:.3 !important; cursor:not-allowed !important; }
+
+    /* ── MODAL ── */
+    .modal-content {
+      background: var(--card) !important;
+      border: 1px solid var(--border) !important;
+      border-radius: var(--radius) !important;
+      color: var(--text);
+    }
+    .modal-header { border-bottom:1px solid var(--border) !important; padding:1.2rem 1.5rem !important; }
+    .modal-body   { padding: 1.5rem !important; }
+    .modal-footer { border-top:1px solid var(--border) !important; padding:1rem 1.5rem !important; }
+    .modal-title  { font-family:'Syne',sans-serif; font-weight:700; font-size:.97rem; }
+    .btn-close    { filter:invert(1) !important; opacity:.6 !important; }
+    .btn-close:hover { opacity:1 !important; }
+
+    .btn-cancel {
+      background: transparent; color: var(--muted);
+      border: 1px solid var(--border); border-radius: 9px;
+      padding: .55rem 1.1rem; font-size: .85rem; cursor: pointer;
+      transition: all .15s;
+    }
+    .btn-cancel:hover { border-color:var(--muted); color:var(--text); }
+
+    /* ── TOAST ── */
+    #toastWrap { position:fixed; bottom:1.4rem; right:1.4rem; z-index:9999; display:flex; flex-direction:column; gap:.55rem; }
+    .tst {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: .8rem 1.1rem;
+      display: flex; align-items: center; gap: .7rem;
+      min-width: 250px;
+      box-shadow: 0 8px 28px rgba(0,0,0,.5);
+      animation: tsIn .3s ease;
+    }
+    @keyframes tsIn  { from{transform:translateX(110%);opacity:0} to{transform:none;opacity:1} }
+    @keyframes tsOut { to{transform:translateX(110%);opacity:0} }
+    .tst.hide { animation: tsOut .3s ease forwards; }
+    .tst-icon { font-size:1.1rem; }
+    .tst-msg  { font-size:.86rem; line-height:1.4; }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:768px){ .main{padding:1.4rem 1rem;} .topbar{padding:0 1rem;} }
+
+    /* scrollbar */
+    ::-webkit-scrollbar{width:6px;height:6px}
+    ::-webkit-scrollbar-track{background:var(--surface)}
+    ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+    ::-webkit-scrollbar-thumb:hover{background:var(--muted)}
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- TOP BAR -->
+  <nav class="topbar">
+    <div class="brand">
+      <div class="brand-dot"></div>
+      StoreManager
+    </div>
+    <span class="topbar-pill"><i class="bi bi-box me-1"></i>Produk</span>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- HEADER -->
+    <div class="pg-title">Manajemen <span>Produk</span></div>
+    <div class="pg-sub">Kelola inventaris produk Anda dengan mudah dan efisien.</div>
+
+    <!-- STATS -->
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-ico ico-gold"><i class="bi bi-box-seam"></i></div>
+        <div>
+          <div class="stat-lbl">Total Produk</div>
+          <div class="stat-val" id="sTotal">0</div>
+        </div>
+      </div>
+      <div class="stat">
+        <div class="stat-ico ico-orange"><i class="bi bi-tags"></i></div>
+        <div>
+          <div class="stat-lbl">Kategori</div>
+          <div class="stat-val" id="sKat">0</div>
+        </div>
+      </div>
+      <div class="stat">
+        <div class="stat-ico ico-green"><i class="bi bi-wallet2"></i></div>
+        <div>
+          <div class="stat-lbl">Total Nilai</div>
+          <div class="stat-val" id="sNilai">Rp 0</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GRID -->
+    <div class="row g-4">
+
+      <!-- FORM -->
+      <div class="col-lg-4">
+        <div class="gcard">
+          <div class="gcard-head">
+            <div class="gcard-title"><i class="bi bi-plus-circle-fill"></i> Tambah Produk</div>
+          </div>
+          <div class="gcard-body">
+            <div class="mb-3">
+              <label class="form-label" for="fNama">Nama Produk</label>
+              <input type="text" id="fNama" class="form-control" placeholder="mis. Laptop ASUS" autocomplete="off" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="fKat">Kategori</label>
+              <select id="fKat" class="form-select">
+                <option value="">-- Pilih Kategori --</option>
+                <option value="Elektronik">Elektronik</option>
+                <option value="Pakaian">Pakaian</option>
+                <option value="Makanan">Makanan</option>
+                <option value="Perabot">Perabot</option>
+                <option value="Olahraga">Olahraga</option>
+                <option value="Lainnya">Lainnya</option>
+              </select>
+            </div>
+            <div class="mb-4">
+              <label class="form-label" for="fHarga">Harga</label>
+              <div class="ig-prefix">
+                <span class="prefix-text">Rp</span>
+                <input type="text" id="fHarga" class="form-control" placeholder="0" inputmode="numeric" autocomplete="off" />
+              </div>
+              <div style="font-size:.72rem;color:var(--muted);margin-top:.35rem;">
+                <i class="bi bi-info-circle me-1"></i>Ketik angka, titik ribuan otomatis ditambahkan.
+              </div>
+            </div>
+            <div class="d-flex gap-2">
+              <button class="btn-add flex-grow-1" id="btnAdd">
+                <i class="bi bi-plus-lg"></i> Tambah Produk
+              </button>
+              <button class="btn-reset" id="btnReset" title="Reset form">
+                <i class="bi bi-arrow-counterclockwise"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TABLE -->
+      <div class="col-lg-8">
+        <div class="gcard">
+          <div class="gcard-head">
+            <div class="gcard-title"><i class="bi bi-table"></i> Daftar Produk</div>
+            <span id="cntBadge" style="font-size:.73rem;background:rgba(240,192,64,.1);color:var(--accent);border:1px solid rgba(240,192,64,.25);padding:.18rem .65rem;border-radius:20px;font-weight:600;">0 item</span>
+          </div>
+          <div class="gcard-body" style="padding:1rem;">
+            <div class="table-responsive">
+              <table id="productTable" class="table">
+                <thead>
+                  <tr>
+                    <th style="width:42px">#</th>
+                    <th style="width:68px">ID</th>
+                    <th>Nama Produk</th>
+                    <th>Kategori</th>
+                    <th>Harga</th>
+                    <th style="width:80px;text-align:center">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /row -->
+  </div><!-- /main -->
+</div><!-- /wrapper -->
+
+<!-- EDIT MODAL -->
+<div class="modal fade" id="editModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="bi bi-pencil-square me-2" style="color:var(--accent)"></i>Edit Produk</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="eId" />
+        <div class="mb-3">
+          <label class="form-label" for="eNama">Nama Produk</label>
+          <input type="text" id="eNama" class="form-control" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="eKat">Kategori</label>
+          <select id="eKat" class="form-select">
+            <option value="Elektronik">Elektronik</option>
+            <option value="Pakaian">Pakaian</option>
+            <option value="Makanan">Makanan</option>
+            <option value="Perabot">Perabot</option>
+            <option value="Olahraga">Olahraga</option>
+            <option value="Lainnya">Lainnya</option>
+          </select>
+        </div>
+        <div class="mb-0">
+          <label class="form-label" for="eHarga">Harga</label>
+          <div class="ig-prefix">
+            <span class="prefix-text">Rp</span>
+            <input type="text" id="eHarga" class="form-control" inputmode="numeric" autocomplete="off" />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-cancel" data-bs-dismiss="modal">Batal</button>
+        <button class="btn-save-modal" id="btnSave"><i class="bi bi-check-lg"></i> Simpan</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div id="toastWrap"></div>
+
+<!-- SCRIPTS: urutan penting! jQuery dulu, baru Bootstrap & DataTables -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+/* ================================================================
+   DATA STORE — object mapping  { "P001": { id, nama, kat, harga } }
+   ================================================================ */
+var store   = {};
+var counter = 1;
+
+function newId() {
+  return 'P' + String(counter++).padStart(3,'0');
+}
+
+/* ================================================================
+   FORMAT HARGA — titik ribuan otomatis
+   ================================================================ */
+function formatRibuan(val) {
+  /* hapus semua karakter non-digit */
+  var digits = val.replace(/\D/g, '');
+  if (!digits) return '';
+  /* tambahkan titik setiap 3 digit dari kanan */
+  return digits.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+}
+
+function rawHarga(val) {
+  /* kembalikan angka murni dari string berformat */
+  return parseInt(val.replace(/\./g, ''), 10);
+}
+
+function bindHargaInput(selector) {
+  $(document).on('input', selector, function() {
+    var pos    = this.selectionStart;
+    var before = this.value.length;
+    this.value = formatRibuan(this.value);
+    /* koreksi posisi kursor agar tidak loncat */
+    var diff = this.value.length - before;
+    this.setSelectionRange(pos + diff, pos + diff);
+  });
+  /* blokir karakter non-digit kecuali navigasi */
+  $(document).on('keydown', selector, function(e) {
+    var allowed = ['Backspace','Delete','ArrowLeft','ArrowRight','ArrowUp',
+                   'ArrowDown','Tab','Home','End'];
+    if (allowed.indexOf(e.key) !== -1) return;
+    if (e.ctrlKey || e.metaKey) return; /* allow copy/paste/select */
+    if (!/^\d$/.test(e.key)) e.preventDefault();
+  });
+}
+
+bindHargaInput('#fHarga');
+bindHargaInput('#eHarga');
+
+/* helper: set nilai ke input harga dengan format */
+function setHarga(selector, angka) {
+  $(selector).val(formatRibuan(String(angka)));
+}
+
+function rupiah(n) {
+  return 'Rp ' + Number(n).toLocaleString('id-ID');
+}
+
+var catIcons = {
+  Elektronik:'bi-cpu', Pakaian:'bi-bag-heart',
+  Makanan:'bi-egg-fried', Perabot:'bi-lamp',
+  Olahraga:'bi-trophy', Lainnya:'bi-three-dots'
+};
+var catClass = {
+  Elektronik:'b-elektronik', Pakaian:'b-pakaian',
+  Makanan:'b-makanan', Perabot:'b-perabot',
+  Olahraga:'b-olahraga', Lainnya:'b-lainnya'
+};
+
+function badge(kat) {
+  var ic  = catIcons[kat]  || 'bi-tag';
+  var cls = catClass[kat]  || 'b-lainnya';
+  return '<span class="cat-badge '+cls+'"><i class="bi '+ic+'"></i>'+kat+'</span>';
+}
+
+function actionBtns(id) {
+  return '<button class="btn-act edit me-1" onclick="openEdit(\''+id+'\')" title="Edit"><i class="bi bi-pencil"></i></button>'
+       + '<button class="btn-act del" onclick="delProduk(\''+id+'\')" title="Hapus"><i class="bi bi-trash3"></i></button>';
+}
+
+/* ================================================================
+   DATATABLE — inisialisasi setelah DOM siap
+   ================================================================ */
+var dt;
+
+$(function() {
+
+  /* pastikan DataTables dimuat */
+  if (typeof $.fn.DataTable === 'undefined') {
+    alert('DataTables gagal dimuat. Periksa koneksi internet.');
+    return;
+  }
+
+  dt = $('#productTable').DataTable({
+    data: [],
+    columns: [
+      { data: 'no',    orderable: false },
+      { data: 'id' },
+      { data: 'nama' },
+      { data: 'kat' },
+      { data: 'harga' },
+      { data: 'aksi',  orderable: false, searchable: false, className: 'text-center' }
+    ],
+    pageLength: 5,
+    lengthMenu: [[5,10,25,-1],[5,10,25,'Semua']],
+    order: [[1,'asc']],
+    language: {
+      search:      'Cari:',
+      lengthMenu:  'Tampilkan _MENU_ data',
+      info:        'Menampilkan _START_-_END_ dari _TOTAL_ produk',
+      infoEmpty:   'Tidak ada produk',
+      infoFiltered:'(difilter dari _MAX_)',
+      zeroRecords: 'Tidak ada produk ditemukan.',
+      paginate: { first:'Pertama', last:'Terakhir', next:'Selanjutnya', previous:'Sebelumnya' }
+    },
+    drawCallback: function() {
+      var api = this.api();
+      var info = api.page.info();
+      api.rows({ page:'current' }).every(function(i) {
+        $('td:first', this.node()).html('<span class="num-cell">'+(info.start+i+1)+'</span>');
+      });
+    }
+  });
+
+  /* seed data awal */
+  seedData();
+
+  /* ── TOMBOL TAMBAH ── */
+  $('#btnAdd').on('click', function() {
+    var nama  = $('#fNama').val().trim();
+    var kat   = $('#fKat').val();
+
+    if (!nama)  { toast('warn','Nama produk tidak boleh kosong.'); $('#fNama').focus(); return; }
+    if (!kat)   { toast('warn','Pilih kategori terlebih dahulu.'); $('#fKat').focus(); return; }
+
+    var hargaRaw = rawHarga($('#fHarga').val());
+    if (!$('#fHarga').val() || isNaN(hargaRaw) || hargaRaw < 0) {
+      toast('warn','Masukkan harga yang valid.'); $('#fHarga').focus(); return;
+    }
+
+    addProduk(nama, kat, hargaRaw);
+    resetForm();
+  });
+
+  /* ── TOMBOL RESET ── */
+  $('#btnReset').on('click', function() { resetForm(); });
+
+  /* ── Enter key ── */
+  $('#fNama, #fHarga').on('keydown', function(e) {
+    if (e.key === 'Enter') $('#btnAdd').trigger('click');
+  });
+
+  /* ── SIMPAN EDIT ── */
+  $('#btnSave').on('click', function() {
+    var id    = $('#eId').val();
+    var nama  = $('#eNama').val().trim();
+    var kat   = $('#eKat').val();
+    var harga = rawHarga($('#eHarga').val());
+
+    if (!nama)                { toast('warn','Nama produk tidak boleh kosong.'); return; }
+    if (!kat)                 { toast('warn','Pilih kategori.'); return; }
+    if (isNaN(harga)||harga<0){ toast('warn','Masukkan harga yang valid.'); return; }
+
+    store[id] = { id:id, nama:nama, kat:kat, harga:harga };
+    renderTable();
+    bootstrap.Modal.getInstance(document.getElementById('editModal')).hide();
+    toast('edit','<b>'+nama+'</b> berhasil diperbarui.');
+  });
+
+});/* end $(function) */
+
+/* ================================================================
+   RENDER SEMUA BARIS DARI STORE
+   ================================================================ */
+function renderTable() {
+  var rows = [];
+  Object.values(store).forEach(function(p) {
+    rows.push({
+      no:    '',   /* diisi drawCallback */
+      id:    '<span class="id-cell">'+p.id+'</span>',
+      nama:  '<span style="font-weight:500">'+escHtml(p.nama)+'</span>',
+      kat:   badge(p.kat),
+      harga: '<span class="price-cell">'+rupiah(p.harga)+'</span>',
+      aksi:  actionBtns(p.id)
+    });
+  });
+
+  dt.clear();
+  if (rows.length) dt.rows.add(rows);
+  dt.draw();
+  updateStats();
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ================================================================
+   STATS
+   ================================================================ */
+function updateStats() {
+  var all   = Object.values(store);
+  var cats  = new Set(all.map(function(p){ return p.kat; })).size;
+  var total = all.reduce(function(s,p){ return s + Number(p.harga); }, 0);
+
+  $('#sTotal').text(all.length);
+  $('#sKat').text(cats);
+  $('#sNilai').text(total >= 1000000
+    ? 'Rp '+(total/1000000).toFixed(1)+' jt'
+    : rupiah(total));
+  $('#cntBadge').text(all.length+' item');
+}
+
+/* ================================================================
+   CRUD
+   ================================================================ */
+function addProduk(nama, kat, harga) {
+  var id = newId();
+  store[id] = { id:id, nama:nama, kat:kat, harga:Number(harga) };
+  renderTable();
+  toast('success','<b>'+escHtml(nama)+'</b> berhasil ditambahkan!');
+}
+
+function delProduk(id) {
+  if (!store[id]) return;
+  var nama = store[id].nama;
+  delete store[id];
+  renderTable();
+  toast('del','<b>'+escHtml(nama)+'</b> berhasil dihapus.');
+}
+
+function openEdit(id) {
+  var p = store[id];
+  if (!p) return;
+  $('#eId').val(p.id);
+  $('#eNama').val(p.nama);
+  $('#eKat').val(p.kat);
+  setHarga('#eHarga', p.harga);
+  new bootstrap.Modal(document.getElementById('editModal')).show();
+}
+
+function resetForm() {
+  $('#fNama').val('');
+  $('#fKat').val('');
+  $('#fHarga').val('');
+  $('#fNama').focus();
+}
+
+/* ================================================================
+   TOAST
+   ================================================================ */
+function toast(type, msg) {
+  var cfg = {
+    success: { icon:'&#x2705;', left:'var(--success)' },
+    del:     { icon:'&#x1F5D1;', left:'var(--danger)'  },
+    edit:    { icon:'&#x270F;',  left:'#93c5fd'        },
+    warn:    { icon:'&#x26A0;',  left:'var(--accent)'  }
+  }[type] || { icon:'&#x2139;', left:'var(--muted)' };
+
+  var el = $('<div class="tst"></div>')
+    .css('border-left','3px solid '+cfg.left)
+    .html('<span class="tst-icon">'+cfg.icon+'</span><span class="tst-msg">'+msg+'</span>');
+
+  $('#toastWrap').append(el);
+  setTimeout(function() {
+    el.addClass('hide');
+    setTimeout(function(){ el.remove(); }, 350);
+  }, 3000);
+}
+
+/* ================================================================
+   SEED DATA
+   ================================================================ */
+function seedData() {
+  var samples = [
+    { nama:'Laptop ASUS VivoBook 14',   kat:'Elektronik', harga:8500000 },
+    { nama:'Kemeja Flannel Merah Marun',kat:'Pakaian',    harga:185000  },
+    { nama:'Kursi Gaming ErgoMax Pro',  kat:'Perabot',    harga:2350000 },
+    { nama:'Mie Ayam Spesial 500g',     kat:'Makanan',    harga:25000   },
+    { nama:'Sepatu Lari Nike Air Run',  kat:'Olahraga',   harga:980000  },
+  ];
+  samples.forEach(function(s){ addProduk(s.nama, s.kat, s.harga); });
+}
+</script>
+</body>
+</html>
